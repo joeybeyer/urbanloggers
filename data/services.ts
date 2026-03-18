@@ -9,6 +9,7 @@ export interface Service {
   shortDesc: string
   longDesc: string
   icon: string
+  image?: string
   faqs: FAQ[]
 }
 
@@ -18,6 +19,7 @@ export const services: Service[] = [
     name: 'Tree Removal',
     shortDesc: 'Safe, efficient removal of hazardous or unwanted trees of any size.',
     icon: '🌲',
+    image: '/images/tree-removal.jpg',
     longDesc:
       'Whether a tree is dead, diseased, storm-damaged, or simply in the wrong place, Urban Loggers LLC removes it safely and efficiently. Brian\'s 20+ years of experience means every job is assessed for the safest felling method — sectional takedowns, rigging, or full directional felling depending on your property.',
     faqs: [
@@ -48,6 +50,7 @@ export const services: Service[] = [
     name: 'Tree Trimming & Pruning',
     shortDesc: 'Crown thinning, deadwood removal, and structural pruning to keep trees healthy.',
     icon: '✂️',
+    image: '/images/trimming.jpg',
     longDesc:
       'Proper pruning keeps trees healthy, safe, and beautiful. Urban Loggers LLC follows ANSI A300 pruning standards — we don\'t just cut branches, we shape trees for long-term structural integrity. Services include crown thinning, crown raising, deadwood removal, and fruit tree/orchard pruning.',
     faqs: [
@@ -73,6 +76,7 @@ export const services: Service[] = [
     name: 'Stump Grinding',
     shortDesc: 'Complete stump removal below grade so you can replant or sod over the area.',
     icon: '⚙️',
+    image: '/images/stump-grinding.jpg',
     longDesc:
       'Left-over stumps are trip hazards, eyesores, and breeding grounds for pests. Our commercial stump grinder removes stumps to 12 inches below grade, leaving nothing but wood chips you can use as mulch. We can grind a single stump or clear an entire lot.',
     faqs: [
@@ -98,6 +102,7 @@ export const services: Service[] = [
     name: 'Emergency Tree Service',
     shortDesc: '24/7 storm response — fallen trees on homes, vehicles, and power lines.',
     icon: '🚨',
+    image: '/images/emergency.jpg',
     longDesc:
       'Storm damage doesn\'t wait for business hours. Urban Loggers LLC responds to emergency calls throughout Greater Milwaukee — fallen trees on roofs, vehicles, or blocking access. We stabilize the situation, document for insurance, and complete cleanup. Call anytime.',
     faqs: [
@@ -128,6 +133,7 @@ export const services: Service[] = [
     name: 'Log Milling',
     shortDesc: 'Portable sawmill turns your felled trees into usable lumber — slabs, beams, and boards.',
     icon: '🪵',
+    image: '/images/milling.jpg',
     longDesc:
       'Most tree services chip or landfill your trees. Urban Loggers LLC brings a portable sawmill to your property and mills felled logs into usable lumber — live-edge slabs, dimensional lumber, fireplace mantels, and custom beams. It\'s sustainable, beautiful, and turns a loss into an asset.',
     faqs: [

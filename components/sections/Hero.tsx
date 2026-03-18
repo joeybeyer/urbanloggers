@@ -1,30 +1,65 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
+import { COMPANY } from '@/data/company'
 
 export function Hero() {
   return (
-    <section className="bg-gradient-to-br from-brand-green-dark via-brand-green to-brand-green-light text-white py-20 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-          Milwaukee&rsquo;s Tree Service<br />
-          <span className="text-green-200">Done Right</span>
-        </h1>
-        <p className="text-xl sm:text-2xl text-green-100 mb-8 max-w-2xl mx-auto">
-          20+ years of expert tree removal, trimming, and emergency response.
-          Fully insured. SAM registered. Brian Smith and crew.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <PhoneButton size="lg" />
-          <Link
-            href="/contact/"
-            className="inline-block bg-white text-brand-green hover:bg-green-50 font-semibold px-8 py-4 rounded-md text-xl transition-colors duration-200"
-          >
-            Get a Free Quote
-          </Link>
+    <section className="relative min-h-[600px] lg:min-h-[650px] flex items-center overflow-hidden">
+      {/* Background image with overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/hero.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/75 to-transparent" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 w-full">
+        <div className="max-w-2xl">
+          {/* Trust badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
+            <span className="text-yellow-400">★★★★★</span>
+            <span className="text-white text-sm font-medium">5.0 Google Rating &middot; 20+ Years &middot; Fully Insured</span>
+          </div>
+
+          {/* Headline — typeframed for Problem + Solution */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            Milwaukee&rsquo;s Tree Service<br />
+            <span className="text-green-300">Done Right</span>
+          </h1>
+
+          {/* Description — benefit-driven */}
+          <p className="text-lg sm:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
+            Expert tree removal, trimming, and emergency response &mdash; plus a
+            portable sawmill that turns your felled trees into custom lumber.
+            Brian Smith and crew, serving Greater Milwaukee since 2003.
+          </p>
+
+          {/* CTA buttons — primary (orange/green) + secondary (outline) */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <PhoneButton size="lg" />
+            <Link
+              href="/contact/"
+              className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors duration-200 border-2 border-white/30"
+            >
+              Get a Free Quote
+            </Link>
+          </div>
+
+          {/* Trust signals row */}
+          <div className="flex flex-wrap gap-4 text-sm text-gray-300">
+            <span className="flex items-center gap-1.5">
+              <span className="text-green-400">✓</span> SAM Registered
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-green-400">✓</span> Licensed &amp; Insured
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-green-400">✓</span> 24/7 Emergency Service
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-green-400">✓</span> Free Estimates
+            </span>
+          </div>
         </div>
-        <p className="mt-6 text-green-200 text-sm">
-          Available 24/7 for emergencies &mdash; Greater Milwaukee &amp; surrounding areas
-        </p>
       </div>
     </section>
   )

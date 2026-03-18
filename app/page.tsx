@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: 'Urban Loggers LLC | Tree Service Milwaukee, WI',
   description:
     'Professional tree removal, trimming, stump grinding & emergency service in Greater Milwaukee. 20+ years experience. Fully insured. Call (414) 514-0750 for a free quote.',
+  alternates: {
+    canonical: 'https://www.urbanloggers.org/',
+  },
+  openGraph: {
+    title: 'Urban Loggers LLC | Tree Service Milwaukee, WI',
+    description: 'Professional tree removal, trimming, stump grinding & emergency service in Greater Milwaukee. 20+ years. Fully insured.',
+    url: 'https://www.urbanloggers.org/',
+    siteName: 'Urban Loggers LLC',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Urban Loggers LLC | Tree Service Milwaukee, WI',
+    description: 'Professional tree service in Greater Milwaukee. 20+ years. Fully insured. Call (414) 514-0750.',
+  },
 }
 
 export default function HomePage() {
