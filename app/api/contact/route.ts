@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Name and phone are required.' }, { status: 400 })
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
+    const resend = new Resend(process.env.RESEND_KEY ?? process.env.RESEND_API_KEY ?? 'placeholder')
     const { error } = await resend.emails.send({
       from: 'Urban Loggers Quote Form <onboarding@resend.dev>',
       to: ['urbanloggersllc@gmail.com'],
