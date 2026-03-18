@@ -135,7 +135,7 @@ export function personSchema() {
       name: COMPANY.name,
     },
     description:
-      'Brian Smith has 20+ years of professional tree care experience in Greater Milwaukee. SAM registered and fully insured.',
+      'Brian Smith has 20+ years of professional tree care experience in Greater Milwaukee. Fully insured.',
   }
 }
 

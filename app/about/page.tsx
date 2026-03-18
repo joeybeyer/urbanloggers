@@ -7,7 +7,7 @@ import { personSchema, localBusinessSchema, breadcrumbSchema, organizationSchema
 
 export const metadata: Metadata = buildMetadata(
   'About Brian Smith | Urban Loggers LLC Milwaukee',
-  "Meet Brian Smith — 20+ years of tree care experience in Greater Milwaukee. SAM registered, fully insured, and passionate about trees and sustainable milling.",
+  "Meet Brian Smith — 20+ years of tree care experience in Greater Milwaukee. Fully insured and passionate about trees and sustainable milling.",
   '/about/'
 )
 
@@ -78,8 +78,7 @@ export default function AboutPage() {
           </ul>
           <p>
             {COMPANY.name} carries full general liability and workers&rsquo; compensation insurance.
-            We&rsquo;re SAM (System for Award Management) registered and can provide all documentation
-            your insurance company or municipality requires.
+            We can provide all documentation your insurance company or municipality requires.
           </p>
         </div>
       </section>

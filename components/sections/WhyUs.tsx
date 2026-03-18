@@ -6,8 +6,8 @@ const reasons = [
   },
   {
     icon: '🛡️',
-    title: 'Fully Insured & SAM Registered',
-    desc: "Every job is covered. We carry full liability and workers' compensation insurance, and maintain SAM (System for Award Management) registration. You're protected from start to finish.",
+    title: 'Fully Insured',
+    desc: "Every job is covered. We carry full liability and workers' compensation insurance. You're protected from start to finish.",
   },
   {
     icon: '🪵',
