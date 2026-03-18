@@ -1,32 +1,32 @@
 import type { Metadata } from 'next'
 import { getLocationBySlug } from '@/data/locations'
-import { services } from '@/data/services'
 import { buildMetadata } from '@/lib/metadata'
 import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 
 export const metadata: Metadata = {
   ...buildMetadata(
-    'Tree Service Milwaukee, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in Milwaukee, WI. 20+ years experience, fully insured. Free estimates. Call (414) 514-0750.',
-    '/milwaukee/'
+    'Tree Service Cedarburg, WI | Urban Loggers LLC',
+    'Professional tree removal, trimming & orchard pruning in Cedarburg, WI. Fully insured. Free estimates. Call (414) 514-0750.',
+    '/cedarburg/'
   ),
   other: {
     'geo.region': 'US-WI',
-    'geo.placename': 'Milwaukee',
-    'geo.position': '43.0389;-87.9065',
-    'ICBM': '43.0389, -87.9065',
+    'geo.placename': 'Cedarburg',
+    'geo.position': '43.2969;-87.9884',
+    'ICBM': '43.2969, -87.9884',
   },
 }
 
-export default function MilwaukeePage() {
-  const location = getLocationBySlug('milwaukee')!
+export default function CedarburgPage() {
+  const location = getLocationBySlug('cedarburg')!
   const schemas = [
-    localBusinessSchema('Milwaukee, WI', 'milwaukee'),
+    localBusinessSchema('Cedarburg, WI', 'cedarburg'),
     faqSchema(location.faqs),
     breadcrumbSchema([
       { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Milwaukee', item: 'https://urbanloggers.org/milwaukee/' },
+      { name: 'Mequon', item: 'https://urbanloggers.org/mequon/' },
+      { name: 'Cedarburg', item: 'https://urbanloggers.org/cedarburg/' },
     ]),
   ]
 

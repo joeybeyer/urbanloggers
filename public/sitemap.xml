@@ -5,6 +5,7 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- Service pages -->
   <url>
     <loc>https://urbanloggers.org/tree-removal/</loc>
     <changefreq>monthly</changefreq>
@@ -30,15 +31,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- Milwaukee County -->
   <url>
     <loc>https://urbanloggers.org/milwaukee/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://urbanloggers.org/wauwatosa/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://urbanloggers.org/west-allis/</loc>
@@ -51,10 +48,59 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://urbanloggers.org/shorewood/</loc>
+    <loc>https://urbanloggers.org/south-milwaukee/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Waukesha County -->
+  <url>
+    <loc>https://urbanloggers.org/waukesha/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/brookfield/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/new-berlin/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/pewaukee/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Racine County -->
+  <url>
+    <loc>https://urbanloggers.org/racine/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/mount-pleasant/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Ozaukee County -->
+  <url>
+    <loc>https://urbanloggers.org/mequon/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/cedarburg/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://urbanloggers.org/port-washington/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Other -->
   <url>
     <loc>https://urbanloggers.org/about/</loc>
     <changefreq>monthly</changefreq>

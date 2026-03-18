@@ -1,32 +1,31 @@
 import type { Metadata } from 'next'
 import { getLocationBySlug } from '@/data/locations'
-import { services } from '@/data/services'
 import { buildMetadata } from '@/lib/metadata'
 import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 
 export const metadata: Metadata = {
   ...buildMetadata(
-    'Tree Service Milwaukee, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in Milwaukee, WI. 20+ years experience, fully insured. Free estimates. Call (414) 514-0750.',
-    '/milwaukee/'
+    'Tree Service Mequon, WI | Urban Loggers LLC',
+    'Expert tree removal, trimming & log milling in Mequon, WI. Large wooded lot specialists. Fully insured. Call (414) 514-0750.',
+    '/mequon/'
   ),
   other: {
     'geo.region': 'US-WI',
-    'geo.placename': 'Milwaukee',
-    'geo.position': '43.0389;-87.9065',
-    'ICBM': '43.0389, -87.9065',
+    'geo.placename': 'Mequon',
+    'geo.position': '43.2344;-87.9845',
+    'ICBM': '43.2344, -87.9845',
   },
 }
 
-export default function MilwaukeePage() {
-  const location = getLocationBySlug('milwaukee')!
+export default function MequonPage() {
+  const location = getLocationBySlug('mequon')!
   const schemas = [
-    localBusinessSchema('Milwaukee, WI', 'milwaukee'),
+    localBusinessSchema('Mequon, WI', 'mequon'),
     faqSchema(location.faqs),
     breadcrumbSchema([
       { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Milwaukee', item: 'https://urbanloggers.org/milwaukee/' },
+      { name: 'Mequon', item: 'https://urbanloggers.org/mequon/' },
     ]),
   ]
 

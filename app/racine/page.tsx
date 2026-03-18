@@ -1,32 +1,31 @@
 import type { Metadata } from 'next'
 import { getLocationBySlug } from '@/data/locations'
-import { services } from '@/data/services'
 import { buildMetadata } from '@/lib/metadata'
 import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 
 export const metadata: Metadata = {
   ...buildMetadata(
-    'Tree Service Milwaukee, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in Milwaukee, WI. 20+ years experience, fully insured. Free estimates. Call (414) 514-0750.',
-    '/milwaukee/'
+    'Tree Service Racine, WI | Urban Loggers LLC',
+    'Professional tree removal, trimming & emergency tree service in Racine, WI. Fully insured. Free estimates. Call (414) 514-0750.',
+    '/racine/'
   ),
   other: {
     'geo.region': 'US-WI',
-    'geo.placename': 'Milwaukee',
-    'geo.position': '43.0389;-87.9065',
-    'ICBM': '43.0389, -87.9065',
+    'geo.placename': 'Racine',
+    'geo.position': '42.7261;-87.7829',
+    'ICBM': '42.7261, -87.7829',
   },
 }
 
-export default function MilwaukeePage() {
-  const location = getLocationBySlug('milwaukee')!
+export default function RacinePage() {
+  const location = getLocationBySlug('racine')!
   const schemas = [
-    localBusinessSchema('Milwaukee, WI', 'milwaukee'),
+    localBusinessSchema('Racine, WI', 'racine'),
     faqSchema(location.faqs),
     breadcrumbSchema([
       { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Milwaukee', item: 'https://urbanloggers.org/milwaukee/' },
+      { name: 'Racine', item: 'https://urbanloggers.org/racine/' },
     ]),
   ]
 
