@@ -14,6 +14,7 @@ const locationGroups = [
     county: 'Milwaukee County',
     cities: [
       { href: '/milwaukee/', label: 'Milwaukee' },
+      { href: '/wauwatosa/', label: 'Wauwatosa' },
       { href: '/west-allis/', label: 'West Allis' },
       { href: '/greenfield/', label: 'Greenfield' },
       { href: '/south-milwaukee/', label: 'South Milwaukee' },

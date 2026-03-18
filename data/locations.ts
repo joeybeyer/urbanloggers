@@ -38,6 +38,30 @@ export const locations: Location[] = [
     ],
   },
   {
+    slug: 'wauwatosa',
+    name: 'Wauwatosa',
+    county: 'Milwaukee County',
+    intro:
+      'Wauwatosa is one of Milwaukee\'s most desirable suburbs, known for its tree-lined streets, historic homes, and the Village neighborhood. Urban Loggers LLC provides expert tree removal, trimming, and stump grinding throughout Tosa — protecting your property and preserving the urban canopy.',
+    faqs: [
+      {
+        question: 'Do you serve all Wauwatosa neighborhoods?',
+        answer:
+          'Yes — we serve all of Wauwatosa including the Village, Washington Highlands, Hart Park, Enderis Park, and areas near the Milwaukee County Grounds.',
+      },
+      {
+        question: 'Does Wauwatosa require permits for tree removal?',
+        answer:
+          'Wauwatosa may require permits for removing certain trees, especially on boulevard or public property. We help navigate the permitting process.',
+      },
+      {
+        question: 'Can you handle large elm and oak removals in Wauwatosa?',
+        answer:
+          'Absolutely. Wauwatosa has many mature elms, oaks, and maples. Brian has 20+ years of experience with large, complex removals near structures.',
+      },
+    ],
+  },
+  {
     slug: 'west-allis',
     name: 'West Allis',
     county: 'Milwaukee County',
