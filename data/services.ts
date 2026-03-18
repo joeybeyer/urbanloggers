@@ -36,7 +36,7 @@ export const services: Service[] = [
       {
         question: 'Are you insured for tree removal in Wisconsin?',
         answer:
-          'Absolutely. Urban Loggers LLC is fully insured and SAM registered. We carry liability and workers\' comp so you\'re protected.',
+          'Absolutely. Urban Loggers LLC is fully insured. We carry liability and workers\' comp so you\'re protected.',
       },
       {
         question: 'How long does tree removal take?',

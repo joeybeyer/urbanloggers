@@ -14,7 +14,6 @@ export const COMPANY = {
   serviceArea: 'Greater Milwaukee, WI',
   credentials: [
     '20+ years experience',
-    'SAM registered',
     'Fully insured',
     'Licensed arborist',
   ],

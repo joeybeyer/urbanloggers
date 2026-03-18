@@ -27,10 +27,9 @@ export function Footer() {
             <h3 className="text-white font-bold text-lg mb-3">{COMPANY.name}</h3>
             <p className="text-sm leading-relaxed mb-4">
               Professional tree service in Greater Milwaukee. 20+ years experience,
-              fully insured, SAM registered.
+              fully insured.
             </p>
             <div className="flex gap-2 flex-wrap">
-              <span className="bg-brand-green text-white text-xs px-2 py-1 rounded">SAM Registered</span>
               <span className="bg-brand-green text-white text-xs px-2 py-1 rounded">Fully Insured</span>
               <span className="bg-brand-green text-white text-xs px-2 py-1 rounded">20+ Years</span>
             </div>

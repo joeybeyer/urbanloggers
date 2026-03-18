@@ -20,20 +20,20 @@ export function Hero() {
             <span className="text-white text-sm font-medium">5.0 Google Rating &middot; 20+ Years &middot; Fully Insured</span>
           </div>
 
-          {/* Headline — typeframed for Problem + Solution */}
+          {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Milwaukee&rsquo;s Tree Service<br />
             <span className="text-green-300">Done Right</span>
           </h1>
 
-          {/* Description — benefit-driven */}
+          {/* Description */}
           <p className="text-lg sm:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
             Expert tree removal, trimming, and emergency response &mdash; plus a
             portable sawmill that turns your felled trees into custom lumber.
             Brian Smith and crew, serving Greater Milwaukee since 2003.
           </p>
 
-          {/* CTA buttons — primary (orange/green) + secondary (outline) */}
+          {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <PhoneButton size="lg" />
             <Link
@@ -46,9 +46,6 @@ export function Hero() {
 
           {/* Trust signals row */}
           <div className="flex flex-wrap gap-4 text-sm text-gray-300">
-            <span className="flex items-center gap-1.5">
-              <span className="text-green-400">✓</span> SAM Registered
-            </span>
             <span className="flex items-center gap-1.5">
               <span className="text-green-400">✓</span> Licensed &amp; Insured
             </span>
