@@ -38,7 +38,9 @@ export default function LogMillingPage() {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-green-dark to-brand-green text-white py-14 px-4">
+      <section className="relative text-white py-14 px-4 min-h-[400px] flex items-center overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/milling.jpg')" }} />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="text-5xl mb-4">🪵</div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
