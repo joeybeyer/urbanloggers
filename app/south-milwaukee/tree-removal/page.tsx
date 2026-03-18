@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function South MilwaukeeTreeRemovalPage() {
+export default function SouthMilwaukeeTreeRemovalPage() {
   const crumbs = [
   {
     "name": "Home",

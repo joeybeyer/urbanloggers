@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function West AllisEmergencyTreeServicePage() {
+export default function WestAllisEmergencyTreeServicePage() {
   const crumbs = [
   {
     "name": "Home",

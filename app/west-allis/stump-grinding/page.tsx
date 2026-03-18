@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function West AllisStumpGrindingPage() {
+export default function WestAllisStumpGrindingPage() {
   const crumbs = [
   {
     "name": "Home",

@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Mount PleasantLogMillingPage() {
+export default function MountPleasantLogMillingPage() {
   const crumbs = [
   {
     "name": "Home",

@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Port WashingtonEmergencyTreeServicePage() {
+export default function PortWashingtonEmergencyTreeServicePage() {
   const crumbs = [
   {
     "name": "Home",

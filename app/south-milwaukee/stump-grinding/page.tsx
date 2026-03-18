@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function South MilwaukeeStumpGrindingPage() {
+export default function SouthMilwaukeeStumpGrindingPage() {
   const crumbs = [
   {
     "name": "Home",

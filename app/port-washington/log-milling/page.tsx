@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Port WashingtonLogMillingPage() {
+export default function PortWashingtonLogMillingPage() {
   const crumbs = [
   {
     "name": "Home",

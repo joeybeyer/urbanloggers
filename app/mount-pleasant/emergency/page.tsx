@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Mount PleasantEmergencyTreeServicePage() {
+export default function MountPleasantEmergencyTreeServicePage() {
   const crumbs = [
   {
     "name": "Home",

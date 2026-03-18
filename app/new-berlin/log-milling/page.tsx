@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function New BerlinLogMillingPage() {
+export default function NewBerlinLogMillingPage() {
   const crumbs = [
   {
     "name": "Home",

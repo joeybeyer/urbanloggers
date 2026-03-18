@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Port WashingtonStumpGrindingPage() {
+export default function PortWashingtonStumpGrindingPage() {
   const crumbs = [
   {
     "name": "Home",

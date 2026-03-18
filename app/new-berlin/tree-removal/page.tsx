@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function New BerlinTreeRemovalPage() {
+export default function NewBerlinTreeRemovalPage() {
   const crumbs = [
   {
     "name": "Home",

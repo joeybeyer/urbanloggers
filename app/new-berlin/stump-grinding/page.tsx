@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function New BerlinStumpGrindingPage() {
+export default function NewBerlinStumpGrindingPage() {
   const crumbs = [
   {
     "name": "Home",

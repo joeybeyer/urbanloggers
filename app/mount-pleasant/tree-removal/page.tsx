@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Mount PleasantTreeRemovalPage() {
+export default function MountPleasantTreeRemovalPage() {
   const crumbs = [
   {
     "name": "Home",

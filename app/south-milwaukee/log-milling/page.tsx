@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function South MilwaukeeLogMillingPage() {
+export default function SouthMilwaukeeLogMillingPage() {
   const crumbs = [
   {
     "name": "Home",

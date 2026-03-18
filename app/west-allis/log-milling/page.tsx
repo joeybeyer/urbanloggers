@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function West AllisLogMillingPage() {
+export default function WestAllisLogMillingPage() {
   const crumbs = [
   {
     "name": "Home",

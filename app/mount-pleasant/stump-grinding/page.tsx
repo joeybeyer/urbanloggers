@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function Mount PleasantStumpGrindingPage() {
+export default function MountPleasantStumpGrindingPage() {
   const crumbs = [
   {
     "name": "Home",

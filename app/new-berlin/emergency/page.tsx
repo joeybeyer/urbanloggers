@@ -35,7 +35,7 @@ const faqs = [
   }
 ]
 
-export default function New BerlinEmergencyTreeServicePage() {
+export default function NewBerlinEmergencyTreeServicePage() {
   const crumbs = [
   {
     "name": "Home",
