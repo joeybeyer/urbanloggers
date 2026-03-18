@@ -457,10 +457,10 @@ export default function MilwaukeePage() {
             <Link href="/milwaukee/" className="text-brand-green hover:underline text-sm">
               Milwaukee
             </Link>
-            <Link href="/tree-removal/" className="text-brand-green hover:underline text-sm">
+            <Link href="/milwaukee/tree-removal/" className="text-brand-green hover:underline text-sm">
               Tree Removal
             </Link>
-            <Link href="/emergency-tree-service/" className="text-brand-green hover:underline text-sm">
+            <Link href="/milwaukee/emergency/" className="text-brand-green hover:underline text-sm">
               Emergency Service
             </Link>
             <Link href="/contact/" className="text-brand-green hover:underline text-sm">
