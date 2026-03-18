@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
     const { error } = await resend.emails.send({
-      from: 'Urban Loggers Quote Form <noreply@urbanloggers.org>',
+      from: 'Urban Loggers Quote Form <onboarding@resend.dev>',
       to: ['urbanloggersllc@gmail.com'],
       subject: `New Quote Request from ${name}`,
       html: `
