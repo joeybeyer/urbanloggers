@@ -39,7 +39,7 @@ export default function LogMillingPage() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-green-dark to-brand-green text-white py-14 px-4">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="text-5xl mb-4">🪵</div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
             Portable Log Milling in Milwaukee

@@ -38,8 +38,10 @@ export default function StumpGrindingPage() {
       />
 
       {/* Hero */}
-      <section className="bg-brand-green text-white py-14 px-4">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="relative text-white py-14 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/stump-grinding.jpg')" }} />
+        <div className="absolute inset-0 bg-charcoal/75" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
             Stump Grinding in Milwaukee, WI
           </h1>
