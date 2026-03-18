@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-warm-white text-charcoal;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold;
+  }
+}
+
+@layer components {
+  .prose-brand h2 {
+    @apply text-2xl font-semibold text-brand-green mt-8 mb-3;
+  }
+  .prose-brand h3 {
+    @apply text-xl font-semibold mt-6 mb-2;
+  }
+  .prose-brand p {
+    @apply leading-relaxed mb-4;
+  }
+  .prose-brand ul {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+}
