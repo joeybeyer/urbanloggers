@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Urban Loggers LLC — Service Area</name>
+    <description>Professional tree service covering Greater Milwaukee, WI</description>
+    <Placemark>
+      <name>Urban Loggers LLC — Milwaukee (HQ)</name>
+      <description>Tree removal, trimming, stump grinding, emergency service, log milling. Call (414) 514-0750.</description>
+      <Point><coordinates>-87.9065,43.0389,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Wauwatosa</name>
+      <Point><coordinates>-88.0076,43.0495,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — West Allis</name>
+      <Point><coordinates>-88.0070,43.0167,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Greenfield</name>
+      <Point><coordinates>-88.0126,42.9614,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — South Milwaukee</name>
+      <Point><coordinates>-87.8606,42.9106,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Waukesha</name>
+      <Point><coordinates>-88.2315,43.0117,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Brookfield</name>
+      <Point><coordinates>-88.1065,43.0606,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — New Berlin</name>
+      <Point><coordinates>-88.1084,42.9764,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Pewaukee</name>
+      <Point><coordinates>-88.2612,43.0803,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Racine</name>
+      <Point><coordinates>-87.7829,42.7261,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Mount Pleasant</name>
+      <Point><coordinates>-87.8762,42.7139,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Mequon</name>
+      <Point><coordinates>-87.9845,43.2361,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Cedarburg</name>
+      <Point><coordinates>-87.9876,43.2967,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Urban Loggers LLC — Port Washington</name>
+      <Point><coordinates>-87.8756,43.3867,0</coordinates></Point>
+    </Placemark>
+  </Document>
+</kml>
