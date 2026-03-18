@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { services } from '@/data/services'
 
 declare global {
@@ -12,6 +13,7 @@ declare global {
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
 export function QuoteForm() {
+  const router = useRouter()
   const [state, setState] = useState<FormState>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -42,7 +44,6 @@ export function QuoteForm() {
       })
 
       if (res.ok) {
-        setState('success')
         window.dataLayer?.push({
           event: 'form_submit',
           event_category: 'lead',
@@ -50,6 +51,7 @@ export function QuoteForm() {
           value: 1,
         })
         form.reset()
+        router.push('/thank-you/')
       } else {
         const json = await res.json().catch(() => ({}))
         setErrorMessage(json.error ?? 'Something went wrong. Please call us directly.')
