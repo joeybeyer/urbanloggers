@@ -3,6 +3,12 @@
 import { useState } from 'react'
 import { services } from '@/data/services'
 
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[]
+  }
+}
+
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
 export function QuoteForm() {
@@ -37,6 +43,12 @@ export function QuoteForm() {
 
       if (res.ok) {
         setState('success')
+        window.dataLayer?.push({
+          event: 'form_submit',
+          event_category: 'lead',
+          event_label: data.service || 'quote_request',
+          value: 1,
+        })
         form.reset()
       } else {
         const json = await res.json().catch(() => ({}))

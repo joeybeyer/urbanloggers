@@ -1,4 +1,12 @@
+'use client'
+
 import { COMPANY } from '@/data/company'
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[]
+  }
+}
 
 interface PhoneButtonProps {
   size?: 'sm' | 'md' | 'lg'
@@ -13,9 +21,19 @@ const sizeClasses = {
 }
 
 export function PhoneButton({ size = 'md', className = '', label }: PhoneButtonProps) {
+  function handleClick() {
+    window.dataLayer?.push({
+      event: 'phone_call',
+      event_category: 'engagement',
+      event_label: COMPANY.phone,
+      value: 1,
+    })
+  }
+
   return (
     <a
       href={COMPANY.phoneHref}
+      onClick={handleClick}
       className={`inline-flex items-center gap-2 bg-brand-green hover:bg-brand-green-dark text-white rounded-md font-semibold transition-colors duration-200 ${sizeClasses[size]} ${className}`}
     >
       <svg
