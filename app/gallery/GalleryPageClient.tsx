@@ -94,16 +94,16 @@ export function GalleryPageClient() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-sm text-gray-500 mb-6">{filteredImages.length} photos</p>
 
-          {/* Portrait images — horizontal scroll row at top */}
+          {/* Portrait images — featured row at top */}
           {portraitImages.length > 0 && (
-            <div className="mb-8">
-              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin">
+            <div className="mb-12">
+              <h2 className="text-lg font-semibold text-charcoal mb-4">Action Shots</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
                 {portraitImages.map((img, idx) => (
                   <button
                     key={img.src}
                     onClick={() => setSelectedImage(img)}
-                    className="flex-none snap-start relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white group focus:outline-none focus:ring-2 focus:ring-brand-green"
-                    style={{ width: '200px', height: '360px' }}
+                    className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white group focus:outline-none focus:ring-2 focus:ring-brand-green aspect-[3/5]"
                   >
                     <Image
                       src={img.src}
@@ -123,6 +123,7 @@ export function GalleryPageClient() {
           )}
 
           {/* Landscape images — standard grid */}
+          <h2 className="text-lg font-semibold text-charcoal mb-4">Project Gallery</h2>
           {landscapeImages.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {landscapeImages.map((img, idx) => (
