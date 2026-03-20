@@ -6,8 +6,6 @@ import Image from 'next/image'
 const categories = ['All', 'Tree Removal', 'Sawmilling & Lumber', 'Custom Work', 'Our Crew'] as const
 
 const galleryImages = [
-  { src: '/images/gallery/gallery-01.webp', alt: 'Crew member on job site', category: 'Our Crew', width: 946, height: 2048 },
-  { src: '/images/gallery/gallery-02.webp', alt: 'Professional arborist at work', category: 'Our Crew', width: 946, height: 2048 },
   { src: '/images/gallery/gallery-03.webp', alt: 'Large tree removal on residential property', category: 'Tree Removal', width: 1200, height: 900 },
   { src: '/images/gallery/gallery-04.webp', alt: 'Log milling with portable sawmill', category: 'Sawmilling & Lumber', width: 1200, height: 900 },
   { src: '/images/gallery/gallery-05.webp', alt: 'Professional tree cutting with heavy equipment', category: 'Tree Removal', width: 1200, height: 900 },
