@@ -5,30 +5,30 @@ import { Nav } from './Nav'
 
 export function Header() {
   return (
-    <header className=" sticky top-0 z-50 bg-charcoal text-white shadow-lg\>
- <div className=\max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\>
- <div className=\flex items-center justify-between h-16\>
- {/* Logo */}
- <Link href=\/\ className=\flex items-center group\>
- <Image
- src=\/images/logo.webp\
- alt=\Urban Loggers LLC - Milwaukee Tree Service\
- width={150}
- height={96}
- className=\h-12 w-auto\
- priority
- />
- </Link>
+    <header className="sticky top-0 z-50 bg-charcoal text-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/images/logo.webp"
+              alt="Urban Loggers LLC - Milwaukee Tree Service"
+              width={150}
+              height={96}
+              className="h-12 w-auto"
+              priority
+            />
+          </Link>
 
- {/* Desktop Nav */}
- <Nav />
+          {/* Desktop Nav */}
+          <Nav />
 
- {/* Mobile CTA */}
- <div className=\flex md:hidden\>
- <PhoneButton size=\sm\ label=\Call Now\ />
- </div>
- </div>
- </div>
- </header>
- )
+          {/* Mobile CTA */}
+          <div className="flex md:hidden">
+            <PhoneButton size="sm" label="Call Now" />
+          </div>
+        </div>
+      </div>
+    </header>
+  )
 }
