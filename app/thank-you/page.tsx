@@ -2,58 +2,66 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { COMPANY } from '@/data/company'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
-  title: 'Thank You | Urban Loggers LLC',
-  description: 'Your quote request has been received. Brian will be in touch within 24 hours.',
-  robots: { index: false, follow: false },
-}
+export const metadata: Metadata = buildMetadata(
+  'Thank You | Urban Loggers LLC Milwaukee',
+  'Thanks for reaching out to Urban Loggers LLC. Brian will be in touch within 24 hours with your free tree service quote.',
+  '/thank-you/'
+)
 
 export default function ThankYouPage() {
   return (
     <>
-      <section className="bg-charcoal text-white py-20 px-4">
+      <section className="bg-brand-green text-white py-20 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="text-6xl mb-6">✓</div>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            Thank You!
-          </h1>
-          <p className="text-xl text-gray-300 mb-8">
-            Your quote request has been received. Brian will review your project details and get back to you within 24 hours.
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Thank You!</h1>
+          <p className="text-xl text-green-100">
+            Your quote request has been received. Brian will personally review your project and get back to you within 24 hours.
           </p>
-          <div className="bg-white/10 border border-white/20 rounded-xl p-6 mb-8 text-left max-w-md mx-auto">
-            <h2 className="font-semibold text-lg mb-4">What happens next?</h2>
-            <ol className="space-y-3 text-gray-300">
-              <li className="flex gap-3">
-                <span className="bg-brand-green text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
-                <span>Brian reviews your request (within 24 hrs)</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="bg-brand-green text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
-                <span>He&rsquo;ll call to schedule a free on-site visit</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="bg-brand-green text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">3</span>
-                <span>You receive a written, itemized quote</span>
-              </li>
-            </ol>
+        </div>
+      </section>
+
+      <section className="py-16 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-bold text-charcoal mb-6">What Happens Next</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
+            <div>
+              <div className="text-3xl mb-3">📞</div>
+              <h3 className="font-semibold text-charcoal mb-2">1. We Call You</h3>
+              <p className="text-gray-600 text-sm">Brian will reach out within 24 hours to discuss your project and schedule an on-site visit.</p>
+            </div>
+            <div>
+              <div className="text-3xl mb-3">📋</div>
+              <h3 className="font-semibold text-charcoal mb-2">2. Free Estimate</h3>
+              <p className="text-gray-600 text-sm">We visit your property, assess the job, and provide a clear, no-obligation quote.</p>
+            </div>
+            <div>
+              <div className="text-3xl mb-3">🌳</div>
+              <h3 className="font-semibold text-charcoal mb-2">3. Get It Done</h3>
+              <p className="text-gray-600 text-sm">Once approved, our crew handles everything — safe, fast, and professional.</p>
+            </div>
           </div>
-          <p className="text-gray-400 mb-6">
-            Need help sooner? Call Brian directly:
-          </p>
-          <PhoneButton size="lg" />
-          <div className="mt-10 flex flex-wrap gap-4 justify-center text-sm">
-            <Link href="/" className="text-brand-green-light hover:text-white transition-colors">
-              ← Back to Home
+
+          <div className="bg-gray-50 rounded-xl p-8 mb-8">
+            <p className="text-gray-700 mb-2">Need something sooner? Call Brian directly:</p>
+            <p className="text-2xl font-bold text-charcoal mb-4">{COMPANY.phone}</p>
+            <PhoneButton size="lg" label="Call Now" />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/"
+              className="px-6 py-3 bg-charcoal text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            >
+              Back to Home
             </Link>
-            <Link href="/tree-removal/" className="text-brand-green-light hover:text-white transition-colors">
-              Tree Removal
-            </Link>
-            <Link href="/log-milling/" className="text-brand-green-light hover:text-white transition-colors">
-              Log Milling
-            </Link>
-            <Link href="/emergency-tree-service/" className="text-brand-green-light hover:text-white transition-colors">
-              Emergency Service
+            <Link
+              href="/gallery/"
+              className="px-6 py-3 bg-gray-100 text-charcoal rounded-lg font-medium hover:bg-gray-200 transition-colors"
+            >
+              See Our Work
             </Link>
           </div>
         </div>
