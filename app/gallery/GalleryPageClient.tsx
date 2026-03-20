@@ -45,13 +45,29 @@ export function GalleryPageClient() {
 
   const closeLightbox = useCallback(() => setSelectedImage(null), [])
 
+  const goNext = useCallback(() => {
+    if (!selectedImage) return
+    const idx = filteredImages.findIndex((img) => img.src === selectedImage.src)
+    const next = (idx + 1) % filteredImages.length
+    setSelectedImage(filteredImages[next])
+  }, [selectedImage, filteredImages])
+
+  const goPrev = useCallback(() => {
+    if (!selectedImage) return
+    const idx = filteredImages.findIndex((img) => img.src === selectedImage.src)
+    const prev = (idx - 1 + filteredImages.length) % filteredImages.length
+    setSelectedImage(filteredImages[prev])
+  }, [selectedImage, filteredImages])
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowRight') goNext()
+      if (e.key === 'ArrowLeft') goPrev()
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [closeLightbox])
+  }, [closeLightbox, goNext, goPrev])
 
   return (
     <>
@@ -165,6 +181,22 @@ export function GalleryPageClient() {
           >
             ✕
           </button>
+          {/* Previous button */}
+          <button
+            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white text-4xl sm:text-5xl hover:text-gray-300 z-50 bg-black/40 hover:bg-black/60 rounded-full w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center transition-colors"
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          {/* Next button */}
+          <button
+            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white text-4xl sm:text-5xl hover:text-gray-300 z-50 bg-black/40 hover:bg-black/60 rounded-full w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center transition-colors"
+            aria-label="Next image"
+          >
+            ›
+          </button>
           <div className="flex items-center justify-center max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={selectedImage.src}
@@ -177,7 +209,7 @@ export function GalleryPageClient() {
             />
           </div>
           <p className="absolute bottom-4 left-0 right-0 text-center text-white text-sm px-4">
-            {selectedImage.alt}
+            {selectedImage.alt} — {filteredImages.findIndex((img) => img.src === selectedImage.src) + 1} / {filteredImages.length}
           </p>
         </div>
       )}
