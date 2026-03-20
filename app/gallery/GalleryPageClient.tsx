@@ -165,12 +165,13 @@ export function GalleryPageClient() {
           >
             ✕
           </button>
-          <div className="relative max-w-5xl max-h-[90vh] w-full h-full" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center justify-center max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={selectedImage.src}
               alt={selectedImage.alt}
-              fill
-              className="object-contain"
+              width={selectedImage.width}
+              height={selectedImage.height}
+              className="max-h-[85vh] w-auto h-auto object-contain rounded"
               sizes="90vw"
               priority
             />
