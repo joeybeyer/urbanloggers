@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { MobileCTA } from '@/components/ui/MobileCTA'
 import { localBusinessSchema } from '@/lib/schema'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -55,6 +56,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
+        <MobileCTA />
       </body>
     </html>
   )
