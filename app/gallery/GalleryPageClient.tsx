@@ -110,24 +110,45 @@ export function GalleryPageClient() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-sm text-gray-500 mb-6">{filteredImages.length} photos</p>
 
-          {/* Portrait images — featured row at top */}
+          {/* Portrait images — single-row carousel at top */}
           {portraitImages.length > 0 && (
             <div className="mb-12">
-              <h2 className="text-lg font-semibold text-charcoal mb-4">Action Shots</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold text-charcoal">Action Shots</h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById('portrait-carousel')
+                      if (el) el.scrollBy({ left: -220, behavior: 'smooth' })
+                    }}
+                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-brand-green hover:text-white flex items-center justify-center text-lg transition-colors"
+                    aria-label="Scroll left"
+                  >‹</button>
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById('portrait-carousel')
+                      if (el) el.scrollBy({ left: 220, behavior: 'smooth' })
+                    }}
+                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-brand-green hover:text-white flex items-center justify-center text-lg transition-colors"
+                    aria-label="Scroll right"
+                  >›</button>
+                </div>
+              </div>
+              <div id="portrait-carousel" className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {portraitImages.map((img, idx) => (
                   <button
                     key={img.src}
                     onClick={() => setSelectedImage(img)}
-                    className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white group focus:outline-none focus:ring-2 focus:ring-brand-green aspect-[3/5]"
+                    className="flex-none relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white group focus:outline-none focus:ring-2 focus:ring-brand-green"
+                    style={{ width: '180px', height: '300px' }}
                   >
                     <Image
                       src={img.src}
                       alt={img.alt}
                       fill
-                      sizes="200px"
+                      sizes="180px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading={idx < 4 ? 'eager' : 'lazy'}
+                      loading={idx < 6 ? 'eager' : 'lazy'}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="text-white text-xs font-medium">{img.category}</span>
