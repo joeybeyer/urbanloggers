@@ -100,6 +100,10 @@ export function Nav() {
         About
       </Link>
 
+      <Link href="/gallery/" className="text-gray-300 hover:text-white text-sm font-medium">
+        Gallery
+      </Link>
+
       <PhoneButton size="sm" />
     </nav>
   )
