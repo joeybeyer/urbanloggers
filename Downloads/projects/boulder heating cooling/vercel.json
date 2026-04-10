@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    { "source": "/service-area/lafayette-co/", "destination": "/lafayette/", "permanent": true },
+    { "source": "/service-area/louisville-co/", "destination": "/louisville/", "permanent": true },
+    { "source": "/service-area/longmont-co/", "destination": "/longmont/", "permanent": true },
+    { "source": "/service-area/boulder-co/", "destination": "/", "permanent": true },
+    { "source": "/service-area/erie-co/", "destination": "/", "permanent": true },
+    { "source": "/service-area/:path*/", "destination": "/", "permanent": true },
+    { "source": "/services/heating/", "destination": "/heating-repair/", "permanent": true },
+    { "source": "/services/maintenance/", "destination": "/maintenance/", "permanent": true },
+    { "source": "/services/", "destination": "/", "permanent": true },
+    { "source": "/services/:path*/", "destination": "/", "permanent": true }
+  ]
+}
