@@ -52,6 +52,15 @@ BILL_THRESHOLD_SEC = 90      # a lead-gen call must connect >= this long to be b
 BILL_RATE_USD = 45.0         # what Frank pays per billable lead-gen call
 
 NUMBER_LABELS = {}           # e164 -> friendly_name, filled by fetch_number_labels()
+NUMBER_MAP = {}              # bare-digits -> {tenant, source_type, label, billable}, from ACC /numbers (multi-tenant)
+
+
+def norm(n):
+    """Normalize a phone number to bare 10-digit form for matching (strip +, non-digits, leading US 1)."""
+    d = "".join(ch for ch in str(n or "") if ch.isdigit())
+    if len(d) == 11 and d.startswith("1"):
+        d = d[1:]
+    return d
 
 
 def fetch_number_labels():
@@ -68,15 +77,46 @@ def fetch_number_labels():
     return out
 
 
+def fetch_number_map():
+    """ACC number->tenant routing map (GET /api/leads/numbers). Lets ONE worker capture calls for
+    ANY client: each recorded call routes to the tenant that owns the dialed number. Empty if ACC
+    is unreachable -> classify() then falls back to the legacy Dumpster rules below."""
+    out = {}
+    if not ACC_KEY:
+        return out
+    try:
+        r = requests.get(f"{ACC_URL.rstrip('/')}/api/leads/numbers",
+                         headers={"X-API-Key": ACC_KEY, "User-Agent": "Mozilla/5.0 acc-numbers"}, timeout=20)
+        r.raise_for_status()
+        for n in r.json().get("numbers", []):
+            d = norm(n.get("digits") or n.get("e164"))
+            if d:
+                out[d] = {"tenant": n.get("tenant"), "source_type": n.get("source_type") or "organic",
+                          "label": n.get("label"), "billable": int(n.get("billable") or 0)}
+    except Exception as ex:
+        print(f"  (number map unavailable, using legacy Dumpster rules: {str(ex)[:60]})")
+    return out
+
+
 def classify(to_number):
-    """-> (warehouse_source, human_label, is_leadgen). Frank's own numbers are not lead-gen."""
+    """-> (tenant, warehouse_source, human_label, is_leadgen).
+    Primary: the ACC number-map (multi-tenant). Fallback: the legacy hard-coded Dumpster rules so
+    Frank's calls keep working even if a number isn't seeded yet / ACC is briefly down."""
+    d = norm(to_number)
+    m = NUMBER_MAP.get(d)
+    if m:
+        src = m["source_type"]
+        return (m["tenant"], src, m.get("label") or (to_number or "Unknown"), src == "leadgen")
+    # ── legacy fallback (Dumpster-only) ──
+    if NUMBER_MAP:
+        print(f"  (! unmapped number {to_number} — defaulting to dumpster/leadgen; seed it via /dni-pool)")
     to = (to_number or "").strip()
     if to == FRANK_ADS:
-        return ("google-ads", "Dumpster Rescue (Google Ads)", False)
+        return (TENANT, "google-ads", "Dumpster Rescue (Google Ads)", False)
     if to == FRANK_GBP:
-        return ("organic", "Medinah GBP", False)
+        return (TENANT, "organic", "Medinah GBP", False)
     label = NUMBER_LABELS.get(to, to or "Unknown")
-    return ("leadgen", label, True)   # any other tracked number = one of Joey's lead-gen sites sold to Frank
+    return (TENANT, "leadgen", label, True)   # any other tracked number = one of Joey's lead-gen sites sold to Frank
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "call_transcripts.json")
 SW_BASE = f"https://{SW_SPACE}/api/laml/2010-04-01/Accounts/{SW_PROJECT}"
 SW_AUTH = (SW_PROJECT, SW_TOKEN)
@@ -264,7 +304,7 @@ def extract_outcome(transcript):
 
 def to_payload(rec, call, ext, attribution=None):
     to_number = call.get("to") or call.get("to_formatted")
-    src, src_label, is_leadgen = classify(to_number)
+    tenant, src, src_label, is_leadgen = classify(to_number)
     duration = int(rec.get("duration") or 0)
     # Backward/forward compatible: prefer the new conservative fields, fall back to the old ones.
     status = ext.get("status") or ("spam" if ext.get("spam") else ("booked" if ext.get("booked") else "inquiry"))
@@ -275,7 +315,7 @@ def to_payload(rec, call, ext, attribution=None):
     billable = is_leadgen and (duration >= BILL_THRESHOLD_SEC) and not spam
     bill_amount = BILL_RATE_USD if billable else 0.0
     return {
-        "tenant_id": TENANT,
+        "tenant_id": tenant,                     # per-call tenant from the number-map (multi-tenant)
         "external_id": "call-" + rec["call_sid"],
         "vertical": VERTICAL,
         "source": src,                           # google-ads / organic / leadgen, by number dialed
@@ -341,6 +381,10 @@ def main():
             print(f"Missing {name} in .env"); return
 
     NUMBER_LABELS.update(fetch_number_labels())
+    NUMBER_MAP.update(fetch_number_map())       # number->tenant routing (multi-tenant capture)
+    if NUMBER_MAP:
+        tset = sorted({v["tenant"] for v in NUMBER_MAP.values()})
+        print(f"Number map: {len(NUMBER_MAP)} number(s) across tenant(s): {', '.join(tset)}")
     # gclid->keyword map for DNI call attribution (skip on dry/no-upload to stay fast)
     click_map = {} if (a.dry_run or a.no_upload) else build_click_map(min(a.days, 30))
     cache = load_cache()
@@ -396,7 +440,7 @@ def main():
             tag = (meta.get("callStatus") or ("spam" if ext.get("spam") else "")).upper() or "no-book"
             bill = f"BILL ${BILL_RATE_USD:.0f}" if meta["billable"] else ""
             kwtag = f"  [kw: {meta['keyword']}]" if meta.get("keyword") else ""
-            print(f"  {call_sid[:10]} {dur:>4}s {tag:>7} {bill:>8} | {meta['sourceLabel'][:22]:22} | {ext.get('summary','')[:40]}{kwtag}")
+            print(f"  {call_sid[:10]} {dur:>4}s {tag:>7} {bill:>8} | {payload['tenant_id'][:10]:10} | {meta['sourceLabel'][:22]:22} | {ext.get('summary','')[:40]}{kwtag}")
 
             if payload["converted"]:
                 booked += 1
