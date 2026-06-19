@@ -45,6 +45,16 @@ def acc_post(path, body):
 
 def run_tenant(client, tenant, cid, days, dry):
     ga = client.get_service("GoogleAdsService")
+    # Sync the client's real display name from their Google Ads account (shown on the dashboard).
+    try:
+        cust = list(ga.search(customer_id=cid, query="SELECT customer.descriptive_name FROM customer LIMIT 1"))
+        name = cust[0].customer.descriptive_name if cust else None
+        if name and not dry:
+            # display_name_default = fallback only; a name set by hand is never overwritten.
+            acc_post("/api/leads/tenant", {"tenant_id": tenant, "display_name_default": name, "ads_customer_id": cid})
+            print(f"  {tenant}: name = {name}")
+    except Exception as ex:
+        print(f"  {tenant}: name sync skipped ({str(ex)[:50]})")
     end = datetime.date.today()
     start = end - datetime.timedelta(days=days)
     query = f"""

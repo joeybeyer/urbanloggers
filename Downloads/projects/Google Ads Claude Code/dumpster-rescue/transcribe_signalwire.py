@@ -81,26 +81,36 @@ MAX_SIZE = 24 * 1024 * 1024  # Whisper 25MB limit, leave headroom
 
 EXTRACT_SYSTEM = (
     "You analyze a transcribed inbound phone call to a dumpster-rental / junk-removal company. "
+    "Be CONSERVATIVE: do not imply a booking or a revenue number that the call does not clearly support. "
     "Return STRICT JSON with these keys: "
-    "booked (bool: did the caller actually schedule/agree to service?), "
+    "status (one of 'booked','quoted','inquiry','spam'): "
+    "  'booked' = the caller AGREED to the service AND a specific service DAY/DATE was set "
+    "  (e.g. 'put me down for Thursday'). BOTH must be true. "
+    "  'quoted' = a price was discussed and the caller is interested, but there is NO firm date — "
+    "  they will 'send photos first', 'check their schedule', 'call you back', or 'let you know'. "
+    "  'inquiry' = a general question with no price agreed and no commitment. "
+    "  'spam' = robocall/auto-dialer, telemarketing/solicitation (selling SEO/listings/ads), wrong "
+    "  number, or silent/no-content. "
+    "firm_date (bool): true ONLY if a specific service day/date was agreed. "
+    "caller_name (the caller's name if they state it on the call, e.g. 'Maria','Dan Moore', else null), "
     "job_type (short string e.g. 'dumpster rental','junk removal','construction debris', or null), "
     "dumpster_size (e.g. '10 yard','20 yard', or null), "
-    "quoted_price (number in USD ONLY if the company explicitly quoted a dollar PRICE for the "
-    "service, e.g. \"it'll be three fifty\" -> 350, \"that's $500 out the door\" -> 500. "
-    "This is a dumpster/junk job: realistic prices are roughly $200-$1500. "
-    "DO NOT use: phone numbers, street addresses, zip codes, dumpster SIZES (10/15/20 yard), "
-    "dates, times, square footage, weights/tonnage, item counts, or any number that is not a "
-    "spoken dollar price for the service. If no explicit service price was stated, use null.), "
     "service_city (the city/town the job is in, or null), "
-    "spam (bool: TRUE ONLY for robocalls/auto-dialers, telemarketing or solicitation calls "
-    "(e.g. selling business-listing/SEO/advertising services), wrong numbers, or truly silent/"
-    "no-content calls. A REAL prospective customer is NOT spam even if they reached voicemail "
-    "and did not book — if the caller leaves a name, a callback number, OR asks about junk/"
-    "dumpster/removal service, set spam=false and treat it as a lead. A call in Spanish or any "
-    "non-English language is NOT spam. When unsure between a real customer and spam, choose "
-    "spam=false.), "
-    "summary (one sentence, <=160 chars, what the caller wanted and the outcome). "
-    "Only mark booked=true if there is clear agreement to schedule. If unsure, booked=false."
+    "price (number in USD or null): the amount the customer is REALISTICALLY going to pay. "
+    "  If the rep gives a RANGE or several options (e.g. '$450 rental, $800 if we load, $995 for a 20-yard'), "
+    "  choose the option the CALLER ACTUALLY AGREED TO; if that is unclear, take the LOWER / most-likely "
+    "  figure — NEVER default to the highest number. If pricing is 'based on how much we fill' with no firm "
+    "  total, estimate the most likely actual charge and lean LOW. "
+    "  NEVER use phone numbers, addresses, zip codes, dumpster SIZES (10/15/20 yard), dates, times, "
+    "  weights/tonnage, or item counts as a price. Realistic dumpster/junk prices are ~$150-$1500. "
+    "  null if no service price was discussed. "
+    "price_firm (bool): true ONLY if ONE specific dollar price was clearly agreed (not a range/estimate). "
+    "spam (bool): true only when status=='spam'. A REAL prospective customer is NOT spam even if they reached "
+    "voicemail and did not book — if they leave a name, a callback number, OR ask about junk/dumpster/removal "
+    "service, spam=false. A call in Spanish or any non-English language is NOT spam. When unsure, spam=false. "
+    "summary (one sentence, <=160 chars: what the caller wanted and the REAL outcome — say 'quoted, no firm "
+    "date' rather than implying a booking when no date was set). "
+    "If a firm date was not clearly set, status is 'quoted' or 'inquiry', NEVER 'booked'."
 )
 
 PRICE_MAX = 25000  # sanity cap — anything above this on a dumpster call is an extraction error
@@ -253,7 +263,11 @@ def to_payload(rec, call, ext, attribution=None):
     to_number = call.get("to") or call.get("to_formatted")
     src, src_label, is_leadgen = classify(to_number)
     duration = int(rec.get("duration") or 0)
-    spam = bool(ext.get("spam"))
+    # Backward/forward compatible: prefer the new conservative fields, fall back to the old ones.
+    status = ext.get("status") or ("spam" if ext.get("spam") else ("booked" if ext.get("booked") else "inquiry"))
+    spam = bool(ext.get("spam")) or status == "spam"
+    booked = status == "booked"
+    price = clean_price(ext.get("price") if ext.get("price") is not None else ext.get("quoted_price"))
     # Billable = a lead-gen (sold) call that connected long enough and isn't spam.
     billable = is_leadgen and (duration >= BILL_THRESHOLD_SEC) and not spam
     bill_amount = BILL_RATE_USD if billable else 0.0
@@ -270,16 +284,19 @@ def to_payload(rec, call, ext, attribution=None):
         "contact_phone": call.get("from") or call.get("from_formatted"),
         "contact_email": None,
         "call_duration": int(rec.get("duration") or 0),
-        "converted": 1 if ext.get("booked") else 0,
-        "revenue": clean_price(ext.get("quoted_price")),
+        "converted": 1 if booked else 0,                    # only FIRM bookings count as a booking
+        "revenue": None,                                    # AI never claims revenue — owner confirms; estimate is metadata.quotedPrice
         "cost": None,
         "referrer": None,
         "metadata": {
             "recordingSid": rec["sid"], "callSid": rec["call_sid"],
+            "name": ext.get("caller_name"),
             "toNumber": to_number, "sourceLabel": src_label, "callStart": call.get("start_time"),
             "isLeadgen": is_leadgen, "billable": billable, "billAmount": bill_amount,
             "gclid": (attribution or {}).get("gclid"), "keyword": (attribution or {}).get("keyword"),
             "dumpsterSize": ext.get("dumpster_size"), "summary": ext.get("summary"),
+            "callStatus": status, "firmDate": bool(ext.get("firm_date")),
+            "quotedPrice": price, "priceFirm": bool(ext.get("price_firm")),
             "spam": spam, "transcript": (ext.get("_transcript") or "")[:4000],
         },
     }
@@ -373,7 +390,7 @@ def main():
             attribution = {"gclid": g, "keyword": click_map.get(g)} if g else None
             payload = to_payload(rec, call, ext, attribution)
             meta = payload["metadata"]
-            tag = "BOOKED" if payload["converted"] else ("SPAM" if ext.get("spam") else "no-book")
+            tag = (meta.get("callStatus") or ("spam" if ext.get("spam") else "")).upper() or "no-book"
             bill = f"BILL ${BILL_RATE_USD:.0f}" if meta["billable"] else ""
             kwtag = f"  [kw: {meta['keyword']}]" if meta.get("keyword") else ""
             print(f"  {call_sid[:10]} {dur:>4}s {tag:>7} {bill:>8} | {meta['sourceLabel'][:22]:22} | {ext.get('summary','')[:40]}{kwtag}")

@@ -35,6 +35,7 @@ def to_payload(L):
         "cost": None,                                  # ACC joins Ads cost via its own google-ads-api
         "referrer": None,
         "metadata": {
+            "name": L.get("name"),
             "gclid": L.get("gclid"), "campaign": L.get("campaign"), "adGroup": L.get("adGroup"),
             "status": L.get("status"), "leadSource": L.get("source"),
             "projectType": L.get("projectType"), "dumpsterSize": L.get("dumpsterSize"),
