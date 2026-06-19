@@ -10,7 +10,7 @@ only the per-tenant customer_id changes (same TENANT_ADS map as the conversion u
 Usage: python pull_ad_spend.py [--tenant X] [--days 30] [--dry-run]
 Env (Google Ads .env): ACC_API_KEY, ACC_API_URL, GOOGLE_ADS_* creds.
 """
-import os, sys, json, argparse
+import os, sys, json, argparse, datetime
 import urllib.request, urllib.error
 sys.stdout.reconfigure(encoding="utf-8")
 from dotenv import load_dotenv
@@ -45,11 +45,13 @@ def acc_post(path, body):
 
 def run_tenant(client, tenant, cid, days, dry):
     ga = client.get_service("GoogleAdsService")
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=days)
     query = f"""
         SELECT segments.date, campaign.name,
                metrics.cost_micros, metrics.clicks, metrics.impressions, metrics.conversions
         FROM campaign
-        WHERE segments.date DURING LAST_{days}_DAYS"""
+        WHERE segments.date BETWEEN '{start.isoformat()}' AND '{end.isoformat()}'"""
     rows = []
     try:
         for b in ga.search_stream(customer_id=cid, query=query):
@@ -78,7 +80,7 @@ def run_tenant(client, tenant, cid, days, dry):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tenant", default=None, help="one tenant (default: all in TENANT_ADS)")
-    ap.add_argument("--days", type=int, default=30, choices=[7, 14, 30, 90])
+    ap.add_argument("--days", type=int, default=30)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     if not ACC_KEY:
