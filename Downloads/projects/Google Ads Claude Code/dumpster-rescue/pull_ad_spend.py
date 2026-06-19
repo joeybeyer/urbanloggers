@@ -26,19 +26,40 @@ TENANT_ADS = {
     "dumpster": "2253432096",
     "bg-concrete": "1488904463",
 }
-CONFIG = {
+# Shared "app" creds (developer token + OAuth client). The per-AGENCY parts (refresh_token +
+# login MCC) are filled in per client from ACC's /ads-config; clients with no connected agency
+# fall back to the PLATFORM creds below (Joey's own MCC) so his own clients keep working.
+CONFIG_BASE = {
     "developer_token": os.getenv("GOOGLE_ADS_DEVELOPER_TOKEN"),
     "client_id": os.getenv("GOOGLE_ADS_CLIENT_ID"),
     "client_secret": os.getenv("GOOGLE_ADS_CLIENT_SECRET"),
-    "refresh_token": os.getenv("GOOGLE_ADS_REFRESH_TOKEN"),
-    "login_customer_id": "6516751752",
     "use_proto_plus": True,
 }
+PLATFORM_LOGIN = "6516751752"                             # Joey's MCC (fallback login)
+PLATFORM_REFRESH = os.getenv("GOOGLE_ADS_REFRESH_TOKEN")  # Joey's refresh token (fallback)
+
+_CLIENTS = {}
+def get_client(refresh_token, login_customer_id):
+    """Build/cache a GoogleAdsClient for a given (refresh_token, login MCC)."""
+    key = (refresh_token, str(login_customer_id))
+    if key not in _CLIENTS:
+        cfg = dict(CONFIG_BASE)
+        cfg["refresh_token"] = refresh_token
+        cfg["login_customer_id"] = str(login_customer_id)
+        _CLIENTS[key] = GoogleAdsClient.load_from_dict(cfg)
+    return _CLIENTS[key]
 
 
 def acc_post(path, body):
     req = urllib.request.Request(f"{ACC_URL.rstrip('/')}{path}", data=json.dumps(body).encode(),
         headers={"X-API-Key": ACC_KEY, "Content-Type": "application/json", "User-Agent": "Mozilla/5.0 acc-spend"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read())
+
+
+def acc_get(path):
+    req = urllib.request.Request(f"{ACC_URL.rstrip('/')}{path}",
+        headers={"X-API-Key": ACC_KEY, "User-Agent": "Mozilla/5.0 acc-spend"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
 
@@ -89,18 +110,37 @@ def run_tenant(client, tenant, cid, days, dry):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--tenant", default=None, help="one tenant (default: all in TENANT_ADS)")
+    ap.add_argument("--tenant", default=None, help="one tenant only (default: all clients)")
     ap.add_argument("--days", type=int, default=30)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     if not ACC_KEY:
         print("ACC_API_KEY missing in .env"); return
-    client = GoogleAdsClient.load_from_dict(CONFIG)
-    tenants = {a.tenant: TENANT_ADS[a.tenant]} if a.tenant else TENANT_ADS
-    print(f"Pulling ad spend ({a.days}d) for: {', '.join(tenants)}")
-    for tenant, cid in tenants.items():
+
+    # Per-client Ads config from ACC: each client's ads_customer_id + (if its agency connected) the
+    # agency's refresh_token + login MCC. No agency creds -> fall back to the platform (Joey's) creds.
+    clients = []
+    try:
+        clients = acc_get("/api/leads/ads-config").get("clients", [])
+    except Exception as e:
+        print(f"  /ads-config unavailable ({str(e)[:60]}) — falling back to built-in TENANT_ADS")
+    if not clients:
+        clients = [{"tenant": t, "ads_customer_id": c, "refresh_token": None, "login_customer_id": None}
+                   for t, c in TENANT_ADS.items()]
+    if a.tenant:
+        clients = [c for c in clients if c["tenant"] == a.tenant]
+
+    print(f"Pulling ad spend ({a.days}d) for {len(clients)} client(s)")
+    for c in clients:
+        tenant, cid = c["tenant"], c.get("ads_customer_id")
+        if not cid:
+            continue
+        refresh = c.get("refresh_token") or PLATFORM_REFRESH
+        login = c.get("login_customer_id") or PLATFORM_LOGIN
+        src = "agency" if c.get("refresh_token") else "platform"
         try:
-            run_tenant(client, tenant, cid, a.days, a.dry_run)
+            run_tenant(get_client(refresh, login), tenant, str(cid), a.days, a.dry_run)
+            print(f"    └ {tenant} via {src} creds")
         except Exception as e:
             print(f"  {tenant}: ERR {str(e)[:90]}")
 
