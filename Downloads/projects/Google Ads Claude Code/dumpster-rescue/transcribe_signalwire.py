@@ -41,9 +41,10 @@ TENANT, VERTICAL = "dumpster", "junk-removal"
 #   * Joey's lead-gen CITY sites — calls SOLD to Frank as pay-per-call (billable).
 # Each number's human label is the SignalWire "friendly_name" (auto-pulled at runtime),
 # so new city sites self-label with no code change.
-FRANK_ADS = "+16306525447"   # Dumpster Rescue Landing page (paid search) — Frank's own
-FRANK_GBP = "+16306046428"   # Medinah Google Business Profile — Frank's own
-FRANK_OWN = {FRANK_ADS, FRANK_GBP}
+FRANK_ADS = "+16306525447"       # Dumpster Rescue Landing page (paid search) — Frank's own
+FRANK_GBP = "+16306046428"       # Medinah Google Business Profile — Frank's own
+FRANK_BARTLETT = "+16307804508"  # Bartlett Google Business Profile — Frank's own (NOT lead-gen)
+FRANK_OWN = {FRANK_ADS, FRANK_GBP, FRANK_BARTLETT}
 
 BILL_THRESHOLD_SEC = 90      # a lead-gen call must connect >= this long to be billable
 BILL_RATE_USD = 45.0         # what Frank pays per billable lead-gen call
@@ -72,8 +73,10 @@ def classify(to_number):
         return ("google-ads", "Dumpster Rescue (Google Ads)", False)
     if to == FRANK_GBP:
         return ("organic", "Medinah GBP", False)
+    if to == FRANK_BARTLETT:
+        return ("organic", "Bartlett GMB", False)
     label = NUMBER_LABELS.get(to, to or "Unknown")
-    return ("leadgen", label, True)   # any other tracked number = a lead-gen site sold to Frank
+    return ("leadgen", label, True)   # any other tracked number = one of Joey's lead-gen sites sold to Frank
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "call_transcripts.json")
 SW_BASE = f"https://{SW_SPACE}/api/laml/2010-04-01/Accounts/{SW_PROJECT}"
 SW_AUTH = (SW_PROJECT, SW_TOKEN)
