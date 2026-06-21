@@ -8,6 +8,10 @@ TO_EMAIL   = "dumpsterrescue@gmail.com"
 # Use a verified-domain sender. Reuse the Resend domain already verified for the
 # invoice pipeline (notify.dumpsterrescueusa.com) until a network domain is verified.
 FROM_EMAIL = "leads@notify.dumpsterrescueusa.com"
+# Billing attribution: set to the ACC warehouse or n8n web-leads webhook to log every
+# lead (tenant=dumpster, channel=web) so Joey's properties get credited/billed.
+# Leave blank to email-only. e.g. "https://n8n.agencycommandcenter.ai/webhook/junk-web-lead"
+LEADS_WEBHOOK_URL = ""
 
 # Secret (do NOT put in this file):
 #   wrangler secret put RESEND_KEY

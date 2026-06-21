@@ -64,6 +64,8 @@
       <input type="hidden" name="utm_medium" id="utm_medium">
       <input type="hidden" name="utm_campaign" id="utm_campaign">
       <input type="hidden" name="page" value="wheaton-contact">
+      <input type="hidden" name="site" value="junkremovalwheatonil.com">
+      <input type="hidden" name="city" value="Wheaton">
 
       <div class="grid-2">
         <label>Name<br><input name="name" required></label>
@@ -134,7 +136,7 @@ document.addEventListener('click',function(e){
   window.dataLayer.push({event:a.getAttribute('data-evt')==='sms'?'sms_click':'phone_click',city:'wheaton'});
 });
 /* form submit — guarded against double-submit */
-var WORKER_URL="https://wheaton-lead.<YOUR-SUBDOMAIN>.workers.dev"; // set after Worker deploy
+var WORKER_URL="https://junk-lead.joey-50f.workers.dev"; // live shared lead Worker (all 10 cities)
 var f=document.getElementById('quote-form'),btn=document.getElementById('submitbtn'),msg=document.getElementById('form-msg');
 var sending=false;
 f.addEventListener('submit',function(e){

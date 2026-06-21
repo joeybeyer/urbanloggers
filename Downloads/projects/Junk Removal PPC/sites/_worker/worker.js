@@ -45,18 +45,24 @@ export default {
     const details = (d.details || "").trim();
     if (!name || !phone || !details) return bad(origin);
 
-    const city = (d.page || "").replace(/-contact$/, "") || "unknown";
-    const subject = `New junk-removal lead — ${city} — ${name}`;
+    // ----- attribution: which of Joey's properties produced this lead -----
+    const site = (d.site || "").trim();                                   // e.g. junkremovalwheatonil.com
+    const city = (d.city || (d.page || "").replace(/-contact$/, "") || "unknown").trim();
+    const ts = new Date().toISOString();
+
+    const subject = `New junk lead — ${city}${site ? ` (${site})` : ""} — ${name}`;
     const lines = [
-      `City/site: ${city}`,
-      `Name:      ${name}`,
-      `Phone:     ${phone}`,
-      `Email:     ${d.email || "—"}`,
-      `ZIP:       ${d.zip || "—"}`,
-      `Details:   ${details}`,
-      `Source:    ${d.utm_source || "direct"} / ${d.utm_medium || "—"} / ${d.utm_campaign || "—"}`,
+      `LEAD-GEN SITE: ${site || city} — bill to Joey (lead-gen property)`,
+      `City:          ${city}`,
+      `Name:          ${name}`,
+      `Phone:         ${phone}`,
+      `Email:         ${d.email || "—"}`,
+      `ZIP:           ${d.zip || "—"}`,
+      `Details:       ${details}`,
+      `UTM:           ${d.utm_source || "direct"} / ${d.utm_medium || "—"} / ${d.utm_campaign || "—"}`,
+      `Received:      ${ts}`,
     ];
-    console.log("LEAD", JSON.stringify({ city, name, phone })); // observability
+    console.log("LEAD", JSON.stringify({ site, city, name, phone, ts })); // observability
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -74,9 +80,19 @@ export default {
       return new Response(JSON.stringify({ error: "send" }), { status: 502, headers: cors(origin) });
     }
 
-    // OPTIONAL: also POST to ACC warehouse / n8n web-leads pipe (uncomment + set ACC_LEADS_URL)
-    // await fetch(env.ACC_LEADS_URL, {method:"POST",headers:{"Content-Type":"application/json"},
-    //   body:JSON.stringify({tenant:"dumpster",channel:"web",city,name,phone,email:d.email,details})}).catch(()=>{});
+    // Billing attribution: log to ACC warehouse / n8n web-leads pipe when configured.
+    // Same tenant as the call pipeline (dumpster); channel=web; source flags it as Joey's property.
+    if (env.LEADS_WEBHOOK_URL) {
+      await fetch(env.LEADS_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tenant: "dumpster", channel: "web", source: "joey-leadgen",
+          site, city, name, phone, email: d.email || "", zip: d.zip || "", details, receivedAt: ts,
+          utm: { source: d.utm_source || "", medium: d.utm_medium || "", campaign: d.utm_campaign || "" },
+        }),
+      }).catch((e) => console.log("WEBHOOK_FAIL", String(e)));
+    }
 
     return ok(origin);
   },

@@ -2,3 +2,7 @@
 sites/_img/masters/
 **/node_modules/
 .DS_Store
+
+# secrets — never commit
+**/.dev.vars
+**/.env
