@@ -1,0 +1,19 @@
+{
+  "outputDir": "../wheaton/images",
+  "jobs": [
+    {
+      "slug": "junk-removal-wheaton-hero",
+      "prompt": "Photorealistic candid photograph of a friendly professional junk removal worker, a man in his late 30s with a trustworthy confident smile, wearing a clean BRIGHT ORANGE crew t-shirt and durable work gloves. He stands on the RIGHT side of the frame in the driveway of a tidy suburban Midwestern home, mid-motion lifting an old cardboard box and a small piece of furniture toward a hauling truck just out of frame. He is turned and looking to HIS LEFT toward the viewer's empty space, as if listening to the customer. Bright soft natural daylight, clean residential setting with a hint of green lawn and a brick house, shallow depth of field. Composition leaves generous OPEN NEGATIVE SPACE on the LEFT third of the image for headline text. Real human, authentic, documentary style, NOT illustrated, no text, no logos, no abstract shapes.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png"
+    },
+    {
+      "slug": "junk-removal-wheaton-hero-mobile",
+      "prompt": "Photorealistic candid vertical portrait photograph of the same friendly professional junk removal worker, a man in his late 30s with a warm trustworthy smile, wearing a clean BRIGHT ORANGE crew t-shirt and work gloves, carrying a box in a suburban Midwestern driveway. He is photographed slightly from below and is looking UP toward the top of the frame (toward where the call-to-action button sits above on a mobile screen). Bright natural daylight, clean residential background softly blurred. Real human, authentic documentary style, NOT illustrated, no text, no logos.",
+      "aspect_ratio": "3:4",
+      "resolution": "2K",
+      "output_format": "png"
+    }
+  ]
+}

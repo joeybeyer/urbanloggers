@@ -1,0 +1,75 @@
+{
+  "name": "Dumpster Leads -> Frank's Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "minutes", "minutesInterval": 15 }
+          ]
+        }
+      },
+      "id": "schedule",
+      "name": "Every 15 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dumpsterrescue-prod-joeybeyer.aws-us-east-2.turso.io/v2/pipeline",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer PASTE_TURSO_AUTH_TOKEN_HERE" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ requests: [ { type: 'execute', stmt: { sql: \"SELECT id, createdAt, name, email, phone, city, state, zipCode, source, gclid, keyword, status, jobValue, projectType, dumpsterSize FROM Lead WHERE spam = 0 ORDER BY createdAt DESC LIMIT 500\" } }, { type: 'close' } ] }) }}",
+        "options": {}
+      },
+      "id": "turso-read",
+      "name": "Read Turso Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const resp = $input.first().json;\nconst result = resp.results && resp.results[0] && resp.results[0].response && resp.results[0].response.result;\nif (!result || !result.rows) { return []; }\nconst cols = result.cols.map(c => c.name);\nconst out = [];\nfor (const row of result.rows) {\n  const L = {};\n  row.forEach((cell, i) => { L[cols[i]] = (cell && cell.value !== undefined) ? cell.value : null; });\n  const paid = !!L.gclid || (L.source || '').startsWith('lp-');\n  const date = (L.createdAt || '').replace('T', ' ').slice(0, 16);\n  out.push({ json: {\n    'Lead ID': String(L.id || ''),\n    Date: date,\n    Name: L.name || '',\n    Phone: L.phone || '',\n    Email: L.email || '',\n    City: L.city || '',\n    State: L.state || '',\n    Zip: L.zipCode || '',\n    Project: L.projectType || '',\n    Size: L.dumpsterSize || '',\n    Source: paid ? 'Paid (Google Ads)' : 'Organic',\n    Keyword: L.keyword || '',\n    Status: L.status || 'new',\n    'Job Value': L.jobValue || ''\n  } });\n}\nreturn out;"
+      },
+      "id": "shape",
+      "name": "Shape Rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "mode": "id", "value": "PASTE_FRANK_SHEET_ID_HERE" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Sheet1" },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": ["Lead ID"]
+        },
+        "options": {}
+      },
+      "id": "frank-sheet",
+      "name": "Frank's Sheet (Append or Update)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1080, 300]
+    }
+  ],
+  "connections": {
+    "Every 15 min": { "main": [[{ "node": "Read Turso Leads", "type": "main", "index": 0 }]] },
+    "Read Turso Leads": { "main": [[{ "node": "Shape Rows", "type": "main", "index": 0 }]] },
+    "Shape Rows": { "main": [[{ "node": "Frank's Sheet (Append or Update)", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

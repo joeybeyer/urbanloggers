@@ -1,0 +1,68 @@
+{
+  "name": "Dumpster Calls -> Frank's Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [ { "field": "minutes", "minutesInterval": 30 } ] }
+      },
+      "id": "schedule",
+      "name": "Every 30 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://agencycommandcenter.ai/api/leads/calls?tenant=dumpster",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "X-API-Key", "value": "acc_538424421fb8c1b1af278987062ad4a65cf8faf093e89b96" },
+            { "name": "User-Agent", "value": "n8n-dumpster-calls" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "read-calls",
+      "name": "Read Call Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const r = $input.first().json;\nconst calls = (r && r.calls) || [];\nconst pad = n => String(n).padStart(2, '0');\nreturn calls.filter(c => c.recordingSid || c.callSid).map(c => {\n  const key = c.recordingSid || c.callSid;\n  const raw = c.callStart || c.date || '';\n  const d = new Date(raw);\n  const date = isNaN(d.getTime()) ? raw : `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;\n  return { json: {\n    'Recording SID': key,\n    Date: date,\n    Caller: c.phone || '',\n    Source: c.source || '',\n    'Duration (s)': c.duration || 0,\n    Booked: c.booked || '',\n    Job: c.jobType || (c.spam ? 'SPAM' : ''),\n    Size: c.dumpsterSize || '',\n    'Quoted $': c.quotedPrice || '',\n    City: c.city || '',\n    Summary: c.summary || '',\n    Transcript: (c.transcript || '').slice(0, 4000),\n    Recording: c.recordingSid ? ('https://agencycommandcenter.ai/api/calls/recording/' + c.recordingSid) : ''\n  } };\n});"
+      },
+      "id": "shape-calls",
+      "name": "Shape Calls",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "mode": "id", "value": "1BqK_LYPtGS-2gaLLy2nt9UG4YCYwvaT2d0XQCR20rwo" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Call Leads" },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": ["Recording SID"]
+        },
+        "options": {}
+      },
+      "id": "calls-sheet",
+      "name": "Call Leads Tab (Append or Update)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1080, 300]
+    }
+  ],
+  "connections": {
+    "Every 30 min": { "main": [[{ "node": "Read Call Leads", "type": "main", "index": 0 }]] },
+    "Read Call Leads": { "main": [[{ "node": "Shape Calls", "type": "main", "index": 0 }]] },
+    "Shape Calls": { "main": [[{ "node": "Call Leads Tab (Append or Update)", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

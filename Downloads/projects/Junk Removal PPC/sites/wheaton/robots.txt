@@ -1,0 +1,17 @@
+# Allow everything, including AI crawlers (GEO doctrine: block none)
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI answer engines
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://junkremovalwheatonil.com/sitemap.xml

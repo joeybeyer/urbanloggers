@@ -1,0 +1,64 @@
+{
+  "name": "Garage Door Status Sync (Dispatch -> Sabuj)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [ { "field": "minutes", "minutesInterval": 15 } ] }
+      },
+      "id": "schedule",
+      "name": "Every 15 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": { "__rl": true, "mode": "list", "value": "" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Sheet1" },
+        "options": {}
+      },
+      "id": "read-dispatch",
+      "name": "Read Dispatch Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Keep only dispatch rows that actually have a Status, push Phone+Status to Sabuj.\nreturn $input.all()\n  .map(i => i.json)\n  .filter(r => ((r.Status || '') + '').trim() !== '')\n  .map(r => ({ json: {\n    Phone: ((r.Phone || '') + '').trim(),\n    Status: (r.Status + '').trim()\n  } }))\n  .filter(o => o.json.Phone !== '');"
+      },
+      "id": "pick-status",
+      "name": "Pick Status Updates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "update",
+        "documentId": { "__rl": true, "mode": "list", "value": "" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Sheet1" },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": ["Phone"]
+        },
+        "options": {}
+      },
+      "id": "update-sabuj",
+      "name": "Update Sabuj Sheet (by Phone)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1080, 300]
+    }
+  ],
+  "connections": {
+    "Every 15 min": { "main": [[{ "node": "Read Dispatch Sheet", "type": "main", "index": 0 }]] },
+    "Read Dispatch Sheet": { "main": [[{ "node": "Pick Status Updates", "type": "main", "index": 0 }]] },
+    "Pick Status Updates": { "main": [[{ "node": "Update Sabuj Sheet (by Phone)", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

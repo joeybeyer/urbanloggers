@@ -1,0 +1,93 @@
+{
+  "name": "Garage Door Lead Intake (Sabuj)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Garage Door Lead Intake",
+        "formDescription": "Post a new FB Marketplace lead. It saves to the warehouse and pings dispatch.",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "Name", "requiredField": true },
+            { "fieldLabel": "Phone", "requiredField": true },
+            { "fieldLabel": "Address", "requiredField": false },
+            { "fieldLabel": "City", "requiredField": false },
+            { "fieldLabel": "State", "requiredField": false },
+            { "fieldLabel": "Zip", "requiredField": false },
+            { "fieldLabel": "Issue", "fieldType": "textarea", "requiredField": false }
+          ]
+        },
+        "options": { "buttonLabel": "Send Lead" }
+      },
+      "id": "form-trigger",
+      "name": "Lead Intake Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [240, 300],
+      "webhookId": "garage-lead-intake"
+    },
+    {
+      "parameters": {
+        "jsCode": "const f = $input.first().json;\nconst digits = (f.Phone || '').replace(/\\D/g, '');\nconst addr = [f.Address, f.City, f.State, f.Zip].filter(Boolean).join(', ');\nreturn [{ json: {\n  warehouse: {\n    tenant_id: 'garage-door',\n    external_id: 'gd-' + digits + '-' + Date.now(),\n    vertical: 'garage-door',\n    source: 'fb-marketplace',\n    source_detail: f.Issue || null,\n    channel: 'fb-marketplace',\n    geo_city: f.City || null,\n    geo_state: f.State || null,\n    geo_zip: f.Zip || null,\n    contact_phone: f.Phone || null,\n    metadata: { name: f.Name || null, address: f.Address || null, issue: f.Issue || null, postedBy: 'sabuj' }\n  },\n  name: f.Name || '',\n  phone: f.Phone || '',\n  address: addr,\n  issue: f.Issue || ''\n} }];"
+      },
+      "id": "build-payload",
+      "name": "Build Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://agencycommandcenter.ai/api/leads/sync",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "X-API-Key", "value": "PASTE_ACC_API_KEY_HERE" },
+            { "name": "User-Agent", "value": "n8n-garage-intake" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.warehouse) }}",
+        "options": {}
+      },
+      "id": "save-warehouse",
+      "name": "Save to Warehouse",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [800, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer PASTE_RESEND_API_KEY_HERE" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: 'Leads <leads@notify.dumpsterrescueusa.com>', to: ['8054103081@vtext.com', '8054103081@txt.att.net', '8054103081@tmomail.net'], subject: 'GD Lead', text: $json.name + ' ' + $json.phone + ' | ' + $json.address + ' | ' + $json.issue }) }}",
+        "options": {}
+      },
+      "id": "dispatch",
+      "name": "Forward to Dispatch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [800, 400]
+    }
+  ],
+  "connections": {
+    "Lead Intake Form": { "main": [[{ "node": "Build Lead", "type": "main", "index": 0 }]] },
+    "Build Lead": {
+      "main": [[
+        { "node": "Save to Warehouse", "type": "main", "index": 0 },
+        { "node": "Forward to Dispatch", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

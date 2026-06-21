@@ -1,0 +1,17 @@
+name = "junk-lead"
+main = "worker.js"
+compatibility_date = "2026-06-01"
+
+# Leads land here (Frank). Switch TO_EMAIL when routing changes.
+[vars]
+TO_EMAIL   = "dumpsterrescue@gmail.com"
+# Use a verified-domain sender. Reuse the Resend domain already verified for the
+# invoice pipeline (notify.dumpsterrescueusa.com) until a network domain is verified.
+FROM_EMAIL = "leads@notify.dumpsterrescueusa.com"
+
+# Secret (do NOT put in this file):
+#   wrangler secret put RESEND_KEY
+#
+# Deploy:
+#   cd sites/_worker && wrangler deploy
+# Then copy the deployed URL into each city's /contact/ page (WORKER_URL constant).
