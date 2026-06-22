@@ -34,6 +34,11 @@ ACC_KEY    = os.getenv("ACC_API_KEY")
 ACC_URL    = os.getenv("ACC_API_URL", "https://agencycommandcenter.ai")
 
 TENANT, VERTICAL = "dumpster", "junk-removal"
+# Per-client SignalWire subproject support: a client (e.g. BG Concrete) has its OWN SignalWire project,
+# so run this worker a 2nd time with --sw-project/--sw-token (their creds) + --tenant <slug> to pull
+# THEIR recordings and route every call to their tenant. None = default (the platform/Dumpster project).
+TENANT_OVERRIDE = None
+SOURCE_OVERRIDE = None
 
 # ── Call source + pay-per-call billing ───────────────────────────────────────
 # The SignalWire "junk removal" project is multi-property:
@@ -102,6 +107,9 @@ def classify(to_number):
     """-> (tenant, warehouse_source, human_label, is_leadgen).
     Primary: the ACC number-map (multi-tenant). Fallback: the legacy hard-coded Dumpster rules so
     Frank's calls keep working even if a number isn't seeded yet / ACC is briefly down."""
+    if TENANT_OVERRIDE:   # running against a client's own SignalWire subproject → all calls are theirs
+        lbl = NUMBER_LABELS.get((to_number or "").strip()) or (to_number or TENANT_OVERRIDE)
+        return (TENANT_OVERRIDE, SOURCE_OVERRIDE or "google-ads", lbl, False)
     d = norm(to_number)
     m = NUMBER_MAP.get(d)
     if m:
@@ -373,7 +381,34 @@ def main():
     ap.add_argument("--no-upload", action="store_true")
     ap.add_argument("--reextract", action="store_true",
                     help="re-run outcome extraction on cached transcripts (no re-transcribe), then re-upload")
+    # Per-client SignalWire subproject overrides (e.g. BG Concrete has its own project):
+    ap.add_argument("--sw-project", default=None, help="override SignalWire project id (a client's subproject)")
+    ap.add_argument("--sw-token", default=None, help="override SignalWire API token")
+    ap.add_argument("--sw-space", default=None, help="override SignalWire space url")
+    ap.add_argument("--tenant", default=None, help="route ALL calls in this run to this tenant slug")
+    ap.add_argument("--source", default=None, help="warehouse source for --tenant calls (default google-ads)")
     a = ap.parse_args()
+
+    # Apply per-client overrides BEFORE the env check (functions read these module globals at call time).
+    global SW_PROJECT, SW_TOKEN, SW_SPACE, SW_BASE, SW_AUTH, TENANT_OVERRIDE, SOURCE_OVERRIDE
+    if a.sw_project: SW_PROJECT = a.sw_project
+    if a.sw_token: SW_TOKEN = a.sw_token
+    if a.sw_space: SW_SPACE = a.sw_space
+    if a.sw_project or a.sw_token or a.sw_space:
+        SW_BASE = f"https://{SW_SPACE}/api/laml/2010-04-01/Accounts/{SW_PROJECT}"
+        SW_AUTH = (SW_PROJECT, SW_TOKEN)
+    TENANT_OVERRIDE = a.tenant
+    SOURCE_OVERRIDE = a.source
+    # Per-client SignalWire creds in .env (so the scheduled .bat only needs --tenant). Add new clients here.
+    SW_SUBPROJECTS = {"bg-concrete": ("BG_SIGNALWIRE_PROJECT_ID", "BG_SIGNALWIRE_API_TOKEN")}
+    if a.tenant and not a.sw_project and a.tenant in SW_SUBPROJECTS:
+        pk, tk = SW_SUBPROJECTS[a.tenant]
+        SW_PROJECT = os.getenv(pk) or SW_PROJECT
+        SW_TOKEN = os.getenv(tk) or SW_TOKEN
+        SW_BASE = f"https://{SW_SPACE}/api/laml/2010-04-01/Accounts/{SW_PROJECT}"
+        SW_AUTH = (SW_PROJECT, SW_TOKEN)
+    if TENANT_OVERRIDE:
+        print(f"[per-client mode] SignalWire project {SW_PROJECT[:8]}… → tenant '{TENANT_OVERRIDE}'")
 
     for name, val in [("SIGNALWIRE_PROJECT_ID", SW_PROJECT), ("SIGNALWIRE_API_TOKEN", SW_TOKEN),
                       ("SIGNALWIRE_SPACE_URL", SW_SPACE), ("OPENAI_API_KEY", OPENAI_KEY)]:
@@ -386,7 +421,7 @@ def main():
         tset = sorted({v["tenant"] for v in NUMBER_MAP.values()})
         print(f"Number map: {len(NUMBER_MAP)} number(s) across tenant(s): {', '.join(tset)}")
     # gclid->keyword map for DNI call attribution (skip on dry/no-upload to stay fast)
-    click_map = {} if (a.dry_run or a.no_upload) else build_click_map(min(a.days, 30))
+    click_map = {} if (a.dry_run or a.no_upload or TENANT_OVERRIDE) else build_click_map(min(a.days, 30))
     cache = load_cache()
 
     if a.reextract:
