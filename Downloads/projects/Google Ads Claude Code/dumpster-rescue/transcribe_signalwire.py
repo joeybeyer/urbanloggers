@@ -164,6 +164,45 @@ EXTRACT_SYSTEM = (
     "If a firm date was not clearly set, status is 'quoted' or 'inquiry', NEVER 'booked'."
 )
 
+# Concrete-contractor variant (used for tenant bg-concrete). Same JSON keys as above so to_payload
+# is unchanged; only the framing, job types, and realistic price band change.
+EXTRACT_SYSTEM_CONCRETE = (
+    "You analyze a transcribed inbound phone call to a CONCRETE CONTRACTOR (driveways, patios, "
+    "foundations & footings, sidewalks/steps, garage floors, stamped/decorative concrete, parking "
+    "lots, commercial slabs, concrete repair/resurfacing). "
+    "Be CONSERVATIVE: do not imply a booking or a revenue number the call does not clearly support. "
+    "Return STRICT JSON with these keys: "
+    "status (one of 'booked','quoted','inquiry','spam'): "
+    "  'booked' = the caller AGREED to the work AND a specific start/pour DATE was set. BOTH must be true. "
+    "  'quoted' = a price was discussed and the caller is interested, but there is NO firm date — they will "
+    "  'get other bids', 'think about it', 'send measurements/photos', or 'call back'. "
+    "  'inquiry' = a general question, no price agreed and no commitment. "
+    "  'spam' = robocall/auto-dialer, telemarketing/solicitation (selling SEO/listings/ads/leads), wrong "
+    "  number, or silent/no-content. "
+    "firm_date (bool): true ONLY if a specific start/pour day/date was agreed. "
+    "caller_name (the caller's name if they state it, e.g. 'Maria','Dan Moore', else null), "
+    "job_type (short string e.g. 'concrete driveway','patio','foundation','footings','sidewalk','steps', "
+    "  'garage floor','stamped concrete','parking lot','commercial slab','concrete repair', or null), "
+    "dumpster_size (REPURPOSED as project scope/size if stated, e.g. '2-car driveway','~400 sq ft patio','20x30 slab', else null), "
+    "service_city (the city/town the job is in, or null), "
+    "price (number in USD or null): the amount the customer is REALISTICALLY going to pay. "
+    "  If the rep gives a RANGE or per-square-foot pricing, choose the option the CALLER ACTUALLY AGREED TO; "
+    "  if unclear take the LOWER / most-likely figure — NEVER default to the highest. If priced per sq ft with "
+    "  no firm total, estimate the most likely actual charge and lean LOW. "
+    "  NEVER use phone numbers, addresses, zip codes, dimensions (e.g. 20x30), square footage, dates, times, "
+    "  or psi/strength numbers as a price. Realistic concrete prices are ~$500-$25,000 (small repair ~$500-1,500; "
+    "  driveway ~$3,000-9,000; foundations/commercial can run higher). null if no price was discussed. "
+    "price_firm (bool): true ONLY if ONE specific dollar price was clearly agreed (not a range/estimate). "
+    "spam (bool): true only when status=='spam'. A REAL prospective customer is NOT spam even if they reached "
+    "voicemail and did not book — if they leave a name, a callback number, OR ask about concrete/driveway/patio/"
+    "foundation/sidewalk work, spam=false. A call in Spanish or any non-English language is NOT spam. When unsure, spam=false. "
+    "summary (one sentence, <=160 chars: what the caller wanted and the REAL outcome — say 'quoted, no firm date' "
+    "rather than implying a booking when no date was set). "
+    "If a firm date was not clearly set, status is 'quoted' or 'inquiry', NEVER 'booked'."
+)
+# Per-tenant (vertical, extraction prompt). Worker reassigns VERTICAL + EXTRACT_SYSTEM when --tenant matches.
+CLIENT_VERTICALS = {"bg-concrete": ("concrete", EXTRACT_SYSTEM_CONCRETE)}
+
 PRICE_MAX = 25000  # sanity cap — anything above this on a dumpster call is an extraction error
 
 
@@ -390,7 +429,7 @@ def main():
     a = ap.parse_args()
 
     # Apply per-client overrides BEFORE the env check (functions read these module globals at call time).
-    global SW_PROJECT, SW_TOKEN, SW_SPACE, SW_BASE, SW_AUTH, TENANT_OVERRIDE, SOURCE_OVERRIDE
+    global SW_PROJECT, SW_TOKEN, SW_SPACE, SW_BASE, SW_AUTH, TENANT_OVERRIDE, SOURCE_OVERRIDE, VERTICAL, EXTRACT_SYSTEM
     if a.sw_project: SW_PROJECT = a.sw_project
     if a.sw_token: SW_TOKEN = a.sw_token
     if a.sw_space: SW_SPACE = a.sw_space
@@ -399,6 +438,8 @@ def main():
         SW_AUTH = (SW_PROJECT, SW_TOKEN)
     TENANT_OVERRIDE = a.tenant
     SOURCE_OVERRIDE = a.source
+    if TENANT_OVERRIDE in CLIENT_VERTICALS:   # concrete (BG) gets concrete framing + vertical, not dumpster
+        VERTICAL, EXTRACT_SYSTEM = CLIENT_VERTICALS[TENANT_OVERRIDE]
     # Per-client SignalWire creds in .env (so the scheduled .bat only needs --tenant). Add new clients here.
     SW_SUBPROJECTS = {"bg-concrete": ("BG_SIGNALWIRE_PROJECT_ID", "BG_SIGNALWIRE_API_TOKEN")}
     if a.tenant and not a.sw_project and a.tenant in SW_SUBPROJECTS:
@@ -425,8 +466,11 @@ def main():
     cache = load_cache()
 
     if a.reextract:
-        items = [(sid, e) for sid, e in cache.items() if e.get("transcript")]
-        print(f"Re-extracting outcomes for {len(items)} cached transcript(s)...")
+        # Scope to THIS run's subproject when --tenant is set, so a per-client re-extract (concrete prompt)
+        # never rewrites the shared cache's Dumpster transcripts. Default (no tenant) = all cached.
+        scope = set(r["sid"] for r in list_recordings(a.days)) if TENANT_OVERRIDE else None
+        items = [(sid, e) for sid, e in cache.items() if e.get("transcript") and (scope is None or sid in scope)]
+        print(f"Re-extracting outcomes for {len(items)} cached transcript(s)" + (f" (scoped to {TENANT_OVERRIDE})" if TENANT_OVERRIDE else "") + "...")
         for i, (sid, entry) in enumerate(items, 1):
             try:
                 entry["extract"] = extract_outcome(entry["transcript"])
