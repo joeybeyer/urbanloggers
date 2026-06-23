@@ -6,3 +6,6 @@ cd /d "C:\Users\joey\Downloads\projects\Google Ads Claude Code\dumpster-rescue"
 "C:\gadsenv\Scripts\python.exe" transcribe_signalwire.py --days 1 --min-duration 20 >> signalwire_frequent.log 2>&1
 REM BG Concrete - its OWN SignalWire subproject (creds in .env); routes all calls to tenant bg-concrete.
 "C:\gadsenv\Scripts\python.exe" transcribe_signalwire.py --tenant bg-concrete --days 1 --min-duration 20 >> signalwire_frequent.log 2>&1
+REM Web-form leads: sync Dumpster (Turso) -> ACC warehouse every 30 min so the CRM matches the
+REM lead-email timing (the 8:15am daily --days 45 run still backfills + catches won-status updates).
+"C:\gadsenv\Scripts\python.exe" sync_to_acc.py --days 2 >> sync_to_acc.log 2>&1
