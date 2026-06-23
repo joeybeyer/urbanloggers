@@ -1,5 +1,14 @@
 # Data Manager API migration — offline conversion uploads
 
+**STATUS: ✅ DONE 2026-06-23.** OAuth re-consented (`GOOGLE_DM_REFRESH_TOKEN`, adwords+datamanager scopes),
+`upload_form_conversions_datamanager.py` built and validated against the live endpoint (HTTP 200 via
+`validateOnly`), and wired into `run_call_transcribe.bat`. It auto-fires the next time a Won job is queued.
+Gotcha learned: every event MUST include `eventSource` (e.g. "WEB") or it 400s `event_source missing`.
+The first real Won lead is still the true end-to-end confirmation (watch "Closed Job Revenue (Offline)").
+
+---
+_Original scoping notes below (kept for reference):_
+
 **Status:** NOT urgent. Blocked on OAuth re-consent. Build + test when Frank's FIRST "Won" job is queued.
 **Why:** Google gated the legacy `ConversionUploadService.UploadClickConversions` to "existing users."
 Our integration never established usage (the daily task was silently broken until 2026-06-23), so

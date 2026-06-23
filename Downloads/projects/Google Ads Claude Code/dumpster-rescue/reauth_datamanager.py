@@ -36,8 +36,23 @@ creds = flow.run_local_server(port=8080, access_type="offline", prompt="consent"
                               authorization_prompt_message="Opening browser to approve Ads + Data Manager scopes…",
                               success_message="Done — you can close this tab and return to the terminal.")
 
+from dotenv import find_dotenv
+envp = find_dotenv(usecwd=True) or os.path.join(os.getcwd(), ".env")
+KEY = "GOOGLE_DM_REFRESH_TOKEN"
+line = f"{KEY}={creds.refresh_token}"
+try:
+    txt = open(envp, encoding="utf-8").read() if os.path.exists(envp) else ""
+except Exception:
+    txt = ""
+lines = txt.splitlines()
+if any(l.startswith(KEY + "=") for l in lines):
+    lines = [line if l.startswith(KEY + "=") else l for l in lines]
+else:
+    lines.append(line)
+with open(envp, "w", encoding="utf-8") as f:
+    f.write("\n".join(lines) + "\n")
+
 print("\n" + "=" * 60)
-print("NEW REFRESH TOKEN (add to .env as GOOGLE_DM_REFRESH_TOKEN):\n")
-print(creds.refresh_token)
-print("\nGranted scopes:", " ".join(creds.scopes or []))
+print(f"✓ Wrote {KEY} to {envp}")
+print("Granted scopes:", " ".join(creds.scopes or []))
 print("=" * 60)

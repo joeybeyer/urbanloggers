@@ -9,7 +9,10 @@ REM as PRIMARY, and this offline action was only SECONDARY. Re-enable after Data
 REM "C:\gadsenv\Scripts\python.exe" upload_call_conversions.py >> call_conversions.log 2>&1
 REM And push WON form leads (closed-job revenue) to Google Ads for true value-ROAS
 "C:\gadsenv\Scripts\python.exe" upload_conversions.py >> conversions_upload.log 2>&1
-REM Multi-tenant: push WON form leads from the ACC WAREHOUSE (BG + future clients) to their Ads
-"C:\gadsenv\Scripts\python.exe" upload_form_conversions_warehouse.py >> warehouse_conv_upload.log 2>&1
+REM Multi-tenant: push WON form leads from the ACC WAREHOUSE (BG + future clients) to their Ads.
+REM 2026-06-23: migrated off the gated ConversionUploadService to the Data Manager API
+REM (datamanager.googleapis.com, GOOGLE_DM_REFRESH_TOKEN). Old script kept disabled as backup.
+"C:\gadsenv\Scripts\python.exe" upload_form_conversions_datamanager.py >> warehouse_conv_upload.log 2>&1
+REM "C:\gadsenv\Scripts\python.exe" upload_form_conversions_warehouse.py >> warehouse_conv_upload.log 2>&1
 REM Pull Google Ads SPEND per tenant -> warehouse (the ROAS denominator for the CRM dashboard)
 "C:\gadsenv\Scripts\python.exe" pull_ad_spend.py --days 30 >> ad_spend_pull.log 2>&1
