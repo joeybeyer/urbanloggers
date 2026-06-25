@@ -9,3 +9,6 @@ REM BG Concrete - its OWN SignalWire subproject (creds in .env); routes all call
 REM Web-form leads: sync Dumpster (Turso) -> ACC warehouse every 30 min so the CRM matches the
 REM lead-email timing (the 8:15am daily --days 45 run still backfills + catches won-status updates).
 "C:\gadsenv\Scripts\python.exe" sync_to_acc.py --days 2 >> sync_to_acc.log 2>&1
+REM Form/email leads for EVERY OTHER tenant (BG Concrete + future clients) flow through the Resend
+REM API (each site's quote form emails the notification). Route by sender -> tenant (TENANT_MAP).
+"C:\gadsenv\Scripts\python.exe" sync_resend_leads.py --days 2 >> sync_resend_leads.log 2>&1
