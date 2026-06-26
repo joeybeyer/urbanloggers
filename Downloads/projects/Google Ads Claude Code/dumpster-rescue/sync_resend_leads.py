@@ -17,10 +17,26 @@ Usage:
 import os, re, json, argparse, urllib.request, urllib.error
 from datetime import datetime, timedelta, timezone
 
-# from-sender substring -> (tenant_id, vertical). Add a client here to onboard its email leads.
-TENANT_MAP = [
+# from-sender substring -> (tenant_id, vertical). The LIVE map is pulled from ACC
+# (GET /api/leads/routing) so onboarding a client via the cockpit form registers its email
+# routing with ZERO code change. This hardcoded list is only a fallback if ACC is unreachable.
+TENANT_MAP_FALLBACK = [
     ("BG Concrete", ("bg-concrete", "concrete")),
 ]
+
+def load_tenant_map(base, akey):
+    """Pull the resend routing map from ACC; fall back to the hardcoded list on any error."""
+    if not akey:
+        return list(TENANT_MAP_FALLBACK)
+    try:
+        req = urllib.request.Request(base.rstrip("/") + "/api/leads/routing?channel=resend",
+            headers={"X-API-Key": akey, "User-Agent": "acc-connector"})
+        d = json.load(urllib.request.urlopen(req, timeout=20))
+        m = [(r["match_key"], (r["tenant_id"], r.get("vertical"))) for r in d.get("routes", []) if r.get("match_key")]
+        return m or list(TENANT_MAP_FALLBACK)
+    except Exception as ex:
+        print("  (routing fetch failed, using fallback map:", ex, ")")
+        return list(TENANT_MAP_FALLBACK)
 
 # A real new-lead email (vs digests / reminders / signups / auto-callbacks). Sender must also
 # be in TENANT_MAP. These subjects are the website-form notifications.
@@ -48,8 +64,8 @@ def api(url, key):
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
-def tenant_for(sender):
-    for sub, tv in TENANT_MAP:
+def tenant_for(sender, tmap):
+    for sub, tv in tmap:
         if sub.lower() in (sender or "").lower():
             return tv
     return None
@@ -97,6 +113,8 @@ def main():
     if not akey and not a.dry_run:
         print("ACC_API_KEY missing in .env — mint one in ACC (apiKeys). Skipping."); return
 
+    tmap = load_tenant_map(base, akey)
+    print("Routing map:", ", ".join(f"{k}->{v[0]}" for k, v in tmap))
     cutoff = datetime.now(timezone.utc) - timedelta(days=a.days)
     # Resend list is newest-first; page until we pass the cutoff.
     emails, url = [], RESEND + "/emails?limit=100"
@@ -121,7 +139,7 @@ def main():
         except ValueError:
             pass
         sender, subject = em.get("from", ""), em.get("subject", "") or ""
-        tv = tenant_for(sender)
+        tv = tenant_for(sender, tmap)
         if not tv:
             continue
         if SKIP_SUBJECT.search(subject) or not LEAD_SUBJECT.search(subject):
