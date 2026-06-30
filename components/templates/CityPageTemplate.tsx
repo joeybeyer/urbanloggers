@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { services } from '@/data/services'
-import type { Location } from '@/data/locations'
+import { locations, type Location } from '@/data/locations'
 
 interface CityPageTemplateProps {
   location: Location
@@ -9,6 +9,10 @@ interface CityPageTemplateProps {
 }
 
 export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
+  // 2-3 ACROSS: same-county sibling cities (hub-and-spoke silo linking)
+  const siblings = locations
+    .filter((l) => l.county === location.county && l.slug !== location.slug)
+    .slice(0, 3)
   return (
     <>
       {schemas.map((schema, i) => (
@@ -196,11 +200,24 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       {/* Internal links */}
       <nav aria-label="Related pages" className="py-8 px-4 bg-warm-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto">
-          <p className="text-sm text-gray-500 mb-3">Related pages:</p>
+          {siblings.length > 0 && (
+            <>
+              <p className="text-sm text-gray-500 mb-3">Tree service in nearby {location.county} cities:</p>
+              <div className="flex flex-wrap gap-3 mb-5">
+                {siblings.map((s) => (
+                  <Link key={s.slug} href={`/${s.slug}/`} className="text-brand-green hover:underline text-sm">
+                    {s.name} Tree Service
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
+          <p className="text-sm text-gray-500 mb-3">Explore our services:</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/" className="text-brand-green hover:underline text-sm">← Home</Link>
-            <Link href="/milwaukee/" className="text-brand-green hover:underline text-sm">Milwaukee</Link>
             <Link href="/tree-removal/" className="text-brand-green hover:underline text-sm">Tree Removal</Link>
+            <Link href="/tree-trimming-pruning/" className="text-brand-green hover:underline text-sm">Tree Trimming</Link>
+            <Link href="/stump-grinding/" className="text-brand-green hover:underline text-sm">Stump Grinding</Link>
             <Link href="/emergency-tree-service/" className="text-brand-green hover:underline text-sm">Emergency Service</Link>
             <Link href="/contact/" className="text-brand-green hover:underline text-sm">Get a Quote</Link>
           </div>
