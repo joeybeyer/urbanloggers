@@ -23,7 +23,7 @@ export function MobileCTA() {
       <div className="mx-auto max-w-7xl px-3 pb-3">
         <div className="grid grid-cols-2 gap-2 rounded-2xl bg-brand-green p-3 shadow-2xl">
           <a
-            href="tel:4145140750"
+            href="tel:4142404626"
             className="flex items-center justify-center rounded-xl bg-white text-brand-green font-semibold py-3 text-sm shadow-md"
           >
             📞 Call Now

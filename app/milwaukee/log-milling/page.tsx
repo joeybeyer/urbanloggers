@@ -6,7 +6,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 const baseMetadata = buildMetadata(
   'Log Milling in Milwaukee, WI | Urban Loggers LLC',
-  'Portable sawmill services in Milwaukee for custom slabs, beams, and lumber. Sustainable milling for storm-felled trees. Call (414) 514-0750.',
+  'Portable sawmill services in Milwaukee for custom slabs, beams, and lumber. Sustainable milling for storm-felled trees. Call (414) 240-4626.',
   '/milwaukee/log-milling/'
 )
 

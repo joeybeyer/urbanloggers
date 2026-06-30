@@ -41,6 +41,26 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
         </div>
       </section>
 
+      {/* Quick cost guide — AIO/PAA extractable, city-local */}
+      <section className="py-10 px-4 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-charcoal mb-3">
+            {location.name} Tree Service Cost Guide
+          </h2>
+          <p className="faq-answer text-gray-700 mb-4">
+            Tree service in {location.name}, WI typically costs $300 to $2,000+ per project — small
+            trimming jobs start around $100–$500 and full removals run $700–$2,500+ depending on size,
+            location, and access. Urban Loggers provides free, no-obligation on-site estimates.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700">
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Tree removal:</strong> $300–$2,000+</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Stump grinding:</strong> $75–$400 per stump</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Trimming &amp; pruning:</strong> $100–$500 per tree</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Emergency / storm:</strong> 24/7, priced on scope</li>
+          </ul>
+        </div>
+      </section>
+
       {/* Services targeting this city */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
@@ -101,6 +121,21 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
         </div>
       </section>
 
+      {/* How it works — AIO "how" framing */}
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-charcoal mb-6">
+            How We Work With {location.name} Homeowners
+          </h2>
+          <ol className="space-y-3 text-gray-700">
+            <li><strong>1. Free on-site assessment</strong> — Brian visits your property, usually within 48 hours.</li>
+            <li><strong>2. Written, itemized quote</strong> — clear pricing, no pressure, no hidden fees.</li>
+            <li><strong>3. Insurance documentation</strong> — provided for your records or claims if needed.</li>
+            <li><strong>4. Clean, professional work</strong> — full debris cleanup and a post-job walkthrough.</li>
+          </ol>
+        </div>
+      </section>
+
       {/* FAQs */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
@@ -110,8 +145,8 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
           <div className="space-y-4">
             {location.faqs.map((faq) => (
               <div key={faq.question} className="bg-warm-white rounded-lg p-6 border border-gray-100">
-                <h3 className="font-semibold text-charcoal mb-2">{faq.question}</h3>
-                <p className="text-gray-700 text-sm leading-relaxed">{faq.answer}</p>
+                <h3 className="faq-question font-semibold text-charcoal mb-2">{faq.question}</h3>
+                <p className="faq-answer text-gray-700 text-sm leading-relaxed">{faq.answer}</p>
               </div>
             ))}
           </div>

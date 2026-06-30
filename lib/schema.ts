@@ -14,7 +14,7 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
 
   return {
     '@context': 'https://schema.org',
-    '@type': ['LocalBusiness', 'HomeAndConstructionBusiness'],
+    '@type': ['LocalBusiness', 'HomeAndConstructionBusiness', 'TreeService'],
     '@id': id,
     name: COMPANY.name,
     description:
@@ -39,12 +39,20 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
     areaServed: areaServed
       ? { '@type': 'City', name: areaServed }
       : { '@type': 'AdministrativeArea', name: 'Greater Milwaukee, WI' },
+    // NOTE: confirm Urban Loggers' real business hours — these are typical defaults. 24/7 emergency
+    // availability is conveyed in page copy, not as literal all-day schema hours (which read as fake).
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        opens: '00:00',
-        closes: '23:59',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '07:00',
+        closes: '18:00',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'Saturday',
+        opens: '08:00',
+        closes: '16:00',
       },
     ],
     founder: {
@@ -52,10 +60,23 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
       name: COMPANY.owner,
     },
     hasCredential: COMPANY.credentials,
-    sameAs: [
-      'https://www.angi.com',
-      'https://nextdoor.com',
+    knowsAbout: [
+      'Tree Removal',
+      'Tree Trimming',
+      'Tree Pruning',
+      'Stump Grinding',
+      'Emergency Tree Service',
+      'Storm Damage Cleanup',
+      'Log Milling',
+      'Portable Sawmill',
     ],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: COMPANY.rating,
+      reviewCount: COMPANY.reviewCount,
+      bestRating: 5,
+    },
+    sameAs: Object.values(COMPANY.social),
   }
 }
 
@@ -80,8 +101,8 @@ export function serviceSchema(
       url: BASE_URL,
     },
     areaServed: {
-      '@type': 'City',
-      name: 'Milwaukee, WI',
+      '@type': 'AdministrativeArea',
+      name: 'Greater Milwaukee, WI',
     },
     url,
     offers: {
@@ -90,6 +111,12 @@ export function serviceSchema(
       priceRange: priceRange ?? '$$',
       availability: 'https://schema.org/InStock',
     },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: COMPANY.rating,
+      reviewCount: COMPANY.reviewCount,
+      bestRating: 5,
+    },
   }
 }
 
@@ -97,6 +124,10 @@ export function faqSchema(faqs: FAQ[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.faq-question', '.faq-answer'],
+    },
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
@@ -161,9 +192,6 @@ export function organizationSchema() {
       telephone: COMPANY.phone,
       contactType: 'customer service',
     },
-    sameAs: [
-      'https://www.angi.com',
-      'https://nextdoor.com',
-    ],
+    sameAs: Object.values(COMPANY.social),
   }
 }

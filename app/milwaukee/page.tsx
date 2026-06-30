@@ -8,7 +8,7 @@ import { PhoneButton } from '@/components/ui/PhoneButton'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Milwaukee, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in Milwaukee, WI. 20+ years experience, fully insured. Free estimates. Call (414) 514-0750.',
+    'Professional tree removal, trimming & stump grinding in Milwaukee, WI. 20+ years experience, fully insured. Free estimates. Call (414) 240-4626.',
     '/milwaukee/'
   ),
   other: {
@@ -372,7 +372,7 @@ export default function MilwaukeePage() {
           </p>
           <p className="text-gray-700 leading-relaxed">
             If a tree is resting on a roof, power lines are involved, or a limb is hanging over a driveway, call us
-            immediately at (414) 514-0750. We will prioritize safety and coordinate with utility providers when required.
+            immediately at (414) 240-4626. We will prioritize safety and coordinate with utility providers when required.
           </p>
         </div>
       </section>

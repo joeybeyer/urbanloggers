@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Emergency Tree Service in Waukesha, WI | Urban Loggers LLC',
-    'Reliable emergency tree service in Waukesha, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 514-0750.',
+    'Reliable emergency tree service in Waukesha, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 240-4626.',
     '/waukesha/emergency/'
   ),
   other: {

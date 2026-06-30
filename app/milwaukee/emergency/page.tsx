@@ -6,7 +6,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 const baseMetadata = buildMetadata(
   'Emergency Tree Service in Milwaukee, WI | Urban Loggers LLC',
-  '24/7 emergency tree service in Milwaukee for storm damage, fallen trees, and power line hazards. Fast response in neighborhoods citywide. Call (414) 514-0750.',
+  '24/7 emergency tree service in Milwaukee for storm damage, fallen trees, and power line hazards. Fast response in neighborhoods citywide. Call (414) 240-4626.',
   '/milwaukee/emergency/'
 )
 

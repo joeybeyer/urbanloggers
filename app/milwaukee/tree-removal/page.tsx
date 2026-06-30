@@ -6,7 +6,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 const baseMetadata = buildMetadata(
   'Tree Removal in Milwaukee, WI | Urban Loggers LLC',
-  'Trusted tree removal in Milwaukee neighborhoods like Bay View and Shorewood. Safe rigging near structures, full cleanup included. Call (414) 514-0750.',
+  'Trusted tree removal in Milwaukee neighborhoods like Bay View and Shorewood. Safe rigging near structures, full cleanup included. Call (414) 240-4626.',
   '/milwaukee/tree-removal/'
 )
 

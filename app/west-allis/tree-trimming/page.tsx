@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Trimming in West Allis, WI | Urban Loggers LLC',
-    'Reliable tree trimming in West Allis, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 514-0750.',
+    'Reliable tree trimming in West Allis, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 240-4626.',
     '/west-allis/tree-trimming/'
   ),
   other: {

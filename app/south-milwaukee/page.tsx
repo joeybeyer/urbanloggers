@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service South Milwaukee, WI | Urban Loggers LLC',
-    'Expert tree removal, trimming & stump grinding in South Milwaukee, WI. Fully insured, free estimates. Call (414) 514-0750.',
+    'Expert tree removal, trimming & stump grinding in South Milwaukee, WI. Fully insured, free estimates. Call (414) 240-4626.',
     '/south-milwaukee/'
   ),
   other: {

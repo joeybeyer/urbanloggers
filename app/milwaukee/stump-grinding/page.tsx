@@ -6,7 +6,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 const baseMetadata = buildMetadata(
   'Stump Grinding in Milwaukee, WI | Urban Loggers LLC',
-  'Affordable stump grinding in Milwaukee with below-grade removal and cleanup. Ideal for yards in Bay View, Riverwest, and beyond. Call (414) 514-0750.',
+  'Affordable stump grinding in Milwaukee with below-grade removal and cleanup. Ideal for yards in Bay View, Riverwest, and beyond. Call (414) 240-4626.',
   '/milwaukee/stump-grinding/'
 )
 

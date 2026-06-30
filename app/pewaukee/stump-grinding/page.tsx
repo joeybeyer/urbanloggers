@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Stump Grinding in Pewaukee, WI | Urban Loggers LLC',
-    'Reliable stump grinding in Pewaukee, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 514-0750.',
+    'Reliable stump grinding in Pewaukee, WI with Urban Loggers LLC. Fully insured crews, 20+ years of experience. Call (414) 240-4626.',
     '/pewaukee/stump-grinding/'
   ),
   other: {

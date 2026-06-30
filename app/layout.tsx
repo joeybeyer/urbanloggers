@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | Urban Loggers LLC',
   },
   description:
-    'Professional tree removal, trimming, stump grinding, and emergency tree service in Greater Milwaukee, WI. 20+ years experience. Call (414) 514-0750.',
+    'Professional tree removal, trimming, stump grinding, and emergency tree service in Greater Milwaukee, WI. 20+ years experience. Call (414) 240-4626.',
   metadataBase: new URL('https://urbanloggers.org'),
 }
 

@@ -28,7 +28,7 @@ export function ServicesGrid() {
                     <div className="h-48 overflow-hidden">
                       <img
                         src={service.image}
-                        alt={service.name}
+                        alt={`${service.name} in Greater Milwaukee — Urban Loggers LLC`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />

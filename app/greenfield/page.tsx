@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Greenfield, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in Greenfield, WI. Fully insured. Free estimates. Call (414) 514-0750.',
+    'Professional tree removal, trimming & stump grinding in Greenfield, WI. Fully insured. Free estimates. Call (414) 240-4626.',
     '/greenfield/'
   ),
   other: {

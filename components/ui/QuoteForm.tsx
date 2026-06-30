@@ -58,7 +58,7 @@ export function QuoteForm() {
         setState('error')
       }
     } catch {
-      setErrorMessage('Network error. Please call us directly at (414) 514-0750.')
+      setErrorMessage('Network error. Please call us directly at (414) 240-4626.')
       setState('error')
     }
   }
@@ -70,8 +70,8 @@ export function QuoteForm() {
         <h3 className="text-xl font-semibold text-brand-green mb-2">Request Received!</h3>
         <p className="text-gray-700">
           Brian will be in touch within 24 hours. For urgent needs, call{' '}
-          <a href="tel:4145140750" className="font-semibold text-brand-green underline">
-            (414) 514-0750
+          <a href="tel:4142404626" className="font-semibold text-brand-green underline">
+            (414) 240-4626
           </a>
           .
         </p>
