@@ -109,7 +109,7 @@ export const services: Service[] = [
       {
         question: 'Do you offer 24/7 emergency tree service?',
         answer:
-          'Yes. Call (414) 514-0750 any time for emergency response. We prioritize calls where a tree is on a structure or blocking access.',
+          'Yes. Call (414) 240-4626 any time for emergency response. We prioritize calls where a tree is on a structure or blocking access.',
       },
       {
         question: 'Does homeowner\'s insurance cover emergency tree removal?',

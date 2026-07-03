@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Racine, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & emergency tree service in Racine, WI. Fully insured. Free estimates. Call (414) 514-0750.',
+    'Professional tree removal, trimming & emergency tree service in Racine, WI. Fully insured. Free estimates. Call (414) 240-4626.',
     '/racine/'
   ),
   other: {

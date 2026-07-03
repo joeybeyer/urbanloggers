@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Mount Pleasant, WI | Urban Loggers LLC',
-    'Expert tree removal, trimming & stump grinding in Mount Pleasant, WI. Fully insured. Free estimates. Call (414) 514-0750.',
+    'Expert tree removal, trimming & stump grinding in Mount Pleasant, WI. Fully insured. Free estimates. Call (414) 240-4626.',
     '/mount-pleasant/'
   ),
   other: {

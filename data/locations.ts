@@ -77,7 +77,7 @@ export const locations: Location[] = [
       {
         question: 'How quickly can you respond to storm damage in West Allis?',
         answer:
-          'For hazardous trees or limbs after a storm, we prioritize West Allis calls and often respond the same day. If a tree is on a structure or blocking a driveway, call us at (414) 514-0750 for emergency scheduling. We’ll secure the site and remove debris safely.',
+          'For hazardous trees or limbs after a storm, we prioritize West Allis calls and often respond the same day. If a tree is on a structure or blocking a driveway, call us at (414) 240-4626 for emergency scheduling. We’ll secure the site and remove debris safely.',
       },
       {
         question: 'Do you recommend replacing old silver maples?',
@@ -271,7 +271,7 @@ export const locations: Location[] = [
       {
         question: 'Do you offer 24/7 emergency service in Racine?',
         answer:
-          'Yes. When storms or lake winds cause hazardous trees, call (414) 514-0750 anytime. We prioritize safety, secure the site, and remove dangerous limbs or fallen trees quickly.',
+          'Yes. When storms or lake winds cause hazardous trees, call (414) 240-4626 anytime. We prioritize safety, secure the site, and remove dangerous limbs or fallen trees quickly.',
       },
     ],
   },

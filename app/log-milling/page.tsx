@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'Log Milling & Portable Sawmill Milwaukee, WI | Urban Loggers LLC',
-  "Don't chip your trees — mill them. Urban Loggers LLC turns felled hardwoods into live-edge slabs, custom lumber & beams in Greater Milwaukee. Call (414) 514-0750.",
+  "Don't chip your trees — mill them. Urban Loggers LLC turns felled hardwoods into live-edge slabs, custom lumber & beams in Greater Milwaukee. Call (414) 240-4626.",
   '/log-milling/'
 )
 

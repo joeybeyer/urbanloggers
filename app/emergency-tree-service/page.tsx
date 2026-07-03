@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'Emergency Tree Service Milwaukee, WI | 24/7 Storm Response | Urban Loggers LLC',
-  'Fallen tree on your home? Storm damage in Milwaukee? Urban Loggers LLC responds 24/7. Call (414) 514-0750 now for emergency tree removal.',
+  'Fallen tree on your home? Storm damage in Milwaukee? Urban Loggers LLC responds 24/7. Call (414) 240-4626 now for emergency tree removal.',
   '/emergency-tree-service/'
 )
 
@@ -49,7 +49,7 @@ export default function EmergencyTreeServicePage() {
           <p className="text-xl text-red-100 mb-8">
             Fallen tree on your home? Hazardous limb over your driveway? We respond now.
           </p>
-          <PhoneButton size="lg" label="Call (414) 514-0750 Now" className="bg-white !text-red-700 hover:bg-red-50" />
+          <PhoneButton size="lg" label="Call (414) 240-4626 Now" className="bg-white !text-red-700 hover:bg-red-50" />
           <p className="mt-4 text-red-200 text-sm">Available 24 hours, 7 days a week</p>
         </div>
       </section>
@@ -73,7 +73,7 @@ export default function EmergencyTreeServicePage() {
                   ['Service Area', 'Greater Milwaukee, WI'],
                   ['Insurance Docs', 'Yes — we provide for your claim'],
                   ['Power Line Trees', 'We coordinate with We Energies'],
-                  ['Phone', '(414) 514-0750'],
+                  ['Phone', '(414) 240-4626'],
                 ].map(([label, value]) => (
                   <tr key={label} className="hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium text-charcoal">{label}</td>
@@ -130,7 +130,7 @@ export default function EmergencyTreeServicePage() {
             Every minute a damaged tree rests on your home risks further structural damage.
             Call Urban Loggers LLC for immediate response.
           </p>
-          <PhoneButton size="lg" label="Call (414) 514-0750" className="bg-white !text-red-700 hover:bg-red-50" />
+          <PhoneButton size="lg" label="Call (414) 240-4626" className="bg-white !text-red-700 hover:bg-red-50" />
         </div>
       </section>
 

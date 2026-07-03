@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Brookfield, WI | Urban Loggers LLC',
-    'Expert tree removal, trimming & log milling in Brookfield, WI. Large hardwood specialists. Fully insured. Call (414) 514-0750.',
+    'Expert tree removal, trimming & log milling in Brookfield, WI. Large hardwood specialists. Fully insured. Call (414) 240-4626.',
     '/brookfield/'
   ),
   other: {

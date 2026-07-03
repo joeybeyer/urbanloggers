@@ -8,7 +8,7 @@ import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'Get a Free Tree Service Quote | Urban Loggers LLC Milwaukee',
-  'Request a free tree removal, trimming, or stump grinding quote in Greater Milwaukee. Call (414) 514-0750 or submit online — Brian responds within 24 hours.',
+  'Request a free tree removal, trimming, or stump grinding quote in Greater Milwaukee. Call (414) 240-4626 or submit online — Brian responds within 24 hours.',
   '/contact/'
 )
 

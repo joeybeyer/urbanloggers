@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { services } from '@/data/services'
-import type { Location } from '@/data/locations'
+import { locations, type Location } from '@/data/locations'
 
 interface CityPageTemplateProps {
   location: Location
@@ -9,6 +9,10 @@ interface CityPageTemplateProps {
 }
 
 export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
+  // 2-3 ACROSS: same-county sibling cities (hub-and-spoke silo linking)
+  const siblings = locations
+    .filter((l) => l.county === location.county && l.slug !== location.slug)
+    .slice(0, 3)
   return (
     <>
       {schemas.map((schema, i) => (
@@ -38,6 +42,26 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
               Free Estimate
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Quick cost guide — AIO/PAA extractable, city-local */}
+      <section className="py-10 px-4 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-charcoal mb-3">
+            {location.name} Tree Service Cost Guide
+          </h2>
+          <p className="faq-answer text-gray-700 mb-4">
+            Tree service in {location.name}, WI typically costs $300 to $2,000+ per project — small
+            trimming jobs start around $100–$500 and full removals run $700–$2,500+ depending on size,
+            location, and access. Urban Loggers provides free, no-obligation on-site estimates.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700">
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Tree removal:</strong> $300–$2,000+</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Stump grinding:</strong> $75–$400 per stump</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Trimming &amp; pruning:</strong> $100–$500 per tree</li>
+            <li className="bg-warm-white rounded-md px-4 py-2"><strong>Emergency / storm:</strong> 24/7, priced on scope</li>
+          </ul>
         </div>
       </section>
 
@@ -101,6 +125,21 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
         </div>
       </section>
 
+      {/* How it works — AIO "how" framing */}
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-charcoal mb-6">
+            How We Work With {location.name} Homeowners
+          </h2>
+          <ol className="space-y-3 text-gray-700">
+            <li><strong>1. Free on-site assessment</strong> — Brian visits your property, usually within 48 hours.</li>
+            <li><strong>2. Written, itemized quote</strong> — clear pricing, no pressure, no hidden fees.</li>
+            <li><strong>3. Insurance documentation</strong> — provided for your records or claims if needed.</li>
+            <li><strong>4. Clean, professional work</strong> — full debris cleanup and a post-job walkthrough.</li>
+          </ol>
+        </div>
+      </section>
+
       {/* FAQs */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
@@ -110,8 +149,8 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
           <div className="space-y-4">
             {location.faqs.map((faq) => (
               <div key={faq.question} className="bg-warm-white rounded-lg p-6 border border-gray-100">
-                <h3 className="font-semibold text-charcoal mb-2">{faq.question}</h3>
-                <p className="text-gray-700 text-sm leading-relaxed">{faq.answer}</p>
+                <h3 className="faq-question font-semibold text-charcoal mb-2">{faq.question}</h3>
+                <p className="faq-answer text-gray-700 text-sm leading-relaxed">{faq.answer}</p>
               </div>
             ))}
           </div>
@@ -161,11 +200,24 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       {/* Internal links */}
       <nav aria-label="Related pages" className="py-8 px-4 bg-warm-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto">
-          <p className="text-sm text-gray-500 mb-3">Related pages:</p>
+          {siblings.length > 0 && (
+            <>
+              <p className="text-sm text-gray-500 mb-3">Tree service in nearby {location.county} cities:</p>
+              <div className="flex flex-wrap gap-3 mb-5">
+                {siblings.map((s) => (
+                  <Link key={s.slug} href={`/${s.slug}/`} className="text-brand-green hover:underline text-sm">
+                    {s.name} Tree Service
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
+          <p className="text-sm text-gray-500 mb-3">Explore our services:</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/" className="text-brand-green hover:underline text-sm">← Home</Link>
-            <Link href="/milwaukee/" className="text-brand-green hover:underline text-sm">Milwaukee</Link>
             <Link href="/tree-removal/" className="text-brand-green hover:underline text-sm">Tree Removal</Link>
+            <Link href="/tree-trimming-pruning/" className="text-brand-green hover:underline text-sm">Tree Trimming</Link>
+            <Link href="/stump-grinding/" className="text-brand-green hover:underline text-sm">Stump Grinding</Link>
             <Link href="/emergency-tree-service/" className="text-brand-green hover:underline text-sm">Emergency Service</Link>
             <Link href="/contact/" className="text-brand-green hover:underline text-sm">Get a Quote</Link>
           </div>

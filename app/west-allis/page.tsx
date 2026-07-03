@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service West Allis, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & emergency tree service in West Allis, WI. Fully insured. Call (414) 514-0750 for a free estimate.',
+    'Professional tree removal, trimming & emergency tree service in West Allis, WI. Fully insured. Call (414) 240-4626 for a free estimate.',
     '/west-allis/'
   ),
   other: {

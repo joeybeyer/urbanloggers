@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Port Washington, WI | Urban Loggers LLC',
-    'Expert tree removal & trimming in Port Washington, WI. Bluff property specialists. Fully insured. Call (414) 514-0750.',
+    'Expert tree removal & trimming in Port Washington, WI. Bluff property specialists. Fully insured. Call (414) 240-4626.',
     '/port-washington/'
   ),
   other: {

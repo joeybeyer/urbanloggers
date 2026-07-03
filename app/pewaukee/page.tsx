@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Pewaukee, WI | Urban Loggers LLC',
-    'Expert tree removal & trimming in Pewaukee, WI. Shoreline specialists. Fully insured. Call (414) 514-0750 for a free estimate.',
+    'Expert tree removal & trimming in Pewaukee, WI. Shoreline specialists. Fully insured. Call (414) 240-4626 for a free estimate.',
     '/pewaukee/'
   ),
   other: {

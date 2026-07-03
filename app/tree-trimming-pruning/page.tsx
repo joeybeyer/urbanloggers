@@ -7,7 +7,7 @@ import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'Tree Trimming & Pruning Milwaukee, WI | Urban Loggers LLC',
-  'Expert tree trimming and pruning in Greater Milwaukee. Crown thinning, deadwood removal, orchard pruning. Call (414) 514-0750 for a free estimate.',
+  'Expert tree trimming and pruning in Greater Milwaukee. Crown thinning, deadwood removal, orchard pruning. Call (414) 240-4626 for a free estimate.',
   '/tree-trimming-pruning/'
 )
 

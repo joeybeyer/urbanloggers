@@ -7,7 +7,7 @@ import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service New Berlin, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming & stump grinding in New Berlin, WI. Fully insured, free estimates. Call (414) 514-0750.',
+    'Professional tree removal, trimming & stump grinding in New Berlin, WI. Fully insured, free estimates. Call (414) 240-4626.',
     '/new-berlin/'
   ),
   other: {
