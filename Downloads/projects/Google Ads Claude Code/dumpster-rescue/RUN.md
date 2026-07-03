@@ -1,5 +1,16 @@
 # RUN — `upload_won_from_accdb.py` (box-side won-job → Google Ads offline conversions)
 
+> **CHOSEN DEPLOYMENT (2026-07-02): Option 1b — SSH bridge, NOT box-side.**
+> Run `upload_won_ssh.py` from Windows instead: it snapshots acc.db on the box
+> (`sqlite3 .backup`, WAL-safe), pulls it via scp, and runs this uploader locally —
+> **no Google tokens ever go to the VPS**, acc.db is never written (`--mark` refused).
+> ```
+> C:\gadsenv\Scripts\python.exe upload_won_ssh.py --dry-run          # SAFE
+> C:\gadsenv\Scripts\python.exe upload_won_ssh.py --tenant dumpster  # real
+> ```
+> Verified end-to-end 2026-07-02 (13 won dumpster leads, all gclid-less → correctly skipped).
+> The box-side instructions below remain valid as a fallback if you ever prefer cron-on-box.
+
 "Option 1" from `OFFLINE-CONVERSIONS-HANDOFF.md`: skip the broken
 `agencycommandcenter.ai/api/leads/won-conversions` path (nginx → acc-api:3051 → empty
 `tasks.db`) and read the REAL data directly from `/home/biggelsworth/acc-api/acc.db`
