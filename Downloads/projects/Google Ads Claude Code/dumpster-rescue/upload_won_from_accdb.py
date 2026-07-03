@@ -89,14 +89,15 @@ def ads_access_token():
     return oauth_access_token(os.getenv("GOOGLE_ADS_REFRESH_TOKEN"), "GOOGLE_ADS_REFRESH_TOKEN (adwords scope)")
 
 
-def action_id(cid, ads_token):
-    """Numeric id of the tenant's 'Closed Job Revenue (Offline)' conversion action
-    (= DM productDestinationId). Uses the Ads REST API so the box needs no google-ads
-    library. If the API version rots, set GOOGLE_ADS_API_VERSION or pass --action-id."""
+def action_id(cid, ads_token, name=None):
+    """Numeric id of a conversion action by name (= DM productDestinationId). Uses the
+    Ads REST API so the box needs no google-ads library. If the API version rots, set
+    GOOGLE_ADS_API_VERSION or pass --action-id."""
+    name = name or ACTION_NAME
     ver = os.getenv("GOOGLE_ADS_API_VERSION", "v21")
     url = f"https://googleads.googleapis.com/{ver}/customers/{cid}/googleAds:searchStream"
     body = json.dumps({"query":
-        f"SELECT conversion_action.id FROM conversion_action WHERE conversion_action.name = '{ACTION_NAME}'"}).encode()
+        f"SELECT conversion_action.id FROM conversion_action WHERE conversion_action.name = '{name}'"}).encode()
     req = urllib.request.Request(url, data=body, method="POST", headers={
         "Authorization": "Bearer " + ads_token,
         "developer-token": os.environ["GOOGLE_ADS_DEVELOPER_TOKEN"],
