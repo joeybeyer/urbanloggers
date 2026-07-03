@@ -33,8 +33,7 @@ except Exception:
 from upload_won_from_accdb import (load_env, dm_access_token, ads_access_token,
                                    action_id, rfc3339, DM_ENDPOINT, MCC)
 
-CID = "2253432096"                                  # dumpster Ads acct
-TENANT = "dumpster"
+TENANT_ADS = {"dumpster": "2253432096", "bg-concrete": "1488904463"}
 ACTION_NAME = "Qualified Phone Lead (Offline)"
 CALL_LEAD_VALUE = 50.0                              # nominal value per qualified call lead
 
@@ -93,14 +92,14 @@ def save_seen(seen):
     json.dump(sorted(seen), open(SEEN_FILE, "w"), indent=0)
 
 
-def qualified_calls(db_path, dni, min_duration, seen):
+def qualified_calls(db_path, tenant, dni, min_duration, seen):
     con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, timeout=5)
     con.row_factory = sqlite3.Row
     try:
         rows = con.execute(
             "SELECT external_id, call_duration, created_at, metadata FROM leads "
             "WHERE tenant_id=? AND channel='call' ORDER BY created_at DESC LIMIT 1000",
-            (TENANT,)).fetchall()
+            (tenant,)).fetchall()
     finally:
         con.close()
     out, no_gclid = [], 0
@@ -124,45 +123,20 @@ def qualified_calls(db_path, dni, min_duration, seen):
     return out, no_gclid
 
 
-def main():
-    ap = argparse.ArgumentParser(description="qualified paid calls (acc.db via ssh) -> Data Manager")
-    ap.add_argument("--min-duration", type=int, default=60, help="seconds connected to qualify")
-    ap.add_argument("--dry-run", action="store_true", help="validateOnly=true; writes nothing anywhere")
-    ap.add_argument("--action-id", default=os.getenv("QUALIFIED_CALL_ACTION_ID"),
-                    help="pin the conversion-action numeric id (skips the Ads API lookup)")
-    ap.add_argument("--env", default=None, help="path to .env with Google tokens")
-    a = ap.parse_args()
-    load_env(a.env)
-    for k in ("GOOGLE_ADS_CLIENT_ID", "GOOGLE_ADS_CLIENT_SECRET", "GOOGLE_ADS_DEVELOPER_TOKEN"):
-        if not os.getenv(k):
-            sys.exit(f"{k} missing — point --env at the .env holding the Google credentials")
-
-    dm_token = dm_access_token()                      # fail fast if DM token bad
-    aid = a.action_id or action_id(CID, ads_access_token(), ACTION_NAME)
-    if not aid:
-        sys.exit(f"Conversion action '{ACTION_NAME}' not found in {CID} — "
-                 "run create_call_conversion_action.py first.")
-
-    seen = load_seen()
-    dni = fetch_dni_map()
-    snap = fetch_snapshot()
-    try:
-        rows, no_gclid = qualified_calls(snap, dni, a.min_duration, seen)
-    finally:
-        try:
-            os.remove(snap)
-        except OSError:
-            pass
-
+def run_tenant(tenant, cid, snap, dni, a, dm_token, ads_token, seen):
+    rows, no_gclid = qualified_calls(snap, tenant, dni, a.min_duration, seen)
     if not rows:
-        print(f"Nothing to upload ({no_gclid} qualified call(s) w/o gclid — organic/pre-DNI)."
-              if no_gclid else "Nothing to upload.")
+        print(f"  {tenant}: nothing to upload"
+              + (f" ({no_gclid} qualified call(s) w/o gclid — organic/pre-DNI)" if no_gclid else ""))
         return
-    print(f"{len(rows)} qualified PAID call(s) with a gclid"
+    aid = a.action_id if (a.action_id and a.tenant) else action_id(cid, ads_token, ACTION_NAME)
+    if not aid:
+        print(f"  {tenant}: action '{ACTION_NAME}' missing in {cid} — create it first."); return
+    print(f"  {tenant}: {len(rows)} qualified PAID call(s) with a gclid"
           + (f" ({no_gclid} more w/o gclid — organic)" if no_gclid else "") + ":")
 
     destination = {"reference": "primary",
-        "operatingAccount": {"accountType": "GOOGLE_ADS", "accountId": CID},
+        "operatingAccount": {"accountType": "GOOGLE_ADS", "accountId": cid},
         "loginAccount": {"accountType": "GOOGLE_ADS", "accountId": MCC},
         "productDestinationId": str(aid)}
     events = []
@@ -172,7 +146,7 @@ def main():
             "eventTimestamp": rfc3339(r["when"] or ""),
             "currency": "USD", "conversionValue": CALL_LEAD_VALUE,
             "adIdentifiers": {"gclid": r["gclid"]}})
-        print(f"  {r['src']:28} {r['dur']:>4}s @ {events[-1]['eventTimestamp']} gclid={r['gclid'][:16]}…")
+        print(f"    {r['src']:28} {r['dur']:>4}s @ {events[-1]['eventTimestamp']} gclid={r['gclid'][:16]}…")
 
     body = {"destinations": [destination], "events": events, "validateOnly": bool(a.dry_run)}
     req = urllib.request.Request(DM_ENDPOINT, data=json.dumps(body).encode(), method="POST",
@@ -181,17 +155,52 @@ def main():
         with urllib.request.urlopen(req, timeout=40) as r:
             resp = json.loads(r.read() or b"{}")
     except urllib.error.HTTPError as e:
-        sys.exit(f"INGEST FAILED {e.code}: {e.read().decode()[:300]}")
+        print(f"  {tenant}: INGEST FAILED {e.code}: {e.read().decode()[:300]}"); return
 
     if resp.get("partialFailureError") or resp.get("errors"):
-        print(f"partial/errors: {json.dumps(resp)[:300]}")
+        print(f"  {tenant}: partial/errors: {json.dumps(resp)[:300]}")
     if a.dry_run:
-        print(f"[validateOnly] {len(events)} event(s) validated OK — not ingested, nothing written")
+        print(f"  {tenant}: [validateOnly] {len(events)} event(s) validated OK — not ingested, nothing written")
         return
     seen.update(r["key"] for r in rows)
     save_seen(seen)
-    print(f"\nIngested {len(events)} call conversion(s) into '{ACTION_NAME}' via Data Manager. "
-          "SECONDARY until you promote it.")
+    print(f"  {tenant}: ingested {len(events)} call conversion(s) into '{ACTION_NAME}' via Data Manager.")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="qualified paid calls (acc.db via ssh) -> Data Manager")
+    ap.add_argument("--tenant", default=None, help="one tenant only (dumpster | bg-concrete)")
+    ap.add_argument("--min-duration", type=int, default=60, help="seconds connected to qualify")
+    ap.add_argument("--dry-run", action="store_true", help="validateOnly=true; writes nothing anywhere")
+    ap.add_argument("--action-id", default=None,
+                    help="pin the conversion-action numeric id (only with --tenant)")
+    ap.add_argument("--env", default=None, help="path to .env with Google tokens")
+    a = ap.parse_args()
+    load_env(a.env)
+    for k in ("GOOGLE_ADS_CLIENT_ID", "GOOGLE_ADS_CLIENT_SECRET", "GOOGLE_ADS_DEVELOPER_TOKEN"):
+        if not os.getenv(k):
+            sys.exit(f"{k} missing — point --env at the .env holding the Google credentials")
+    items = [(t, c) for t, c in TENANT_ADS.items() if not a.tenant or t == a.tenant]
+    if not items:
+        sys.exit(f"unknown tenant '{a.tenant}' (known: {', '.join(TENANT_ADS)})")
+
+    dm_token = dm_access_token()                      # fail fast if DM token bad
+    ads_token = None if (a.action_id and a.tenant) else ads_access_token()
+    seen = load_seen()
+    dni = fetch_dni_map()
+    snap = fetch_snapshot()
+    print(f"call-conversion upload for {len(items)} client(s)" + (" [DRY]" if a.dry_run else ""))
+    try:
+        for tenant, cid in items:
+            try:
+                run_tenant(tenant, cid, snap, dni, a, dm_token, ads_token, seen)
+            except Exception as e:
+                print(f"  {tenant}: ERR {str(e)[:200]}")
+    finally:
+        try:
+            os.remove(snap)
+        except OSError:
+            pass
 
 
 if __name__ == "__main__":
