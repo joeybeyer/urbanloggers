@@ -67,21 +67,22 @@ const faqs = [
   },
 ]
 
+// Real, verbatim 5-star Google reviews from the business's Google Business Profile.
 const testimonials = [
   {
-    name: 'Megan R. – Bay View',
+    name: 'Katy Peshman',
     quote:
-      'Our old ash tree was declining fast. Brian explained the emerald ash borer risk, walked us through the permit process, and had the removal done safely. The crew was respectful and the yard was spotless.',
+      'The first meeting with Urban Loggers was not at all what I expected — no sales pitch, no extreme marketing. Once I got past that, they were extremely knowledgeable, easy to work with, and very reasonably priced. They made quick work of all the trees that needed to be removed and I would highly recommend them.',
   },
   {
-    name: 'Thomas L. – Wauwatosa (Tosa)',
+    name: 'Mary Wacker',
     quote:
-      'Urban Loggers trimmed a massive maple over our garage and suggested selective pruning instead of a full removal, which saved us money. The team was professional and fully insured, and it showed.',
+      'Urban Loggers are the best! After WE Energies left me with an enormous pile of debris, it was Urban Loggers to the rescue — they chipped the wood pile in a couple hours, leaving me with beautiful wood chips for landscaping. They go above and beyond.',
   },
   {
-    name: 'Jasmine K. – Walker’s Point',
+    name: 'Karen Sparapani',
     quote:
-      'After a storm dropped a limb on our fence, they arrived the same day. They even milled a section of the log for a tabletop. Great communication and true Milwaukee pros.',
+      'Brian came right away and got the fallen tree out of the fence, then gave me an estimate for a whole bunch of other work. They cleaned up beautifully and were well under the estimate. Took this city girl’s fear of the cost of tree removal away for good!',
   },
 ]
 
