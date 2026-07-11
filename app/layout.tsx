@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { MobileCTA } from '@/components/ui/MobileCTA'
+import { GclidCapture } from '@/components/GclidCapture'
 import { localBusinessSchema } from '@/lib/schema'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -53,6 +54,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
+        <GclidCapture />
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
