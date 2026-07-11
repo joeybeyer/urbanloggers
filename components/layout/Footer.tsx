@@ -93,10 +93,25 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Trust stack — real, verifiable trust nodes (add BBB/Yelp/Angi/social/podcast links as those profiles go live) */}
+        <div className="border-t border-gray-700 pt-6 mb-6">
+          <h4 className="text-white font-semibold mb-3 text-sm">Verify Us &amp; Read Reviews</h4>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <a href={COMPANY.social.google} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              ★ {COMPANY.rating} on Google · {COMPANY.reviewCount}+ reviews
+            </a>
+            <Link href="/insurance/" className="hover:text-white transition-colors">Licensed &amp; Insured — Coverage &amp; Policy</Link>
+            <a href={`https://www.google.com/maps?cid=1762089579775349192`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              Google Business Profile
+            </a>
+          </div>
+        </div>
+
         <div className="border-t border-gray-700 pt-6 text-sm text-gray-500 flex flex-col sm:flex-row justify-between gap-2">
           <p>© {new Date().getFullYear()} {COMPANY.name}. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/about/" className="hover:text-gray-300 transition-colors">About</Link>
+            <Link href="/insurance/" className="hover:text-gray-300 transition-colors">Insurance</Link>
             <Link href="/contact/" className="hover:text-gray-300 transition-colors">Contact</Link>
           </div>
         </div>

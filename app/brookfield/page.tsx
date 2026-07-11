@@ -57,7 +57,8 @@ const faqs = [
 
 export default function BrookfieldPage() {
   const schemas = [
-    localBusinessSchema('Brookfield, WI', 'brookfield'),
+    // This page is siloed to the verified Brookfield GMB (CID 6929671209341908664), not the main service-area listing.
+    localBusinessSchema('Brookfield, WI', 'brookfield', 'https://www.google.com/maps?cid=6929671209341908664'),
     faqSchema(faqs),
     breadcrumbSchema([
       { name: 'Home', item: 'https://urbanloggers.org/' },
@@ -203,12 +204,12 @@ export default function BrookfieldPage() {
           <h2 className="text-2xl font-bold text-charcoal mb-6">Find Urban Loggers LLC in Brookfield</h2>
           <div className="rounded-xl overflow-hidden border border-gray-200">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20000!2d-88.1235279!3d43.061548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880507432e635c89%3A0x602b233ffb1376b8!2sUrban%20Loggers%20LLC!5e0!3m2!1sen!2sus!4v1782787000000!5m2!1sen!2sus"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2915.043721436626!2d-88.1235279!3d43.061547999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880507432e635c89%3A0x602b233ffb1376b8!2sUrban%20Loggers%20LLC!5e0!3m2!1sen!2sus!4v1783799361027!5m2!1sen!2sus"
               width="100%"
               height="360"
               style={{ border: 0 }}
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="strict-origin-when-cross-origin"
               title="Urban Loggers LLC — 17000 W North Ave, Brookfield, WI"
             />
           </div>

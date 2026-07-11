@@ -8,9 +8,14 @@ export interface FAQ {
 const BASE_URL = 'https://urbanloggers.org'
 const BUSINESS_ID = `${BASE_URL}/#business`
 
-export function localBusinessSchema(areaServed?: string, citySlug?: string) {
+export function localBusinessSchema(areaServed?: string, citySlug?: string, mapUrl?: string) {
   // Use unique @id per city page to avoid duplicate @id errors
   const id = citySlug ? `${BASE_URL}/#business-${citySlug}` : BUSINESS_ID
+  // Optional per-page GMB override: e.g. /brookfield references the Brookfield listing instead of the
+  // main service-area listing (COMPANY.social.google), so that page is fully siloed to its own GMB.
+  const sameAs = mapUrl
+    ? [mapUrl, ...Object.values(COMPANY.social).filter((u) => u !== COMPANY.social.google)]
+    : Object.values(COMPANY.social)
 
   return {
     '@context': 'https://schema.org',
@@ -37,7 +42,7 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
       latitude: COMPANY.geo.lat,
       longitude: COMPANY.geo.lng,
     },
-    hasMap: COMPANY.social.google,
+    hasMap: mapUrl ?? COMPANY.social.google,
     areaServed: areaServed
       ? { '@type': 'City', name: areaServed }
       : { '@type': 'AdministrativeArea', name: 'Greater Milwaukee, WI' },
@@ -78,7 +83,7 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
       reviewCount: COMPANY.reviewCount,
       bestRating: 5,
     },
-    sameAs: Object.values(COMPANY.social),
+    sameAs,
   }
 }
 
