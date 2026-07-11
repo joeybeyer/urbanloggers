@@ -1,16 +1,20 @@
 export const COMPANY = {
   name: 'Urban Loggers LLC',
   owner: 'Brian Smith',
+  // Tracking number (SignalWire) — forwards calls AND texts to Brian's cell. Same number for call + SMS,
+  // like Frank's setup, so every call/text is attributed. Set this same number as the GMB primary.
   phone: '(414) 240-4626',
-  phoneHref: 'tel:4142404626',
+  phoneHref: 'tel:+14142404626',
+  smsHref: 'sms:+14142404626',
   email: 'urbanloggersllc@gmail.com',
   address: {
-    street: '',
-    city: 'Milwaukee',
+    street: '17000 W North Ave',
+    city: 'Brookfield',
     state: 'WI',
-    zip: '53202',
-    full: 'Greater Milwaukee, WI',
+    zip: '53005',
+    full: '17000 W North Ave, Brookfield, WI 53005',
   },
+  geo: { lat: 43.0606, lng: -88.1065 }, // verified GBP location (Brookfield)
   serviceArea: 'Greater Milwaukee, WI',
   credentials: [
     '20+ years experience',

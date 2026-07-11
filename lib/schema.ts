@@ -26,6 +26,7 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: COMPANY.address.street,
       addressLocality: COMPANY.address.city,
       addressRegion: COMPANY.address.state,
       postalCode: COMPANY.address.zip,
@@ -33,9 +34,10 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string) {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 43.0389,
-      longitude: -87.9065,
+      latitude: COMPANY.geo.lat,
+      longitude: COMPANY.geo.lng,
     },
+    hasMap: COMPANY.social.google,
     areaServed: areaServed
       ? { '@type': 'City', name: areaServed }
       : { '@type': 'AdministrativeArea', name: 'Greater Milwaukee, WI' },
@@ -182,6 +184,7 @@ export function organizationSchema() {
       'Professional tree removal, trimming, stump grinding, emergency tree service, and log milling in Greater Milwaukee, WI.',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: COMPANY.address.street,
       addressLocality: COMPANY.address.city,
       addressRegion: COMPANY.address.state,
       postalCode: COMPANY.address.zip,

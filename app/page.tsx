@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   description:
     'Professional tree removal, trimming, stump grinding & emergency service in Greater Milwaukee. 20+ years experience. Fully insured. Call (414) 240-4626 for a free quote.',
   alternates: {
-    canonical: 'https://www.urbanloggers.org/',
+    canonical: 'https://urbanloggers.org/',
   },
   openGraph: {
     title: 'Urban Loggers LLC | Tree Service Milwaukee, WI',
     description: 'Professional tree removal, trimming, stump grinding & emergency service in Greater Milwaukee. 20+ years. Fully insured.',
-    url: 'https://www.urbanloggers.org/',
+    url: 'https://urbanloggers.org/',
     siteName: 'Urban Loggers LLC',
     locale: 'en_US',
     type: 'website',

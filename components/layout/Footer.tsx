@@ -14,7 +14,7 @@ const cityLinks = [
   { href: '/wauwatosa/', label: 'Wauwatosa' },
   { href: '/west-allis/', label: 'West Allis' },
   { href: '/greenfield/', label: 'Greenfield' },
-  { href: '/shorewood/', label: 'Shorewood' },
+  { href: '/brookfield/', label: 'Brookfield' },
 ]
 
 export function Footer() {

@@ -18,7 +18,6 @@
 ### Long-tail / Intent
 - tree removal cost Milwaukee
 - how much does tree removal cost in Milwaukee
-- tree service near me Milwaukee WI
 - emergency tree removal Milwaukee 24 hour
 
 ---
