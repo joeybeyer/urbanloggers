@@ -121,20 +121,28 @@ export default function BrookfieldPage() {
       {/* Answer-first summary + quick facts (BERT zone: table before prose) */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
+          {/* Extractable, liftable direct definition (answer-first, no warmup) */}
           <p className="text-lg text-gray-800 leading-relaxed mb-6">
-            <strong>Tree service in Brookfield, WI</strong> — Urban Loggers LLC is a locally based, fully insured
-            crew handling tree removal, trimming, stump grinding, storm cleanup, and log milling across Brookfield
-            and Waukesha County. Most removals run $300–$2,000+ with a written on-site quote before work begins.
+            <strong>Urban Loggers LLC is a Brookfield-based, fully insured tree service</strong> at 17000 W North
+            Ave that provides tree removal, trimming and pruning, stump grinding, 24/7 emergency response, and
+            on-site log milling across Brookfield and Waukesha County. Most Brookfield tree removals cost $300 to
+            $2,000+, quoted in writing on-site before any work begins.
           </p>
-          <div className="overflow-x-auto">
+          {/* Spec-sheet facts + itemprop microdata (RAG/AIO lift) */}
+          <div className="overflow-x-auto" itemScope itemType="https://schema.org/LocalBusiness">
+            <meta itemProp="name" content="Urban Loggers LLC" />
             <table className="w-full text-left border border-gray-200 rounded-lg overflow-hidden text-sm">
               <tbody className="divide-y divide-gray-200">
-                <tr className="bg-white"><td className="p-3 font-semibold w-1/3">Location</td><td className="p-3">17000 W North Ave, Brookfield, WI 53005</td></tr>
-                <tr className="bg-gray-50"><td className="p-3 font-semibold">Phone / Text</td><td className="p-3"><a href={COMPANY.phoneHref} className="text-brand-green font-medium">{COMPANY.phone}</a> · text a photo for a quote</td></tr>
+                <tr className="bg-white"><td className="p-3 font-semibold w-1/3">Location</td>
+                  <td className="p-3" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                    <span itemProp="streetAddress">17000 W North Ave</span>, <span itemProp="addressLocality">Brookfield</span>, <span itemProp="addressRegion">WI</span> <span itemProp="postalCode">53005</span>
+                  </td></tr>
+                <tr className="bg-gray-50"><td className="p-3 font-semibold">Phone / Text</td><td className="p-3"><a href={COMPANY.phoneHref} className="text-brand-green font-medium" itemProp="telephone">{COMPANY.phone}</a> · text a photo for a quote</td></tr>
                 <tr className="bg-white"><td className="p-3 font-semibold">Services</td><td className="p-3">Tree removal · trimming &amp; pruning · stump grinding · emergency (24/7) · log milling</td></tr>
                 <tr className="bg-gray-50"><td className="p-3 font-semibold">Typical removal cost</td><td className="p-3">$300–$2,000+ (size, access, crane)</td></tr>
                 <tr className="bg-white"><td className="p-3 font-semibold">Stump grinding</td><td className="p-3">$75–$400</td></tr>
-                <tr className="bg-gray-50"><td className="p-3 font-semibold">Rating</td><td className="p-3">{COMPANY.rating}★ · {COMPANY.reviewCount}+ Google reviews · fully insured</td></tr>
+                <tr className="bg-gray-50"><td className="p-3 font-semibold">Hours</td><td className="p-3">Open 24 hours · owner-led estimates by Brian Smith</td></tr>
+                <tr className="bg-white"><td className="p-3 font-semibold">Rating</td><td className="p-3"><span itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating"><span itemProp="ratingValue">{COMPANY.rating}</span>★ · <span itemProp="reviewCount">{COMPANY.reviewCount}</span>+ Google reviews</span> · fully insured</td></tr>
               </tbody>
             </table>
           </div>
@@ -157,6 +165,28 @@ export default function BrookfieldPage() {
             Every job starts with owner Brian Smith walking the property in person, giving you a straight assessment
             and a written quote — no pressure and no upsell on work you don&rsquo;t need. For prized hardwoods, we can
             even mill the logs into custom lumber on-site instead of chipping them.
+          </p>
+        </div>
+      </section>
+
+      {/* Decision-Fit Mapping — #1 ranking factor: which option fits which situation (expert prose, not a table) */}
+      <section className="py-12 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Brookfield Tree Removal, Trimming, or Treatment — Which Fits</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            The right call depends on the tree, not a sales pitch. Here is how Urban Loggers decides on a Brookfield property:
+          </p>
+          <ul className="space-y-3 text-gray-700 leading-relaxed">
+            <li><strong>Remove the tree</strong> when it is dead, more than half declined, leaning toward the house, or an ash already hollowed by emerald ash borer. The tradeoff is paying now versus a failure onto your roof later — which insurers often deny on a known-dead tree.</li>
+            <li><strong>Trim or prune instead</strong> when the tree is healthy but crowding the roof, blocking light, or dropping deadwood. Structural pruning saves the tree at a fraction of removal cost, and it matters most on the mature oaks and maples common in Elmbrook and Ruby Isle.</li>
+            <li><strong>Treat, don&rsquo;t cut,</strong> when an ash is still roughly 70%+ healthy. A treated ash can be held for years — which wins when the alternative is paying thousands to replace a mature shade tree.</li>
+            <li><strong>Grind the stump</strong> after any removal if you plan to replant, sod, or landscape. A left stump invites regrowth and pests; grinding below grade frees the space in the same visit.</li>
+            <li><strong>Mill the log</strong> rather than chip it when removing a large walnut, oak, or maple. The tradeoff is a little more time for custom slabs and lumber you would otherwise pay a sawyer for.</li>
+          </ul>
+          <p className="text-gray-700 leading-relaxed mt-4">
+            Brian Smith walks every Brookfield property in person and tells you honestly which option fits — including
+            when the answer is to leave the tree alone. Urban Loggers is fully insured and provides a certificate of
+            insurance on request before any Brookfield job begins.
           </p>
         </div>
       </section>
