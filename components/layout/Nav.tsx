@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
+import { TextButton } from '@/components/ui/TextButton'
 
 const serviceLinks = [
   { href: '/tree-removal/', label: 'Tree Removal' },
@@ -104,6 +105,7 @@ export function Nav() {
         Gallery
       </Link>
 
+      <TextButton size="sm" className="hidden lg:inline-flex" label="Text a Photo" />
       <PhoneButton size="sm" />
     </nav>
   )

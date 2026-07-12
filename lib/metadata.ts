@@ -13,7 +13,9 @@ export function buildMetadata(
   const url = `${BASE_URL}${path}`
 
   return {
-    title,
+    // absolute bypasses the layout's `%s | Urban Loggers LLC` template — page titles already include the
+    // brand once, so the template was doubling it ("… | Urban Loggers LLC | Urban Loggers LLC").
+    title: { absolute: title },
     description,
     metadataBase: new URL(BASE_URL),
     alternates: {

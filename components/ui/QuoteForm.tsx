@@ -22,12 +22,20 @@ export function QuoteForm() {
     setState('loading')
 
     const form = e.currentTarget
+    const cookie = (k: string) => {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + k + '=([^;]*)'))
+      return m ? decodeURIComponent(m[1]) : ''
+    }
     const data = {
       name: (form.elements.namedItem('name') as HTMLInputElement).value,
       phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
       service: (form.elements.namedItem('service') as HTMLSelectElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
       _honeypot: (form.elements.namedItem('_honeypot') as HTMLInputElement).value,
+      // Google Ads click IDs (captured on landing by GclidCapture) → offline-conversion attribution
+      gclid: cookie('gclid'),
+      gbraid: cookie('gbraid'),
+      wbraid: cookie('wbraid'),
     }
 
     // Honeypot check — bots fill hidden fields

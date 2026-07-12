@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
+import { COMPANY } from '@/data/company'
 
 export function Hero() {
   return (
@@ -11,7 +12,7 @@ export function Hero() {
             {/* Kicker — bold social proof */}
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-5 py-2.5 mb-6">
               <span className="text-yellow-400 text-lg">★★★★★</span>
-              <span className="text-white font-semibold text-sm sm:text-base">Trusted by 1,000+ Milwaukee Homeowners</span>
+              <span className="text-white font-semibold text-sm sm:text-base">Rated {COMPANY.rating} by {COMPANY.reviewCount}+ Milwaukee-area homeowners</span>
             </div>
 
             {/* Headline */}

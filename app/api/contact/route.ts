@@ -4,7 +4,7 @@ import { Resend } from 'resend'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, phone, service, message, _honeypot } = body
+    const { name, phone, service, message, _honeypot, gclid, gbraid, wbraid } = body
 
     // Honeypot — silently succeed for bots
     if (_honeypot) {
@@ -50,6 +50,37 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error('Resend error:', error)
       return NextResponse.json({ error: 'Failed to send email.' }, { status: 500 })
+    }
+
+    // Also warehouse the lead into the ACC CRM (tenant urban-loggers-llc) so form-fills show up
+    // alongside the calls, attributed to the service-area business. Non-blocking — never fail the form.
+    try {
+      const digits = String(phone || '').replace(/\D/g, '').slice(-10)
+      await fetch('https://agencycommandcenter.ai/api/leads/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tenant_id: 'urban-loggers-llc',
+          external_id: `form-${Date.now()}-${digits}`,
+          source: 'website-form',
+          source_detail: service || 'Service-Area GBP',
+          channel: 'form',
+          contact_phone: phone || null,
+          referrer: req.headers.get('referer') || null,
+          lead_date: new Date().toISOString(),
+          metadata: {
+            name: name || null,
+            service: service || null,
+            message: message || null,
+            gclid: gclid || null,
+            gbraid: gbraid || null,
+            wbraid: wbraid || null,
+            sourceBusiness: 'service-area',
+          },
+        }),
+      })
+    } catch (syncErr) {
+      console.error('ACC CRM sync failed (non-blocking):', syncErr)
     }
 
     return NextResponse.json({ success: true })
