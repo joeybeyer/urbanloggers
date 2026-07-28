@@ -4,7 +4,8 @@ import { Resend } from 'resend'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, phone, service, message, _honeypot, gclid, gbraid, wbraid } = body
+    const { name, phone, service, message, _honeypot, gclid, gbraid, wbraid,
+      utm_source, utm_medium, utm_campaign, utm_term, utm_content } = body
 
     // Honeypot — silently succeed for bots
     if (_honeypot) {
@@ -15,6 +16,21 @@ export async function POST(req: NextRequest) {
     if (!name || !phone) {
       return NextResponse.json({ error: 'Name and phone are required.' }, { status: 400 })
     }
+
+    // Attribution — a Google Ads click ID means paid; otherwise organic (models Frank's
+    // dumpsterrescueusa.com CRM). utm_campaign is stored so campaign-level reporting works too.
+    const paid = Boolean(gclid || gbraid || wbraid)
+    const leadSource = paid ? 'google-ads' : 'organic'
+    const clickId = gclid || gbraid || wbraid || ''
+    const attributionRows = `
+          <tr>
+            <td style="padding:8px;border:1px solid #ddd;font-weight:bold">Source</td>
+            <td style="padding:8px;border:1px solid #ddd">${leadSource}${utm_campaign ? ' · ' + escapeHtml(String(utm_campaign)) : ''}</td>
+          </tr>${clickId ? `
+          <tr>
+            <td style="padding:8px;border:1px solid #ddd;font-weight:bold">Click ID</td>
+            <td style="padding:8px;border:1px solid #ddd">${escapeHtml(String(clickId))}</td>
+          </tr>` : ''}`
 
     const resend = new Resend(process.env.RESEND_KEY ?? process.env.RESEND_API_KEY ?? 'placeholder')
     const { error } = await resend.emails.send({
@@ -39,7 +55,7 @@ export async function POST(req: NextRequest) {
           <tr>
             <td style="padding:8px;border:1px solid #ddd;font-weight:bold">Message</td>
             <td style="padding:8px;border:1px solid #ddd">${escapeHtml(message || '(none)')}</td>
-          </tr>
+          </tr>${attributionRows}
         </table>
         <p style="margin-top:16px;color:#666;font-size:14px">
           Submitted via urbanloggers.org contact form.
@@ -62,7 +78,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           tenant_id: 'urban-loggers-llc',
           external_id: `form-${Date.now()}-${digits}`,
-          source: 'website-form',
+          source: leadSource,
           source_detail: service || 'Service-Area GBP',
           channel: 'form',
           contact_phone: phone || null,
@@ -75,6 +91,13 @@ export async function POST(req: NextRequest) {
             gclid: gclid || null,
             gbraid: gbraid || null,
             wbraid: wbraid || null,
+            utm_source: utm_source || null,
+            utm_medium: utm_medium || null,
+            utm_campaign: utm_campaign || null,
+            utm_term: utm_term || null,
+            utm_content: utm_content || null,
+            campaign: utm_campaign || null,
+            paid,
             sourceBusiness: 'service-area',
           },
         }),

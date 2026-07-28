@@ -32,10 +32,16 @@ export function QuoteForm() {
       service: (form.elements.namedItem('service') as HTMLSelectElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
       _honeypot: (form.elements.namedItem('_honeypot') as HTMLInputElement).value,
-      // Google Ads click IDs (captured on landing by GclidCapture) → offline-conversion attribution
+      // Google Ads click IDs + utm_* (captured on landing by GclidCapture) → source (google-ads vs
+      // organic) + campaign attribution, modeling Frank's dumpsterrescueusa.com.
       gclid: cookie('gclid'),
       gbraid: cookie('gbraid'),
       wbraid: cookie('wbraid'),
+      utm_source: cookie('utm_source'),
+      utm_medium: cookie('utm_medium'),
+      utm_campaign: cookie('utm_campaign'),
+      utm_term: cookie('utm_term'),
+      utm_content: cookie('utm_content'),
     }
 
     // Honeypot check — bots fill hidden fields
