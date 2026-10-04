@@ -5,7 +5,7 @@ import { WhyUs } from '@/components/sections/WhyUs'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { ServiceArea } from '@/components/sections/ServiceArea'
 import { HomeFAQ } from '@/components/sections/HomeFAQ'
-import { serviceSchema } from '@/lib/schema'
+import { serviceSchema, localBusinessSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: 'Urban Loggers LLC | Tree Service Milwaukee, WI',
@@ -30,6 +30,10 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
+  // The homepage carries the LocalBusiness for the service-area business. It used to come from
+  // the root layout, which put it on every page including the two with their own profile.
+  const business = localBusinessSchema()
+
   const treeServiceSchema = serviceSchema(
     'Tree Service',
     'Professional tree removal, trimming, stump grinding, emergency tree service, and log milling in Greater Milwaukee, WI.',
@@ -41,6 +45,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(treeServiceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(business) }}
       />
       <Hero />
       <ServicesGrid />

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { COMPANY } from '@/data/company'
+import { usePathname } from 'next/navigation'
+import { napForPath } from '@/lib/gbp'
 
 export function MobileCTA() {
+  const nap = napForPath(usePathname())
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -24,14 +26,14 @@ export function MobileCTA() {
       <div className="mx-auto max-w-7xl px-3 pb-3">
         <div className="grid grid-cols-3 gap-2 rounded-2xl bg-brand-green p-3 shadow-2xl">
           <a
-            href={COMPANY.phoneHref}
+            href={nap.phoneHref}
             data-cta="mobile-call"
             className="flex items-center justify-center rounded-xl bg-white text-brand-green font-semibold py-3 text-sm shadow-md"
           >
             📞 Call
           </a>
           <a
-            href={COMPANY.smsHref}
+            href={nap.smsHref}
             data-cta="mobile-text-photo"
             className="flex items-center justify-center rounded-xl bg-white text-brand-green font-semibold py-3 text-sm shadow-md"
           >

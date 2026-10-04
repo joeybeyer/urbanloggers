@@ -4,7 +4,8 @@ import { services } from '@/data/services'
 import { locations, type Location } from '@/data/locations'
 import { localContext } from '@/data/local-context'
 import { ExtLink } from '@/components/ui/ExtLink'
-import { GbpMap, type GbpProfile } from '@/components/ui/GbpMap'
+import { GbpMap } from '@/components/ui/GbpMap'
+import { napForProfile, type GbpProfile } from '@/lib/gbp'
 
 interface CityPageTemplateProps {
   location: Location
@@ -17,6 +18,8 @@ interface CityPageTemplateProps {
 }
 
 export function CityPageTemplate({ location, schemas, gbpProfile }: CityPageTemplateProps) {
+  // The NAP this page may publish — its own profile's, or the service-area business's (no street).
+  const nap = napForProfile(gbpProfile)
   // 2-3 ACROSS: same-county sibling cities (hub-and-spoke silo linking)
   const siblings = locations
     .filter((l) => l.county === location.county && l.slug !== location.slug)
@@ -211,6 +214,52 @@ export function CityPageTemplate({ location, schemas, gbpProfile }: CityPageTemp
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-6">Where to Find Us</h2>
+
+          {/*
+            L1: a page that has its OWN Google Business Profile must carry that profile's street
+            address, phone and opening hours as VISIBLE text — not only in schema — and must show
+            no other profile's. Cities served by the service-area business render nothing here:
+            that listing hides its address, so publishing one would contradict the profile.
+          */}
+          {nap.address && (
+            <div
+              className="mb-6 rounded-xl border border-gray-200 bg-white p-5 text-sm"
+              itemScope
+              itemType="https://schema.org/LocalBusiness"
+            >
+              <meta itemProp="name" content="Urban Loggers LLC" />
+              <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[8rem_1fr]">
+                <dt className="font-semibold text-charcoal">Address</dt>
+                <dd
+                  className="text-gray-700"
+                  itemProp="address"
+                  itemScope
+                  itemType="https://schema.org/PostalAddress"
+                >
+                  <span itemProp="streetAddress">{nap.address.street}</span>,{' '}
+                  <span itemProp="addressLocality">{nap.address.city}</span>,{' '}
+                  <span itemProp="addressRegion">{nap.address.state}</span>{' '}
+                  <span itemProp="postalCode">{nap.address.zip}</span>
+                </dd>
+
+                <dt className="font-semibold text-charcoal">Phone / Text</dt>
+                <dd className="text-gray-700">
+                  <a
+                    href={nap.phoneHref}
+                    className="font-medium text-brand-green"
+                    itemProp="telephone"
+                  >
+                    {nap.phone}
+                  </a>{' '}
+                  · text a photo for a quote
+                </dd>
+
+                <dt className="font-semibold text-charcoal">Hours</dt>
+                <dd className="text-gray-700">Open 24 hours · owner-led estimates by Brian Smith</dd>
+              </dl>
+            </div>
+          )}
+
           <GbpMap
             profile={gbpProfile}
             serving={`${location.name}, WI`}

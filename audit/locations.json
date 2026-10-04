@@ -8,5 +8,25 @@
     "zip": "53005",
     "phone": "(414) 240-4626",
     "tel": "4142404626"
+  },
+  {
+    "slug": "menomonee-falls",
+    "page": "/menomonee-falls/",
+    "street": "N88W13901 Main St",
+    "city": "Menomonee Falls",
+    "state": "WI",
+    "zip": "53051",
+    "phone": "(262) 205-4670",
+    "tel": "2622054670"
+  },
+  {
+    "slug": "waukesha",
+    "page": "/waukesha/",
+    "street": "1915 Mac Arthur Rd",
+    "city": "Waukesha",
+    "state": "WI",
+    "zip": "53188",
+    "phone": "(262) 205-4777",
+    "tel": "2622054777"
   }
 ]

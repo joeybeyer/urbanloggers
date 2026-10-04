@@ -1,10 +1,12 @@
 # Built-site audit — 2026-10-04
 
-built pages: 30 · sitemap: 27 · money pages: 20 · redirect rules: 0 · locations: 1
+built pages: 30 · sitemap: 27 · money pages: 20 · redirect rules: 0 · locations: 3
 
 | group | id | check | result |
 |---|---|---|---|
 | LOCAL | L1-brookfield | GBP page /brookfield/: own NAP + hours + map + tel, nothing from other locations | PASS |
+| LOCAL | L1-menomonee-falls | GBP page /menomonee-falls/: own NAP + hours + map + tel, nothing from other locations | PASS |
+| LOCAL | L1-waukesha | GBP page /waukesha/: own NAP + hours + map + tel, nothing from other locations | PASS |
 | LOCAL | L2 | No page carries another location's street address (pages naming ALL locations are symmetric: none) | **FAIL** (1) |
 | LOCAL | L3 | One phone per page — the serving profile's (pages naming all locations excepted) | PASS |
 | TECH | T1a | Sitemap lists only canonical 200s (no redirect sources) | PASS |
@@ -47,23 +49,23 @@ built pages: 30 · sitemap: 27 · money pages: 20 · redirect rules: 0 · locati
 - /insurance/ shows brookfield street outside its section
 
 ### O16 — H1 (and so the answer) within the first 13,000 chars of HTML
-- /brookfield/ H1 at char 17713
-- /cedarburg/ H1 at char 15914
-- /emergency-tree-service/ H1 at char 15042
-- /greenfield/ H1 at char 15968
-- /log-milling/ H1 at char 15134
-- /menomonee-falls/ H1 at char 15857
-- /mequon/ H1 at char 15875
-- /milwaukee/ H1 at char 18454
-- /mount-pleasant/ H1 at char 15857
-- /new-berlin/ H1 at char 15864
-- /pewaukee/ H1 at char 15843
-- /port-washington/ H1 at char 15941
-- /racine/ H1 at char 15835
-- /south-milwaukee/ H1 at char 15925
-- /stump-grinding/ H1 at char 15352
-- /tree-removal/ H1 at char 15616
-- /tree-trimming-pruning/ H1 at char 15531
-- /waukesha/ H1 at char 15901
-- /wauwatosa/ H1 at char 15951
-- /west-allis/ H1 at char 16041
+- /brookfield/ H1 at char 16063
+- /cedarburg/ H1 at char 14206
+- /emergency-tree-service/ H1 at char 13392
+- /greenfield/ H1 at char 14261
+- /log-milling/ H1 at char 13484
+- /menomonee-falls/ H1 at char 14212
+- /mequon/ H1 at char 14164
+- /milwaukee/ H1 at char 16746
+- /mount-pleasant/ H1 at char 14154
+- /new-berlin/ H1 at char 14157
+- /pewaukee/ H1 at char 14134
+- /port-washington/ H1 at char 14239
+- /racine/ H1 at char 14124
+- /south-milwaukee/ H1 at char 14223
+- /stump-grinding/ H1 at char 13702
+- /tree-removal/ H1 at char 13966
+- /tree-trimming-pruning/ H1 at char 13881
+- /waukesha/ H1 at char 14252
+- /wauwatosa/ H1 at char 14243
+- /west-allis/ H1 at char 14334

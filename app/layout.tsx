@@ -5,7 +5,6 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { MobileCTA } from '@/components/ui/MobileCTA'
 import { GclidCapture } from '@/components/GclidCapture'
-import { localBusinessSchema } from '@/lib/schema'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -24,15 +23,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const schema = localBusinessSchema()
-
+  // The site-wide LocalBusiness used to live here. It cannot: this layout wraps every page and has
+  // no way to know which profile serves the page, so it always emitted the service-area NAP. On
+  // /waukesha/ and /menomonee-falls/ that put TWO LocalBusiness entities on one page carrying two
+  // different phone numbers — the opposite of the NAP consistency the markup exists to provide.
+  //
+  // Each page now emits the LocalBusiness for the profile serving it: the 16 city pages and the
+  // homepage below. Service pages emit Service schema instead, which is the correct type for them.
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{

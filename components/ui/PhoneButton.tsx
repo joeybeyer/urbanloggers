@@ -1,6 +1,7 @@
 'use client'
 
-import { COMPANY } from '@/data/company'
+import { usePathname } from 'next/navigation'
+import { napForPath } from '@/lib/gbp'
 
 declare global {
   interface Window {
@@ -21,18 +22,21 @@ const sizeClasses = {
 }
 
 export function PhoneButton({ size = 'md', className = '', label }: PhoneButtonProps) {
+  // The number belongs to the profile serving THIS page, not to the company. See lib/gbp.ts.
+  const nap = napForPath(usePathname())
+
   function handleClick() {
     window.dataLayer?.push({
       event: 'phone_call',
       event_category: 'engagement',
-      event_label: COMPANY.phone,
+      event_label: nap.phone,
       value: 1,
     })
   }
 
   return (
     <a
-      href={COMPANY.phoneHref}
+      href={nap.phoneHref}
       onClick={handleClick}
       className={`inline-flex items-center gap-2 bg-brand-green hover:bg-brand-green-dark text-white rounded-md font-semibold transition-colors duration-200 ${sizeClasses[size]} ${className}`}
     >
@@ -49,7 +53,7 @@ export function PhoneButton({ size = 'md', className = '', label }: PhoneButtonP
           clipRule="evenodd"
         />
       </svg>
-      {label ?? COMPANY.phone}
+      {label ?? nap.phone}
     </a>
   )
 }

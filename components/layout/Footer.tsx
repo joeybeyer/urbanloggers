@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { FooterPhone } from '@/components/layout/FooterPhone'
 import { COMPANY } from '@/data/company'
 import { services } from '@/data/services'
 import { locations } from '@/data/locations'
@@ -64,9 +65,7 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-3">Contact</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href={COMPANY.phoneHref} className="hover:text-white transition-colors font-medium">
-                  {COMPANY.phone}
-                </a>
+                <FooterPhone />
               </li>
               <li>
                 <a href={`mailto:${COMPANY.email}`} className="hover:text-white transition-colors">

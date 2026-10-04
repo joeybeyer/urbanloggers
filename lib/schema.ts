@@ -1,4 +1,5 @@
 import { COMPANY } from '@/data/company'
+import { napForPath } from '@/lib/gbp'
 
 export interface FAQ {
   question: string
@@ -11,6 +12,12 @@ const BUSINESS_ID = `${BASE_URL}/#business`
 export function localBusinessSchema(areaServed?: string, citySlug?: string, mapUrl?: string) {
   // Use unique @id per city page to avoid duplicate @id errors
   const id = citySlug ? `${BASE_URL}/#business-${citySlug}` : BUSINESS_ID
+
+  // The NAP of the profile serving this page, resolved from the city slug. Three of the four
+  // profiles have their own phone and street, so a page that emits COMPANY.phone and the
+  // Brookfield address contradicts its own listing — the opposite of what LocalBusiness is for.
+  const nap = napForPath(citySlug ? `/${citySlug}` : '/')
+
   // Optional per-page GMB override: e.g. /brookfield references the Brookfield listing instead of the
   // main service-area listing (COMPANY.social.google), so that page is fully siloed to its own GMB.
   const sameAs = mapUrl
@@ -24,25 +31,35 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string, mapU
     name: COMPANY.name,
     description:
       'Professional tree removal, trimming, stump grinding, emergency tree service, and log milling in Greater Milwaukee, WI.',
-    telephone: COMPANY.phone,
+    telephone: nap.phone,
     email: COMPANY.email,
     url: BASE_URL,
     logo: `${BASE_URL}/images/logo.png`,
     priceRange: '$$',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: COMPANY.address.street,
-      addressLocality: COMPANY.address.city,
-      addressRegion: COMPANY.address.state,
-      postalCode: COMPANY.address.zip,
-      addressCountry: 'US',
-    },
+    // A service-area listing hides its street on the profile, so pages it serves emit the locality
+    // without a streetAddress rather than borrowing Brookfield's. Pages with their own profile
+    // emit that profile's real street.
+    address: nap.address
+      ? {
+          '@type': 'PostalAddress',
+          streetAddress: nap.address.street,
+          addressLocality: nap.address.city,
+          addressRegion: nap.address.state,
+          postalCode: nap.address.zip,
+          addressCountry: 'US',
+        }
+      : {
+          '@type': 'PostalAddress',
+          addressLocality: areaServed?.split(',')[0] ?? 'Milwaukee',
+          addressRegion: 'WI',
+          addressCountry: 'US',
+        },
     geo: {
       '@type': 'GeoCoordinates',
       latitude: COMPANY.geo.lat,
       longitude: COMPANY.geo.lng,
     },
-    hasMap: mapUrl ?? COMPANY.social.google,
+    hasMap: mapUrl ?? nap.mapsUrl,
     areaServed: areaServed
       ? { '@type': 'City', name: areaServed }
       : { '@type': 'AdministrativeArea', name: 'Greater Milwaukee, WI' },

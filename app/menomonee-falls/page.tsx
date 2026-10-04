@@ -8,7 +8,7 @@ import { COMPANY } from '@/data/company'
 export const metadata: Metadata = {
   ...buildMetadata(
     'Tree Service Menomonee Falls, WI | Urban Loggers LLC',
-    'Professional tree removal, trimming, stump grinding & land clearing in Menomonee Falls, WI. Fully insured. Free estimates. Call (414) 240-4626.',
+    'Professional tree removal, trimming, stump grinding & land clearing in Menomonee Falls, WI. Fully insured. Free estimates. Call (262) 205-4670.',
     '/menomonee-falls/'
   ),
   other: {

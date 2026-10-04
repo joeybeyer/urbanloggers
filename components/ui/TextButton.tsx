@@ -1,6 +1,7 @@
 'use client'
 
-import { COMPANY } from '@/data/company'
+import { usePathname } from 'next/navigation'
+import { napForPath } from '@/lib/gbp'
 
 interface TextButtonProps {
   size?: 'sm' | 'md' | 'lg'
@@ -15,20 +16,22 @@ const sizeClasses = {
 }
 
 // "Text a Photo for a Quote" CTA — mirrors PhoneButton. Points at the SignalWire tracking number
-// (COMPANY.smsHref), which SMS-forwards texts to Brian's cell so texts are attributed like calls.
+// serving this page, which SMS-forwards texts to Brian's cell so texts are attributed like calls.
 export function TextButton({ size = 'md', className = '', label }: TextButtonProps) {
+  const nap = napForPath(usePathname())
+
   function handleClick() {
     window.dataLayer?.push({
       event: 'text_message',
       event_category: 'engagement',
-      event_label: COMPANY.phone,
+      event_label: nap.phone,
       value: 1,
     })
   }
 
   return (
     <a
-      href={COMPANY.smsHref}
+      href={nap.smsHref}
       onClick={handleClick}
       data-cta="text-photo"
       className={`inline-flex items-center gap-2 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white rounded-md font-semibold transition-colors duration-200 ${sizeClasses[size]} ${className}`}
