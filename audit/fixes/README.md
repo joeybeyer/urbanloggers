@@ -74,7 +74,13 @@ entity's registered address on purpose.
 **Phase 1 — deploy (now).** Merge `local-seo-gbp-silos`. Verify the four 404 routes return 200 and
 that `/brookfield/` and `/menomonee-falls/` each embed their own profile.
 
-**Phase 2 — GBP, not code (`00-local.md`).** Three profiles now means three of everything:
+**Phase 2 — GBP, not code (`00-local.md`).** A **fourth profile is coming: Waukesha** (decided
+2026-10-04, address being sourced). Evidence is on a second property — milwaukeetreeguys.com's
+`/tree-service-waukesha-wi/` takes 6,839 impressions in 3 months against Caledonia's 1,658 and
+Brookfield's 1,237, on explicit Waukesha-intent queries — while Urban Loggers' own `/waukesha/`
+captures none of it. `00-local.md` has the three paste-points to wire it.
+
+Three profiles today means three of everything:
 categories compared against each profile's own map pack, steady review cadence per profile, and each
 profile's website URL pointing at its own page. Then supply what the audit cannot know — each
 profile's real street (or "hidden"), phone and hours — so `audit/locations.json` can hold three

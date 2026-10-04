@@ -83,12 +83,89 @@ profiles and not the umbrella. The umbrella profile still appears in the global 
 - **Each profile's website URL** should point at its own page: service-area → `/`,
   Brookfield → `/brookfield/`, Menomonee Falls → `/menomonee-falls/`.
 
-## Siting a further listing
+## The fourth profile: Waukesha (decided 2026-10-04)
 
-**Search Console cannot answer it.** GSC holds organic web impressions only; profile views,
-searches, calls and direction requests live in each profile's own insights. A city ranking derived
-from GSC says nothing about map-pack performance. Use GBP Insights per profile, or a geo-grid scan
-around each pin. Do not site a listing from Search Console city volume.
+Evidence comes from a **second property**, `milwaukeetreeguys.com`, not from this site. Over three
+months its Waukesha page is the clear leader and the demand is unambiguously Waukesha-intent:
+
+```
+/tree-service-waukesha-wi/    6,839 impressions   1 click
+/tree-service-caledonia-wi/   1,658
+/tree-service-brookfield-wi/  1,237
+/tree-service-burlington-wi/    669
+
+queries on that page:  waukesha tree removal 141 · tree removal company waukesha 140
+                       waukesha tree removal services 140 · tree trimming waukesha 137
+                       waukesha tree trimming 133 · tree removal waukesha 126
+                       tree service waukesha 98          — all 0 clicks
+```
+
+Urban Loggers captures **none** of it. In the 28-day set, `/waukesha/`'s only queries are brand
+terms (`urban loggers`, 12 impressions at position 5.2). The city has real demand and this site has
+a page that does not rank for it.
+
+**Why this justifies a listing rather than more organic work.** Note the click column: 6,839
+impressions and 1 click on one property, and on this site `/mount-pleasant/` takes 3,432
+impressions at position 7.9 for **0 clicks**. Two different domains, the same signature — Wisconsin
+tree-service city SERPs where organic ranks and converts at nothing. That is what it looks like when
+the map pack absorbs the clicks, and the lever for the map pack is a profile, not a longer page.
+
+### Wiring it when the profile exists
+
+`/waukesha/` is already the landing page (964 words, template city). The code takes any number of
+profiles, so this is three paste-points. Get the values from the profile's own
+**Share → Embed a map**, never from anywhere else.
+
+**1. `data/company.ts`** — add a fourth entry to `COMPANY.gbp`. `cid` is the decimal of the second
+hex half of the place ID (`python3 -c "print(int('<hex>',16))"`):
+
+```ts
+waukesha: {
+  placeId: '0x…:0x…',
+  cid: '…',
+  mapsUrl: 'https://www.google.com/maps?cid=…',
+  embedPb: '…',          // the pb= payload from the embed, without the leading `?pb=`
+},
+```
+
+**2. `app/waukesha/page.tsx`** — two lines, exactly as `/menomonee-falls/` does it:
+
+```tsx
+localBusinessSchema('Waukesha, WI', 'waukesha', COMPANY.gbp.waukesha.mapsUrl),
+return <CityPageTemplate location={location} schemas={schemas} gbpProfile="waukesha" />
+```
+
+(`lib/schema.ts` then drops the umbrella profile from `sameAs` automatically — that branch already
+exists and is why `/brookfield/` and `/menomonee-falls/` are siloed.)
+
+**3. `audit/locations.json`** — add Waukesha's street, phone and tel so L1/L2/L3 check it.
+
+**Then verify** with the one-liner below; the Waukesha page must carry exactly one profile:
+
+```bash
+npx next build
+python3 -c "
+import glob,os
+prof={'serviceArea':'0x880516dbeab8a99f','brookfield':'0x880507432e635c89','menomoneeFalls':'0x8804fde3dd82c641','waukesha':'0x…'}
+for f in sorted(glob.glob('.next/server/app/*.html')):
+    h=open(f,encoding='utf-8',errors='ignore').read()
+    hits=[k for k,v in prof.items() if v in h]
+    if len(hits)>1: print('MIXED:', os.path.basename(f), hits)
+"
+```
+
+**Also check:** if the new profile gets its own phone number, `/waukesha/` must show that number and
+not `(414) 240-4626`. Per-page phone is not supported today — the site renders `COMPANY.phone`
+everywhere — so a second number needs a per-profile phone field threaded through
+`PhoneButton`/`TextButton` and the NAP blocks. Raise it before the number goes live, not after.
+
+### Caveat that still stands
+
+GSC holds organic web impressions only; profile views, searches, calls and direction requests live
+in each profile's own insights, and no GSC figure shows map-pack rank. The evidence above is strong
+on **demand** and on **organic failing to convert** — it is not a map-pack measurement. Confirm with
+a geo-grid scan around the intended Waukesha pin before committing, and do not site any *further*
+listing on city volume alone.
 
 ## Measurement traps that produced false findings here
 
