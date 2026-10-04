@@ -78,10 +78,47 @@ profiles and not the umbrella. The umbrella profile still appears in the global 
 
 ## Track B — the GBP itself, not code
 
-- **Categories** — compare each of the three against the top three competitors in its own map pack.
-- **Review cadence** — steady beats bursts; this now matters per profile.
-- **Each profile's website URL** should point at its own page: service-area → `/`,
-  Brookfield → `/brookfield/`, Menomonee Falls → `/menomonee-falls/`.
+This is where the Maps ranking actually lives, and none of it is a code change. Ordered by stated
+impact.
+
+**1. Proximity is the single biggest Maps factor.** It is also the one you cannot optimise after the
+fact — it is decided by where the pin sits. That is the whole argument for separate listings in
+Menomonee Falls and Waukesha rather than trying to stretch one listing across the metro, and it is
+why a geo-grid scan around each pin is the only honest measurement of map-pack performance.
+
+**2. Categories are the second most important factor, after the business name.** Treat this as a
+first-class task, not housekeeping:
+
+- **Primary category** = the single service you most want that listing to rank for in Maps.
+- **Additional categories** — research the competitors already ranking in that city's pack and add
+  every relevant category they carry.
+- Do this **per profile**. Brookfield, Menomonee Falls and Waukesha can and should differ if their
+  local packs differ.
+
+**3. Citations for each new location — the missing workstream.** The two new profiles have none.
+Citation and social-profile building has to be replicated per location, with that location's own
+NAP: Menomonee Falls on N88W13901 Main St / (262) 205-4670, Waukesha on 1915 Mac Arthur Rd /
+(262) 205-4777. Do not reuse Brookfield's details on a Menomonee Falls citation — that is the same
+NAP-bleed the site-wide footer address was causing, just off-site where it is harder to undo.
+
+**4. Each profile's website URL points at its own page.** Service-area → `/`,
+Brookfield → `/brookfield/`, Menomonee Falls → `/menomonee-falls/`, Waukesha → `/waukesha/`.
+⚠️ `/menomonee-falls/` is a 404 until this branch deploys — do not set that URL before then.
+
+**5. Products.** If products are added to a profile, link each back to the matching service page on
+the site.
+
+**6. Business description.** Little evidence it affects ranking directly. Use it to say what the
+business does, where it serves, and the benefit to the customer; include awards; end with a CTA.
+**No contact details in it.**
+
+**7. Review cadence** — steady beats bursts, and this is now four streams, not one.
+
+### Do not stuff "areas served"
+
+Adding areas to the service-area section **appears to have no effect on where a listing shows up**.
+Stuffing it is not recommended. The declared service area governs where a listing is eligible to
+appear; it does not pull the listing toward those places. Proximity to the pin still decides.
 
 ## The fourth profile: Waukesha (decided 2026-10-04)
 

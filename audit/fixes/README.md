@@ -11,7 +11,27 @@ citations third.** Everything here follows that.
 
 ---
 
-## The one thing that matters most
+## Deploy now — two live GBPs point at pages that are wrong or missing
+
+As of 2026-10-04 the Menomonee Falls and Waukesha Google Business Profiles are **live, with working
+phone numbers**, and the site has not caught up:
+
+```
+/waukesha/          200 live   — but serves the OLD NAP: (414) 240-4626 and Brookfield's
+                                 address in its LocalBusiness schema, not its own listing's
+/menomonee-falls/   404        — its GBP number rings, and its landing page does not exist
+```
+
+Both numbers were bought but **dead** until today: `call_handler` was set with no
+`call_request_url`, so callers got nothing. They are now named in SignalWire, routed through
+`agencycommandcenter.ai/api/track/voice` to Brian's cell (+1 414 514 0750), recorded, and logged to
+the `urban-loggers-llc` CRM with per-GBP `source_label` so each profile reports as its own line
+rather than pooling into "Lead-Gen — Directory Call".
+
+So the NAP mismatch is not theoretical any more: a live listing is sending callers to a 404, and
+another is publishing a different phone and address than its profile.
+
+## The rest of the gap
 
 **The repo is ahead of the live site, and nothing is deployed.**
 
@@ -74,13 +94,44 @@ entity's registered address on purpose.
 **Phase 1 — deploy (now).** Merge `local-seo-gbp-silos`. Verify the four 404 routes return 200 and
 that `/brookfield/` and `/menomonee-falls/` each embed their own profile.
 
-**Phase 2 — GBP, not code (`00-local.md`).** A **fourth profile is coming: Waukesha** (decided
-2026-10-04, address being sourced). Evidence is on a second property — milwaukeetreeguys.com's
-`/tree-service-waukesha-wi/` takes 6,839 impressions in 3 months against Caledonia's 1,658 and
-Brookfield's 1,237, on explicit Waukesha-intent queries — while Urban Loggers' own `/waukesha/`
-captures none of it. `00-local.md` has the three paste-points to wire it.
+**Phase 2 — GBP, not code (`00-local.md`).** There are **four profiles, four numbers**, all wired:
 
-Three profiles today means three of everything:
+| Profile | Number | Page | Address |
+|---|---|---|---|
+| Service-area | displays (414) 240-4626 · listed as (414) 514-0750 | `/` + 12 cities | hidden by design |
+| Brookfield | (414) 240-4626 | `/brookfield/` | 17000 W North Ave |
+| Menomonee Falls | (262) 205-4670 | `/menomonee-falls/` | N88W13901 Main St |
+| Waukesha | (262) 205-4777 | `/waukesha/` | 1915 Mac Arthur Rd |
+
+The service-area page set **displays the SignalWire line Joey owns** rather than the number on the
+listing. That is call tracking deliberately chosen over a literal NAP match — the standard
+tracking-number-as-GBP-primary arrangement — and the listed number is kept in `gbpListedPhone`.
+
+All four are open 24 hours (confirmed), which is now what both the visible text and the schema say;
+a placeholder Mon–Fri 07:00–18:00 spec used to contradict the pages.
+
+Waukesha was sited on demand measured from a second property: milwaukeetreeguys.com's
+`/tree-service-waukesha-wi/` takes 6,839 impressions in 3 months against Caledonia's 1,658 and
+Brookfield's 1,237, while Urban Loggers' own `/waukesha/` captures none of it.
+
+Four profiles means four of everything, and Track B in `00-local.md` now carries the ordered
+list. The three that matter most:
+
+1. **Proximity is the single biggest Maps factor** — decided by where the pin sits, which is the
+   whole case for separate listings rather than one stretched across the metro. A geo-grid scan
+   around each pin is the only honest read on map-pack position; Search Console cannot show it.
+2. **Categories are second only to the business name.** Per profile: pick the primary category you
+   most want to rank for, then add every relevant category the competitors in *that city's* pack
+   carry. Brookfield, Menomonee Falls and Waukesha can legitimately differ.
+3. **Citations for the two new locations — not started.** Replicate citation and social-profile
+   building per location using that location's own NAP. Do not reuse Brookfield's details on a
+   Menomonee Falls citation; that is the same NAP bleed the footer was causing, but off-site where
+   it is harder to undo.
+
+Also: **do not stuff "areas served"** — it appears to have no effect on where a listing shows up.
+And do not set the Menomonee Falls profile's website URL until this branch deploys; the page 404s.
+
+The rest:
 categories compared against each profile's own map pack, steady review cadence per profile, and each
 profile's website URL pointing at its own page. Then supply what the audit cannot know — each
 profile's real street (or "hidden"), phone and hours — so `audit/locations.json` can hold three
