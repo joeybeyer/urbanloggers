@@ -98,7 +98,33 @@ then the 13 city pages off 951–1,003. Raise citations toward 10 per money page
 
 ---
 
-## The click problem — bigger than anything above
+## ~~The click problem~~ — retracted 2026-10-04, the impressions are not human
+
+> **This section called the zero-click row the biggest finding on the site and recommended
+> rewriting `/mount-pleasant/`'s title and meta. Do not do that.** The click math rules out a CTR
+> problem:
+>
+> ```
+> query                             page               impr   pos  clk  expected
+> stump grinding mount pleasant wi  /mount-pleasant/   3432   7.9    0      103
+> emergency stump removal           www./brookfield/    116   1.0    0       31
+> stump removal                     www./brookfield/     78   2.0    0       12
+> tree trimming                     www./brookfield/     55   1.0    0       15
+> ```
+>
+> A genuine position-1 listing converts at 20–30%. Every high-position row here is **zero**, and
+> site-wide it is 22 clicks on 5,894 impressions (0.37%). Three tells together: zero clicks at
+> position 1, a near-constant 122 impressions/day for a hyper-local query in a village of 27,000
+> (implausible by ~2 orders of magnitude), and the ranking URLs sitting on the legacy `www` host.
+> That is the signature of rank-tracking software generating impressions, not of customers.
+>
+> **What to do instead:** treat these rows as instrumentation noise. Judge this site on queries with
+> real click behaviour, and do not rewrite titles chasing them. Rewriting `/mount-pleasant/` for
+> `stump grinding` would also hand a service term to a city page — the cannibalization `02-` tells
+> you to undo. If you want certainty, check whether a rank tracker is running these keywords; the
+> volume should drop to near zero when it stops.
+
+## The original section, kept for the numbers
 
 ```
 'stump grinding mount pleasant wi'   3,432 impressions   avg position 7.9   0 clicks

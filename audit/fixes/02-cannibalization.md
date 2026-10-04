@@ -37,7 +37,27 @@ The clearest case is the site's largest query:
 `/mount-pleasant/` owns the query with 99.9% of impressions at position 7.9. There is no fight.
 **Following the tool's advice here would 301 away a page-one ranking.**
 
-## The real headline is not cannibalization
+## Retraction: the zero-click row is instrumentation, not an opportunity
+
+The section below called this row the biggest finding on the site and sent you to rewrite
+`/mount-pleasant/`'s title and meta for the click. **That was wrong — the impressions are almost
+certainly not human.** A position-1 listing converts at 20–30%; here every high-position row is
+zero:
+
+```
+emergency stump removal   www./brookfield/   116 impr   pos 1.0   0 clicks   (expect ~31)
+tree trimming             www./brookfield/    55 impr   pos 1.0   0 clicks   (expect ~15)
+stump removal             www./brookfield/    78 impr   pos 2.0   0 clicks   (expect ~12)
+```
+
+Site-wide: 22 clicks on 5,894 impressions. The Mount Pleasant query runs at a near-constant 122
+impressions/day for a village of 27,000, and the ranking URLs are on the legacy `www` host. Together
+that reads as rank-tracking software, not demand.
+
+Leave the title alone. Beyond chasing phantom volume, putting `stump grinding` in a city page's
+title hands a service term to a geo page — the exact split this file tells you to undo.
+
+## The original section, kept for the numbers
 
 That same row is the biggest single finding in this audit, for a different reason:
 
