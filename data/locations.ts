@@ -248,6 +248,32 @@ export const locations: Location[] = [
       },
     ],
   },
+  {
+    slug: 'menomonee-falls',
+    name: 'Menomonee Falls',
+    county: 'Waukesha County',
+    intro:
+      'Menomonee Falls mixes mature village neighborhoods with larger lots, wooded parcels, and the Menomonee River corridor, so tree work here ranges from a single oak over a roofline to clearing a back acre. Urban Loggers LLC handles ash removals, storm-damaged limbs, and hard-to-reach trees on properties near Main Street, Appleton Avenue, and Pilgrim Road.' +
+      '\n\n' +
+      'Many Menomonee Falls lots are deep and tree-filled, which means large hardwoods, tight backyard access, and plenty of land that needs clearing before a build or a new lawn. Brian Smith’s insured crew brings 20+ years of experience and a portable sawmill, so a good oak, maple, or walnut can become lumber instead of firewood.',
+    faqs: [
+      {
+        question: 'Do you serve all of Menomonee Falls?',
+        answer:
+          'Yes. We serve the whole village of Menomonee Falls in Waukesha County, from the older neighborhoods near downtown to the larger wooded lots on the village edges. Call for a free on-site estimate.',
+      },
+      {
+        question: 'Can you clear a wooded lot in Menomonee Falls?',
+        answer:
+          'We take on small and medium land clearing, including trees, brush, and stump grinding. Sound hardwood logs can be set aside and milled into lumber or slabs. Check with the village before clearing to see whether a permit is required.',
+      },
+      {
+        question: 'What about trees the bucket truck cannot reach?',
+        answer:
+          'Deep, fenced, or sloped backyards are common here. We climb and remove trees in sections with rigging, so equipment does not need to reach the tree.',
+      },
+    ],
+  },
   // Racine County
   {
     slug: 'racine',

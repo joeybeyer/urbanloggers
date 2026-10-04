@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getLocationBySlug } from '@/data/locations'
 import { buildMetadata } from '@/lib/metadata'
-import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
+import { localBusinessSchema, faqSchema } from '@/lib/schema'
 import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 
 export const metadata: Metadata = {
@@ -23,10 +23,7 @@ export default function MequonPage() {
   const schemas = [
     localBusinessSchema('Mequon, WI', 'mequon'),
     faqSchema(location.faqs),
-    breadcrumbSchema([
-      { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Mequon', item: 'https://urbanloggers.org/mequon/' },
-    ]),
+
   ]
 
   return <CityPageTemplate location={location} schemas={schemas} />

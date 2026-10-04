@@ -146,21 +146,6 @@ export function faqSchema(faqs: FAQ[]) {
   }
 }
 
-export function breadcrumbSchema(
-  crumbs: { name: string; item: string }[]
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: crumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: crumb.name,
-      item: crumb.item,
-    })),
-  }
-}
-
 export function personSchema() {
   return {
     '@context': 'https://schema.org',

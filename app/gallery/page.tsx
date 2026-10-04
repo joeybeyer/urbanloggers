@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
-import { breadcrumbSchema } from '@/lib/schema'
 import { GalleryPageClient } from './GalleryPageClient'
 
 export const metadata: Metadata = buildMetadata(
@@ -10,17 +9,10 @@ export const metadata: Metadata = buildMetadata(
 )
 
 export default function GalleryPage() {
-  const crumbs = [
-    { name: 'Home', item: 'https://urbanloggers.org/' },
-    { name: 'Gallery', item: 'https://urbanloggers.org/gallery/' },
-  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema(crumbs)) }}
-      />
+
       <GalleryPageClient />
     </>
   )

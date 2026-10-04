@@ -43,6 +43,16 @@ export const services: Service[] = [
         answer:
           'Most residential tree removals take 2–6 hours. Large or complex jobs may take a full day. We\'ll give you a timeline when we assess the tree.',
       },
+      {
+        question: 'Do I need a permit to remove a tree?',
+        answer:
+          'It depends on the municipality. Trees in the street terrace or right-of-way are usually owned by the city and need approval from city forestry, and some communities also regulate large trees on private lots. Check with your city or village before work starts.',
+      },
+      {
+        question: 'Can you remove a tree that is close to power lines?',
+        answer:
+          'We can remove trees near service lines to your house when the work can be done safely. Trees touching or growing into the utility\'s primary lines are a job for the utility\'s own line-clearance crews, and we will tell you when that is the case.',
+      },
     ],
   },
   {
@@ -69,6 +79,16 @@ export const services: Service[] = [
         answer:
           'Yes. We\'re equipped for large canopy trees using climbing gear and aerial lifts. No tree is too big for a proper pruning assessment.',
       },
+      {
+        question: 'How much can you safely remove from a tree at once?',
+        answer:
+          'As a rule, no more than about a quarter of the live crown in a single season. Removing more stresses the tree and often triggers weak, fast-growing sprouts. Heavily overgrown trees are better corrected over two or three seasons.',
+      },
+      {
+        question: 'Does pruning ever hurt a tree?',
+        answer:
+          'Bad pruning does: topping, flush cuts, and removing too much foliage all cause long-term damage. Cuts made at the branch collar with clean tools heal properly, and that is how we prune.',
+      },
     ],
   },
   {
@@ -94,6 +114,16 @@ export const services: Service[] = [
         question: 'Can I plant a new tree where the stump was?',
         answer:
           'Yes, after grinding to proper depth and removing wood chip debris, you can replant. We recommend waiting 6–12 months for the remaining root system to decompose.',
+      },
+      {
+        question: 'Can you grind stumps in a backyard with a narrow gate?',
+        answer:
+          'Often, yes. Most gates can be worked with a compact grinder, and we will measure access during the free estimate. Tight spots, steep slopes, and fenced yards can change the price, so we confirm it before starting.',
+      },
+      {
+        question: 'Should I call before I dig near a stump?',
+        answer:
+          'Yes. Call 811 before any digging so buried utilities are marked. We check the grinding area for marked lines, irrigation heads, and cables before cutting.',
       },
     ],
   },

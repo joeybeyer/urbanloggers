@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { locations } from '@/data/locations'
+import { GbpMap } from '@/components/ui/GbpMap'
 
 export function ServiceArea() {
   return (
@@ -86,16 +87,7 @@ export function ServiceArea() {
 
         {/* Google Business Profile — service-area map (ties the site to the verified GBP) */}
         <div className="mt-12">
-          <div className="relative w-full overflow-hidden rounded-xl shadow-sm" style={{ paddingTop: '42%' }}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1106081.0740005595!2d-87.8306425!3d43.04447795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880516dbeab8a99f%3A0x1874332308ed51c8!2sUrban%20Loggers%20LLC!5e1!3m2!1sen!2sus!4v1782786060386!5m2!1sen!2sus"
-              title="Urban Loggers LLC service area map — Greater Milwaukee"
-              className="absolute inset-0 w-full h-full border-0"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
-          </div>
+          <GbpMap serving="Greater Milwaukee" ratio={42} className="shadow-sm" />
         </div>
       </div>
     </section>

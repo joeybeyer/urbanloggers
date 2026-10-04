@@ -1,24 +1,11 @@
 import Link from 'next/link'
 import { COMPANY } from '@/data/company'
+import { services } from '@/data/services'
+import { locations } from '@/data/locations'
 
-const serviceLinks = [
-  { href: '/tree-removal/', label: 'Tree Removal' },
-  { href: '/tree-trimming-pruning/', label: 'Tree Trimming & Pruning' },
-  { href: '/stump-grinding/', label: 'Stump Grinding' },
-  { href: '/emergency-tree-service/', label: 'Emergency Tree Service' },
-  { href: '/difficult-tree-removal/', label: 'Hard-to-Reach Trees' },
-  { href: '/land-clearing/', label: 'Land Clearing' },
-  { href: '/log-milling/', label: 'Log Milling' },
-  { href: '/hardwood-slabs/', label: 'Hardwood Slabs' },
-]
-
-const cityLinks = [
-  { href: '/milwaukee/', label: 'Milwaukee' },
-  { href: '/wauwatosa/', label: 'Wauwatosa' },
-  { href: '/west-allis/', label: 'West Allis' },
-  { href: '/greenfield/', label: 'Greenfield' },
-  { href: '/brookfield/', label: 'Brookfield' },
-]
+// Built from the data layer so every new service/city page is linked from every page automatically.
+const serviceLinks = services.map((s) => ({ href: `/${s.slug}/`, label: s.name }))
+const cityLinks = locations.map((l) => ({ href: `/${l.slug}/`, label: l.name }))
 
 export function Footer() {
   return (
@@ -58,7 +45,7 @@ export function Footer() {
           {/* Service Area */}
           <div>
             <h4 className="text-white font-semibold mb-3">Service Area</h4>
-            <ul className="space-y-2">
+            <ul className="columns-2 gap-x-4 [&>li]:mb-2 [&>li]:break-inside-avoid">
               {cityLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -86,7 +73,17 @@ export function Footer() {
                   {COMPANY.email}
                 </a>
               </li>
-              <li className="text-gray-400">{COMPANY.address.full}</li>
+              {/*
+                No street address here. This footer renders on every page, and publishing the
+                Brookfield street site-wide put it on 23 pages that are not Brookfield's — including
+                /menomonee-falls/, which has its own profile. That is the L2 failure in
+                audit/fixes/00-local.md: a Brookfield street on a Menomonee Falls page tells Google
+                that page is about Brookfield. The service-area business also hides its address on
+                the profile, so publishing it everywhere contradicts the profile instead of
+                reinforcing it. The full NAP stays on /contact/ and /brookfield/, which render it in
+                their own content.
+              */}
+              <li className="text-gray-400">Serving {COMPANY.serviceArea}</li>
               <li>
                 <Link href="/contact/" className="text-brand-green-light hover:text-white transition-colors">
                   Request a Free Quote →
@@ -104,7 +101,7 @@ export function Footer() {
               ★ {COMPANY.rating} on Google · {COMPANY.reviewCount}+ reviews
             </a>
             <Link href="/insurance/" className="hover:text-white transition-colors">Licensed &amp; Insured — Coverage &amp; Policy</Link>
-            <a href={`https://www.google.com/maps?cid=1762089579775349192`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+            <a href={COMPANY.gbp.serviceArea.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
               Google Business Profile
             </a>
           </div>

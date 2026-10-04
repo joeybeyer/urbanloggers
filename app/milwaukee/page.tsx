@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { services } from '@/data/services'
 import { buildMetadata } from '@/lib/metadata'
-import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
+import { localBusinessSchema, faqSchema } from '@/lib/schema'
 import { PhoneButton } from '@/components/ui/PhoneButton'
+import { GbpMap } from '@/components/ui/GbpMap'
 
 export const metadata: Metadata = {
   ...buildMetadata(
@@ -90,10 +91,7 @@ export default function MilwaukeePage() {
   const schemas = [
     localBusinessSchema('Milwaukee, WI', 'milwaukee'),
     faqSchema(faqs),
-    breadcrumbSchema([
-      { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Milwaukee', item: 'https://urbanloggers.org/milwaukee/' },
-    ]),
+
   ]
 
   return (
@@ -145,10 +143,11 @@ export default function MilwaukeePage() {
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-4">
-            Local Tree Care Built for Milwaukee Weather
+            Local Tree Care Built for Lakefront Weather
           </h2>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Milwaukee’s lakefront winds, heavy winter snow, and summer storms can be rough on trees. Whether you live in
+            <strong>Lake winds, heavy winter snow, and summer storms are the main things that damage trees here.</strong>{' '}
+            Check the <a href="https://www.weather.gov/mkx/" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">National Weather Service forecast for Milwaukee</a> before scheduling work, because wind delays climbing. Whether you live in
             the East Side, Bay View, Riverwest, Walker’s Point, Third Ward, Shorewood, or Tosa, you need a partner who
             understands local conditions, city regulations, and the unique mix of hardwoods and evergreens across the
             metro. Urban Loggers LLC provides professional tree removal, trimming, stump grinding, emergency response,
@@ -157,7 +156,7 @@ export default function MilwaukeePage() {
           <p className="text-gray-700 leading-relaxed">
             Our team focuses on safety, communication, and clean job sites. We show up on time, explain the plan, and
             make sure you know what to expect before any cuts are made. If a tree can be saved through structural
-            pruning, we’ll tell you. If removal is the safest option, we’ll handle it with the right equipment and
+            pruning, we’ll tell you; <a href="https://www.treesaregood.org/" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">Trees Are Good</a> explains what good pruning looks like. If removal is the safest option, we’ll handle it with the right equipment and
             careful protection of your home, driveway, and landscaping.
           </p>
         </div>
@@ -166,7 +165,7 @@ export default function MilwaukeePage() {
       {/* Services */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-2">Tree Services in Milwaukee</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-2">Tree Service in Milwaukee, WI</h2>
           <p className="text-gray-600 mb-6">
             We provide comprehensive tree care for residential and commercial properties throughout Milwaukee County.
             Below is a quick overview of our core services.
@@ -221,7 +220,7 @@ export default function MilwaukeePage() {
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-4">
-            Why Urban Loggers is the Tree Service Milwaukee Homeowners Recommend
+            Owner-Led Estimates and Honest Options
           </h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             We are a local, owner-operated company with deep Milwaukee roots. Brian Smith personally visits every job
@@ -239,7 +238,7 @@ export default function MilwaukeePage() {
       {/* Process */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">How Our Milwaukee Tree Service Works</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">How a Job Works, Start to Finish</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-warm-white p-6 rounded-lg border border-gray-100">
               <h3 className="font-semibold text-charcoal mb-2">1) On-site evaluation</h3>
@@ -270,7 +269,7 @@ export default function MilwaukeePage() {
       {/* Pricing */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">Milwaukee Tree Service Pricing & Cost Guide</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Tree Service Pricing &amp; Cost Guide</h2>
           <p className="text-gray-700 leading-relaxed mb-6">
             Every tree is different, so we quote each project based on size, access, hazards, and the services required.
             The ranges below reflect typical Milwaukee jobs, but a quick on-site visit will give you an exact number.
@@ -303,7 +302,7 @@ export default function MilwaukeePage() {
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-2xl font-bold text-charcoal mb-4">Portable Sawmill & Log Milling in Milwaukee</h2>
+            <h2 className="text-2xl font-bold text-charcoal mb-4">Portable Sawmill &amp; Log Milling</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               Urban Loggers LLC is one of the few Milwaukee tree service companies offering on-site log milling. When a
               healthy hardwood must come down, we can turn that tree into custom lumber for shelves, tables, mantels, or
@@ -311,7 +310,7 @@ export default function MilwaukeePage() {
               value of the wood in your hands.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Our portable sawmill is perfect for oaks, maples, and other common Milwaukee species. Ask about milling
+              Our portable sawmill is perfect for oaks, maples, and other common Milwaukee species; the <a href="https://extension.wisc.edu/" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">UW–Madison Division of Extension</a> has tree identification guidance if you are unsure what you have. Ask about milling
               during your estimate and we’ll advise whether your tree is a good candidate.
             </p>
           </div>
@@ -329,7 +328,7 @@ export default function MilwaukeePage() {
       {/* Neighborhoods */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">Neighborhoods We Serve Across Milwaukee</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Neighborhoods We Serve Across the City</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             We’re local, so we understand the access challenges of narrow alleys, mature tree lines, and historic homes.
             Our crews regularly work in the East Side, Bay View, Riverwest, Walker’s Point, Third Ward, Shorewood, and
@@ -338,7 +337,7 @@ export default function MilwaukeePage() {
           </p>
           <p className="text-gray-700 leading-relaxed">
             If you’re unsure whether a tree is in the public right-of-way, we can help you confirm boundaries and guide
-            you through the city’s forestry requirements. Our goal is to keep you compliant while protecting your home
+            you through the <a href="https://city.milwaukee.gov/" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">City of Milwaukee</a> public-tree and forestry requirements. Our goal is to keep you compliant while protecting your home
             and your neighborhood’s canopy.
           </p>
         </div>
@@ -355,7 +354,7 @@ export default function MilwaukeePage() {
             moves forward without delays.
           </p>
           <p className="text-gray-700 leading-relaxed">
-            The emerald ash borer continues to threaten ash trees across Milwaukee County. If you’re seeing canopy
+            The emerald ash borer continues to threaten ash trees across Milwaukee County, and the <a href="https://dnr.wisconsin.gov/topic/ForestHealth/EmeraldAshBorer" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">Wisconsin DNR</a> tracks its spread. If you’re seeing canopy
             thinning, bark splitting, or woodpecker activity, schedule an inspection. In some cases, selective pruning
             and treatment can buy time; in others, proactive removal may be the safest and most cost-effective choice.
           </p>
@@ -365,7 +364,7 @@ export default function MilwaukeePage() {
       {/* Emergency */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">24/7 Emergency Tree Service in Milwaukee</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">24/7 Emergency Tree Service</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             Storms off Lake Michigan can produce sudden wind damage, split trunks, and fallen limbs. Our emergency
             response team is on call 24/7 to clear hazards, stabilize damaged trees, and restore safety to your property.
@@ -373,7 +372,7 @@ export default function MilwaukeePage() {
           </p>
           <p className="text-gray-700 leading-relaxed">
             If a tree is resting on a roof, power lines are involved, or a limb is hanging over a driveway, call us
-            immediately at (414) 240-4626. We will prioritize safety and coordinate with utility providers when required.
+            immediately at (414) 240-4626. We will prioritize safety and coordinate with utility providers such as <a href="https://www.we-energies.com/" target="_blank" rel="noopener" className="text-brand-green underline hover:no-underline">We Energies</a> when required.
           </p>
         </div>
       </section>
@@ -381,7 +380,7 @@ export default function MilwaukeePage() {
       {/* Testimonials */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Milwaukee Reviews for Urban Loggers LLC</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Customer Reviews for Urban Loggers LLC</h2>
           <div className="space-y-4">
             {testimonials.map((t) => (
               <div key={t.name} className="bg-warm-white rounded-lg p-6 border border-gray-100">
@@ -396,7 +395,7 @@ export default function MilwaukeePage() {
       {/* FAQs */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Milwaukee Tree Service — FAQ</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Tree Service FAQ</h2>
           <div className="space-y-4">
             {faqs.map((faq) => (
               <div key={faq.question} className="bg-white rounded-lg p-6 border border-gray-100">
@@ -412,25 +411,14 @@ export default function MilwaukeePage() {
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-6">Find Urban Loggers LLC</h2>
-          <div className="rounded-xl overflow-hidden shadow-sm border border-gray-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d885448.0302412213!2d-87.8306425!3d43.04447795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880516dbeab8a99f%3A0x1874332308ed51c8!2sUrban%20Loggers%20LLC!5e1!3m2!1sen!2sus!4v1773871772090!5m2!1sen!2sus"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Urban Loggers LLC serving Milwaukee, WI"
-            />
-          </div>
+          <GbpMap serving="Milwaukee, WI" height={400} className="shadow-sm" />
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-12 px-4 bg-brand-green text-white text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-3">Ready for a Free Estimate in Milwaukee?</h2>
+          <h2 className="text-2xl font-bold mb-3">Get a Free Written Estimate</h2>
           <p className="text-green-100 mb-6">
             Call Urban Loggers LLC today for a clear, professional quote. Brian visits every job site in person before
             pricing, and we never recommend work you don’t need.

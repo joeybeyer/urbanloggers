@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { COMPANY } from '@/data/company'
 import { buildMetadata } from '@/lib/metadata'
-import { personSchema, localBusinessSchema, breadcrumbSchema, organizationSchema } from '@/lib/schema'
+import { personSchema, localBusinessSchema, organizationSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'About Brian Smith | Urban Loggers LLC Milwaukee',
@@ -12,10 +12,6 @@ export const metadata: Metadata = buildMetadata(
 )
 
 export default function AboutPage() {
-  const crumbs = [
-    { name: 'Home', item: 'https://urbanloggers.org/' },
-    { name: 'About', item: 'https://urbanloggers.org/about/' },
-  ]
 
   return (
     <>
@@ -27,10 +23,7 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema()) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema(crumbs)) }}
-      />
+
 
       {/* Hero */}
       <section className="bg-brand-green text-white py-14 px-4">

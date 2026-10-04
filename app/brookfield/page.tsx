@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
-import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
+import { localBusinessSchema, faqSchema } from '@/lib/schema'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { TextButton } from '@/components/ui/TextButton'
+import { GbpMap } from '@/components/ui/GbpMap'
+import { ExtLink } from '@/components/ui/ExtLink'
 import { COMPANY } from '@/data/company'
 
 export const metadata: Metadata = {
@@ -57,13 +59,11 @@ const faqs = [
 
 export default function BrookfieldPage() {
   const schemas = [
-    // This page is siloed to the verified Brookfield GMB (CID 6929671209341908664), not the main service-area listing.
-    localBusinessSchema('Brookfield, WI', 'brookfield', 'https://www.google.com/maps?cid=6929671209341908664'),
+    // Siloed to the Brookfield profile (cid 6929671209341908664) — the 17000 W North Ave listing,
+    // NOT the service-area business and not Menomonee Falls. See COMPANY.gbp.
+    localBusinessSchema('Brookfield, WI', 'brookfield', COMPANY.gbp.brookfield.mapsUrl),
     faqSchema(faqs),
-    breadcrumbSchema([
-      { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Brookfield', item: 'https://urbanloggers.org/brookfield/' },
-    ]),
+
   ]
 
   return (
@@ -152,14 +152,40 @@ export default function BrookfieldPage() {
       {/* Local intro */}
       <section className="py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">Tree Care Built for Brookfield&rsquo;s Mature Canopy</h2>
+          {/*
+            Tactic 06: exactly ONE H2 carries the complete search phrase — the "Tree Service in
+            Brookfield, WI" heading below. Every other H2 is declarative and does not repeat the
+            phrase in full. Six of six H2s used to name the city, which reads as "complete search
+            phrase in multiple subheading forms" and loses to the single-H2 winner config.
+          */}
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Tree Care Built for a Mature Suburban Canopy</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             Brookfield&rsquo;s established neighborhoods — Elmbrook, Ruby Isle, the areas around Fox Brook Park, Wirth
             Park, and the Bluemound Road corridor — are full of large, mature oaks, maples, and ash. Those big
             hardwoods are beautiful, but they need experienced care: heavy limbs over roofs and driveways, ash
-            declining from emerald ash borer, and storm-loosened branches after Wisconsin&rsquo;s freeze-thaw winters
-            and summer wind events. Because we&rsquo;re based right here in Brookfield, we know the property styles,
-            the tree species, and the local conditions.
+            declining from emerald ash borer — which the{' '}
+            <ExtLink href="https://dnr.wisconsin.gov/topic/ForestHealth/EmeraldAshBorer">
+              Wisconsin DNR
+            </ExtLink>{' '}
+            reports is established across Waukesha County — and storm-loosened branches after Wisconsin&rsquo;s
+            freeze-thaw winters and summer wind events. Because we&rsquo;re based right here in Brookfield, we know
+            the property styles, the tree species, and the local conditions.
+          </p>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            Pruning follows the{' '}
+            <ExtLink href="https://www.isa-arbor.com/">International Society of Arboriculture</ExtLink>{' '}
+            standards rather than the old practice of topping, which{' '}
+            <ExtLink href="https://www.treesaregood.org/treeowner/matureTreeCare">
+              arborists warn
+            </ExtLink>{' '}
+            leaves large wounds and weak regrowth. The{' '}
+            <ExtLink href="https://www.aphis.usda.gov/plant-pests-diseases/emerald-ash-borer">
+              USDA quarantine rules
+            </ExtLink>{' '}
+            also govern where ash wood may be moved, which is why we process it on site. For a tree near a
+            service drop, the line belongs to{' '}
+            <ExtLink href="https://www.we-energies.com/outages/trees-power-lines">We Energies</ExtLink>, not to
+            us, and clearance work there is theirs to do.
           </p>
           <p className="text-gray-700 leading-relaxed">
             Every job starts with owner Brian Smith walking the property in person, giving you a straight assessment
@@ -172,7 +198,7 @@ export default function BrookfieldPage() {
       {/* Decision-Fit Mapping — #1 ranking factor: which option fits which situation (expert prose, not a table) */}
       <section className="py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-4">Brookfield Tree Removal, Trimming, or Treatment — Which Fits</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Removal, Trimming, or Treatment — Which Fits</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             The right call depends on the tree, not a sales pitch. Here is how Urban Loggers decides on a Brookfield property:
           </p>
@@ -194,7 +220,7 @@ export default function BrookfieldPage() {
       {/* Services */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Our Tree Services in Brookfield</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Tree Service in Brookfield, WI</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {[
               { href: '/tree-removal/', title: 'Tree Removal', desc: 'Safe removal of hazardous, dead, or overgrown trees — including large hardwoods near homes.' },
@@ -216,7 +242,7 @@ export default function BrookfieldPage() {
       {/* FAQ */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Common Tree Service Questions in Brookfield</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Questions Homeowners Ask Most</h2>
           <div className="space-y-4">
             {faqs.map((f, i) => (
               <details key={i} className="bg-warm-white border border-gray-200 rounded-lg p-5">
@@ -231,25 +257,15 @@ export default function BrookfieldPage() {
       {/* Map — the verified Brookfield GMB (this page only) */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Find Urban Loggers LLC in Brookfield</h2>
-          <div className="rounded-xl overflow-hidden border border-gray-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2915.043721436626!2d-88.1235279!3d43.061547999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880507432e635c89%3A0x602b233ffb1376b8!2sUrban%20Loggers%20LLC!5e0!3m2!1sen!2sus!4v1783799361027!5m2!1sen!2sus"
-              width="100%"
-              height="360"
-              style={{ border: 0 }}
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              title="Urban Loggers LLC — 17000 W North Ave, Brookfield, WI"
-            />
-          </div>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Find Urban Loggers LLC</h2>
+          <GbpMap profile="brookfield" height={360} />
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-14 px-4 bg-brand-green text-white text-center">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold mb-3">Ready for a Free Estimate in Brookfield?</h2>
+          <h2 className="text-3xl font-bold mb-3">Book a Free On-Site Estimate</h2>
           <p className="text-green-100 mb-6">Brian visits every job site in person before quoting. No pressure, no obligation.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <PhoneButton size="lg" className="!bg-white !text-brand-green" />

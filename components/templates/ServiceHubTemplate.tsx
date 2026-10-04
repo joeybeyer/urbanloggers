@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { getServiceBySlug } from '@/data/services'
-import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
+import { serviceSchema, faqSchema } from '@/lib/schema'
 
 interface ServiceHubTemplateProps {
   slug: string
@@ -15,6 +15,8 @@ interface ServiceHubTemplateProps {
   tableHeaders: [string, string]
   tableRows: [string, string][]
   related: { href: string; label: string }[]
+  /** Optional bolded key answer rendered as the first body paragraph, before longDesc. */
+  keyFact?: string
   children: React.ReactNode
 }
 
@@ -31,14 +33,11 @@ export function ServiceHubTemplate({
   tableHeaders,
   tableRows,
   related,
+  keyFact,
   children,
 }: ServiceHubTemplateProps) {
   const service = getServiceBySlug(slug)!
   const url = `https://urbanloggers.org/${slug}/`
-  const crumbs = [
-    { name: 'Home', item: 'https://urbanloggers.org/' },
-    { name: service.name, item: url },
-  ]
 
   return (
     <>
@@ -49,7 +48,6 @@ export function ServiceHubTemplate({
         }}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(service.faqs)) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema(crumbs)) }} />
 
       {/* Hero */}
       <section className="relative text-white py-14 px-4 min-h-[400px] flex items-center overflow-hidden">
@@ -98,6 +96,11 @@ export function ServiceHubTemplate({
       {/* Body */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto prose-brand">
+          {keyFact && (
+            <p>
+              <strong>{keyFact}</strong>
+            </p>
+          )}
           <p>{service.longDesc}</p>
           {children}
         </div>

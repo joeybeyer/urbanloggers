@@ -2,7 +2,7 @@
 const CITIES = [
   'milwaukee', 'wauwatosa', 'west-allis', 'greenfield', 'south-milwaukee', 'waukesha',
   'brookfield', 'new-berlin', 'pewaukee', 'mequon', 'cedarburg', 'port-washington',
-  'racine', 'mount-pleasant',
+  'racine', 'mount-pleasant', 'menomonee-falls',
 ]
 // combo slug -> canonical service hub (hub-and-spoke: no city+service combo pages)
 const COMBO_TO_HUB = {

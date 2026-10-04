@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getLocationBySlug } from '@/data/locations'
 import { buildMetadata } from '@/lib/metadata'
-import { localBusinessSchema, faqSchema, breadcrumbSchema } from '@/lib/schema'
+import { localBusinessSchema, faqSchema } from '@/lib/schema'
 import { CityPageTemplate } from '@/components/templates/CityPageTemplate'
 
 export const metadata: Metadata = {
@@ -23,11 +23,7 @@ export default function MountPleasantPage() {
   const schemas = [
     localBusinessSchema('Mount Pleasant, WI', 'mount-pleasant'),
     faqSchema(location.faqs),
-    breadcrumbSchema([
-      { name: 'Home', item: 'https://urbanloggers.org/' },
-      { name: 'Racine', item: 'https://urbanloggers.org/racine/' },
-      { name: 'Mount Pleasant', item: 'https://urbanloggers.org/mount-pleasant/' },
-    ]),
+
   ]
 
   return <CityPageTemplate location={location} schemas={schemas} />

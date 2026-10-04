@@ -33,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Audit crawl cache — reproducible with crawl-live.cjs, not worth versioning
+audit/fc/
+audit/live-*/all-parsed.json

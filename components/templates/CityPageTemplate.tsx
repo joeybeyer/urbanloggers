@@ -2,13 +2,21 @@ import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { services } from '@/data/services'
 import { locations, type Location } from '@/data/locations'
+import { localContext } from '@/data/local-context'
+import { ExtLink } from '@/components/ui/ExtLink'
+import { GbpMap, type GbpProfile } from '@/components/ui/GbpMap'
 
 interface CityPageTemplateProps {
   location: Location
   schemas: object[]
+  /**
+   * The GBP that serves this city. Only pass it for a city that has its OWN profile
+   * (menomonee-falls); every other city is served by the service-area business.
+   */
+  gbpProfile?: GbpProfile
 }
 
-export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
+export function CityPageTemplate({ location, schemas, gbpProfile }: CityPageTemplateProps) {
   // 2-3 ACROSS: same-county sibling cities (hub-and-spoke silo linking)
   const siblings = locations
     .filter((l) => l.county === location.county && l.slug !== location.slug)
@@ -32,7 +40,22 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
             Tree Service in {location.name}, WI
           </h1>
-          <p className="text-xl text-green-100 mb-8">{location.intro}</p>
+          {/*
+            `intro` holds two paragraphs separated by a blank line. Rendering the whole string in
+            ONE <p> collapsed the newline, making the opening paragraph 87-119 words on every city
+            page against the 75-word rule (tactics 04/11: the answer sits directly under the H1 and
+            stays short). Split into real paragraphs so the first one IS the answer — no copy
+            changes, and the second paragraph keeps its supporting detail.
+          */}
+          {location.intro
+            .split(/\n\s*\n/)
+            .map((para) => para.trim())
+            .filter(Boolean)
+            .map((para, i) => (
+              <p key={i} className={`text-xl text-green-100 ${i === 0 ? 'mb-4' : 'mb-8'}`}>
+                {para}
+              </p>
+            ))}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <PhoneButton size="lg" />
             <Link
@@ -49,10 +72,10 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       <section className="py-10 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-3">
-            {location.name} Tree Service Cost Guide
+            What Tree Work Typically Costs
           </h2>
           <p className="faq-answer text-gray-700 mb-4">
-            Tree service in {location.name}, WI typically costs $300 to $2,000+ per project — small
+            Tree service in {location.name}, WI typically costs <strong>$300 to $2,000+ per project</strong> — small
             trimming jobs start around $100–$500 and full removals run $700–$2,500+ depending on size,
             location, and access. Urban Loggers provides free, no-obligation on-site estimates.
           </p>
@@ -69,7 +92,7 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-2">
-            Tree Services in {location.name}
+            Tree Service in {location.name}, WI
           </h2>
           <p className="text-gray-600 mb-6">
             Urban Loggers LLC provides all of the following services throughout {location.name} and {location.county}.
@@ -129,7 +152,7 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-6">
-            How We Work With {location.name} Homeowners
+            How a Job Works, Start to Finish
           </h2>
           <ol className="space-y-3 text-gray-700">
             <li><strong>1. Free on-site assessment</strong> — Brian visits your property, usually within 48 hours.</li>
@@ -140,11 +163,38 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
         </div>
       </section>
 
+      {/* Local context + cited sources — unique per city, followed in-sentence links */}
+      <section className="py-12 px-4 bg-warm-white">
+        <div className="max-w-3xl mx-auto prose-brand">
+          <h2>Wisconsin Tree Health and Safety Notes</h2>
+          {localContext[location.slug] && <p>{localContext[location.slug]}</p>}
+          <p>
+            Most tree trouble here follows a few patterns. Ash trees across {location.county} are still being lost to
+            the emerald ash borer, which the{' '}
+            <ExtLink href="https://dnr.wisconsin.gov/topic/ForestHealth/EmeraldAshBorer">Wisconsin DNR</ExtLink> tracks
+            statewide, and the{' '}
+            <ExtLink href="https://www.aphis.usda.gov/">USDA APHIS</ExtLink> runs the federal response. Oaks are
+            pruned only in the dormant season to avoid spreading oak wilt, a disease the{' '}
+            <ExtLink href="https://www.fs.usda.gov/">U.S. Forest Service</ExtLink> also studies.
+          </p>
+          <p>
+            When we prune, we follow the standards and guidance published by the{' '}
+            <ExtLink href="https://www.isa-arbor.com/">International Society of Arboriculture</ExtLink>, and homeowners
+            can read plain-language tree care advice at{' '}
+            <ExtLink href="https://www.treesaregood.org/">Trees Are Good</ExtLink>. If a storm is forecast, check the{' '}
+            <ExtLink href="https://www.weather.gov/mkx/">National Weather Service Milwaukee/Sullivan office</ExtLink>,
+            and never touch a tree in contact with a line: report it to{' '}
+            <ExtLink href="https://www.we-energies.com/">We Energies</ExtLink>. For more on caring for the trees on your
+            lot, <ExtLink href="https://extension.wisc.edu/">UW–Madison Extension</ExtLink> is a reliable local source.
+          </p>
+        </div>
+      </section>
+
       {/* FAQs */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-6">
-            {location.name} Tree Service — FAQ
+            Common Questions From Homeowners
           </h2>
           <div className="space-y-4">
             {location.faqs.map((faq) => (
@@ -160,19 +210,13 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       {/* Map */}
       <section className="py-12 px-4 bg-warm-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-charcoal mb-6">Find Urban Loggers LLC</h2>
-          <div className="rounded-xl overflow-hidden shadow-sm border border-gray-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d885448.0302412213!2d-87.8306425!3d43.04447795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880516dbeab8a99f%3A0x1874332308ed51c8!2sUrban%20Loggers%20LLC!5e1!3m2!1sen!2sus!4v1773871772090!5m2!1sen!2sus"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={`Urban Loggers LLC serving ${location.name}, WI`}
-            />
-          </div>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Where to Find Us</h2>
+          <GbpMap
+            profile={gbpProfile}
+            serving={`${location.name}, WI`}
+            height={400}
+            className="shadow-sm"
+          />
         </div>
       </section>
 
@@ -180,7 +224,7 @@ export function CityPageTemplate({ location, schemas }: CityPageTemplateProps) {
       <section className="py-12 px-4 bg-brand-green text-white text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold mb-3">
-            Ready for a Free Estimate in {location.name}?
+            Ready for a Free Estimate?
           </h2>
           <p className="text-green-100 mb-6">
             Brian visits every job site in person before quoting. No pressure, no obligation.

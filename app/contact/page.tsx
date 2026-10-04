@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PhoneButton } from '@/components/ui/PhoneButton'
 import { QuoteForm } from '@/components/ui/QuoteForm'
+import { GbpMap } from '@/components/ui/GbpMap'
 import { COMPANY } from '@/data/company'
 import { buildMetadata } from '@/lib/metadata'
-import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = buildMetadata(
   'Get a Free Tree Service Quote | Urban Loggers LLC Milwaukee',
@@ -13,17 +13,10 @@ export const metadata: Metadata = buildMetadata(
 )
 
 export default function ContactPage() {
-  const crumbs = [
-    { name: 'Home', item: 'https://urbanloggers.org/' },
-    { name: 'Contact', item: 'https://urbanloggers.org/contact/' },
-  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema(crumbs)) }}
-      />
+
       {/* Hero */}
       <section className="bg-brand-green text-white py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
@@ -100,18 +93,7 @@ export default function ContactPage() {
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-charcoal mb-6">Our Service Area</h2>
-          <div className="rounded-xl overflow-hidden shadow-sm border border-gray-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d885448.0302412213!2d-87.8306425!3d43.04447795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880516dbeab8a99f%3A0x1874332308ed51c8!2sUrban%20Loggers%20LLC!5e1!3m2!1sen!2sus!4v1773871772090!5m2!1sen!2sus"
-              width="100%"
-              height="450"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Urban Loggers LLC — Greater Milwaukee service area"
-            />
-          </div>
+          <GbpMap height={450} className="shadow-sm" />
         </div>
       </section>
 
