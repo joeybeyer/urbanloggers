@@ -144,6 +144,8 @@ export default function LogMillingPage() {
           <div className="flex flex-wrap gap-3">
             <Link href="/" className="text-brand-green hover:underline text-sm">← Home</Link>
             <Link href="/tree-removal/" className="text-brand-green hover:underline text-sm">Tree Removal</Link>
+            <Link href="/hardwood-slabs/" className="text-brand-green hover:underline text-sm">Hardwood Slabs</Link>
+            <Link href="/land-clearing/" className="text-brand-green hover:underline text-sm">Land Clearing</Link>
             <Link href="/about/" className="text-brand-green hover:underline text-sm">About Brian</Link>
             <Link href="/contact/" className="text-brand-green hover:underline text-sm">Get a Quote</Link>
           </div>

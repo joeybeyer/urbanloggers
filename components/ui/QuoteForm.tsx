@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-type ServiceCategory = 'removal' | 'trimming' | 'stump' | 'emergency' | 'milling' | null
+type ServiceCategory = 'removal' | 'difficult' | 'clearing' | 'trimming' | 'stump' | 'emergency' | 'milling' | 'slabs' | null
 
 type ScopeCard = { value: string; label: string; subtitle?: string; description: string; badge?: string }
 
@@ -28,6 +28,16 @@ const categories: {
     value: 'removal', slug: 'tree-removal', name: 'Tree Removal',
     headline: 'I need a tree taken down', sub: 'Dead, damaged, or just in the wrong place',
     badge: 'Most Common', accent: 'green',
+  },
+  {
+    value: 'difficult', slug: 'difficult-tree-removal', name: 'Difficult Tree Removal',
+    headline: 'The tree is leaning or hard to get to', sub: 'Precarious, tangled, or no access for a truck or lift',
+    accent: 'green',
+  },
+  {
+    value: 'clearing', slug: 'land-clearing', name: 'Land Clearing',
+    headline: 'I need land or a lot cleared', sub: 'Trees, brush, and stumps on a small or medium lot',
+    accent: 'green',
   },
   {
     value: 'trimming', slug: 'tree-trimming-pruning', name: 'Tree Trimming & Pruning',
@@ -49,6 +59,11 @@ const categories: {
     headline: 'I want my logs milled into lumber', sub: 'Portable sawmill — slabs, beams, and boards',
     accent: 'green',
   },
+  {
+    value: 'slabs', slug: 'hardwood-slabs', name: 'Hardwood Slabs',
+    headline: "I'm looking to buy hardwood or slabs", sub: 'Local walnut, oak, maple, and more for woodworking',
+    accent: 'green',
+  },
 ]
 
 // Step 3 — visual scope cards per category.
@@ -59,6 +74,19 @@ const scopeCardsByCategory: Record<Exclude<ServiceCategory, null>, ScopeCard[]> 
     { value: 'large-tree', label: 'Large Tree', subtitle: '50 ft+', description: 'Mature oak, cottonwood, or silver maple' },
     { value: 'multiple-trees', label: 'Multiple Trees', description: 'Two or more, or a whole lot to clear' },
     { value: 'not-sure', label: "I'm Not Sure", description: 'Come take a look and give me a ballpark' },
+  ],
+  difficult: [
+    { value: 'leaning-tree', label: 'Leaning / Precarious Tree', description: 'Leaning toward a house, or damaged and unstable', badge: 'Most Common' },
+    { value: 'hung-up', label: 'Hung Up in Another Tree', description: 'Fallen or broken and caught in the canopy' },
+    { value: 'no-access', label: 'No Truck or Lift Access', description: 'Fenced yard, narrow gate, slope, or tight spot' },
+    { value: 'over-structure', label: 'Over a Structure', description: 'Hanging over a house, garage, shed, or pool' },
+    { value: 'not-sure', label: "I'm Not Sure", description: 'Send photos and let Brian take a look' },
+  ],
+  clearing: [
+    { value: 'small-clearing', label: 'Small Clearing', description: 'A section of backyard, fence line, or a few trees' },
+    { value: 'medium-clearing', label: 'Medium Clearing', description: 'Building lot or up to a few acres', badge: 'Most Common' },
+    { value: 'clearing-with-stumps', label: 'Clearing + Stumps', description: 'Trees, brush, and stumps all need to go' },
+    { value: 'not-sure', label: "I'm Not Sure", description: 'Walk the lot with me and give me a number' },
   ],
   trimming: [
     { value: 'one-tree', label: 'One Tree', description: 'Single tree needs shaping or thinning' },
@@ -85,6 +113,13 @@ const scopeCardsByCategory: Record<Exclude<ServiceCategory, null>, ScopeCard[]> 
     { value: 'dimensional-lumber', label: 'Dimensional Lumber', description: 'Boards and beams for a build' },
     { value: 'existing-logs', label: 'Logs I Already Have', description: 'Already down and stored on my property' },
     { value: 'not-sure', label: "I'm Not Sure", description: "Let's talk about what the tree could become" },
+  ],
+  slabs: [
+    { value: 'live-edge-slab', label: 'Live-Edge Slab', description: 'Table, bar, or mantel piece', badge: 'Most Requested' },
+    { value: 'flat-sawn-lumber', label: 'Flat-Sawn Boards', description: 'Boards for furniture or woodworking projects' },
+    { value: 'specific-species', label: 'A Specific Species', description: 'Walnut, oak, maple, cherry — tell us what you need' },
+    { value: 'reserve-from-tree', label: 'Reserve From an Upcoming Tree', description: 'Get a slab from a tree before it comes down' },
+    { value: 'not-sure', label: "I'm Not Sure", description: 'Tell me what you have available' },
   ],
 }
 
@@ -506,6 +541,9 @@ export function QuoteForm({ className = '' }: { className?: string }) {
           <div className="space-y-4">
             <p className="text-center text-sm font-medium text-gray-700">
               {category === 'removal' ? 'How big is the tree?'
+                : category === 'difficult' ? "What's making it difficult?"
+                : category === 'clearing' ? 'How big is the area?'
+                : category === 'slabs' ? 'What are you looking for?'
                 : category === 'trimming' ? 'How much needs trimming?'
                 : category === 'stump' ? 'How many stumps?'
                 : category === 'emergency' ? "What's the situation?"

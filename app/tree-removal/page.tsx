@@ -137,6 +137,8 @@ export default function TreeRemovalPage() {
             <Link href="/" className="text-brand-green hover:underline text-sm">← Home</Link>
             <Link href="/stump-grinding/" className="text-brand-green hover:underline text-sm">Stump Grinding</Link>
             <Link href="/log-milling/" className="text-brand-green hover:underline text-sm">Log Milling</Link>
+            <Link href="/difficult-tree-removal/" className="text-brand-green hover:underline text-sm">Hard-to-Reach Trees</Link>
+            <Link href="/land-clearing/" className="text-brand-green hover:underline text-sm">Land Clearing</Link>
             <Link href="/emergency-tree-service/" className="text-brand-green hover:underline text-sm">Emergency Service</Link>
           </div>
         </div>

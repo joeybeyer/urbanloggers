@@ -16,7 +16,7 @@ export function ServicesGrid() {
             From emergency storm response to custom log milling &mdash; we handle every aspect of tree care.
           </p>
         </AnimatedSection>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, idx) => (
             <AnimatedSection key={service.slug} delay={idx * 0.1}>
               <AnimatedCard className="h-full">

@@ -7,7 +7,10 @@ const serviceLinks = [
   { href: '/tree-trimming-pruning/', label: 'Trimming & Pruning' },
   { href: '/stump-grinding/', label: 'Stump Grinding' },
   { href: '/emergency-tree-service/', label: 'Emergency Service' },
+  { href: '/difficult-tree-removal/', label: 'Hard-to-Reach Trees' },
+  { href: '/land-clearing/', label: 'Land Clearing' },
   { href: '/log-milling/', label: 'Log Milling' },
+  { href: '/hardwood-slabs/', label: 'Hardwood Slabs' },
 ]
 
 const locationGroups = [

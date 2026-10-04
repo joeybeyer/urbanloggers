@@ -159,6 +159,114 @@ export const services: Service[] = [
       },
     ],
   },
+  {
+    slug: 'land-clearing',
+    name: 'Land Clearing',
+    shortDesc: 'Small and mid-size lot clearing — trees, brush, and stumps removed, with the best hardwood saved for milling.',
+    icon: '🚜',
+    image: '/images/stump-grinding.jpg',
+    longDesc:
+      'Urban Loggers LLC clears small and medium-sized lots across Greater Milwaukee — building sites, overgrown backyards, fence lines, and acreage that needs to be opened up. We take down the trees, grind the stumps, and haul or chip the brush. And because Brian runs a portable sawmill, the good hardwood that comes off your land doesn\'t get chipped: it gets milled into lumber and live-edge slabs.',
+    faqs: [
+      {
+        question: 'How much does land clearing cost in Wisconsin?',
+        answer:
+          'Small residential lot clearing commonly runs from a few thousand dollars up, depending on tree density, stump count, access, and whether debris is hauled or chipped on site. Every job is priced after a free on-site walk-through — we won\'t quote a lot we haven\'t seen.',
+      },
+      {
+        question: 'How big a job do you take on?',
+        answer:
+          'We specialize in small and medium clearing — backyards, building lots, fence lines, and acreage that a crew and a portable mill can handle efficiently. For very large commercial tracts we\'ll tell you honestly if another contractor is a better fit.',
+      },
+      {
+        question: 'What happens to the trees and brush?',
+        answer:
+          'Brush is chipped or hauled. Straight, sound hardwood logs — oak, walnut, maple, cherry, ash — can be set aside and milled into lumber or slabs. Depending on the quality of the logs, that can reduce your cost.',
+      },
+      {
+        question: 'Do you grind the stumps too?',
+        answer:
+          'Yes. We can grind every stump to below grade so the lot is ready for grading, building, or seed. Stump grinding is quoted as part of the clearing job.',
+      },
+      {
+        question: 'Do I need a permit to clear land?',
+        answer:
+          'It depends on your municipality, lot size, and whether there are protected trees, wetlands, or shoreland zones. Check with your city or county before work begins — we can tell you what we\'ve typically seen locally, but the permit decision is the municipality\'s.',
+      },
+    ],
+  },
+  {
+    slug: 'difficult-tree-removal',
+    name: 'Difficult Tree Removal',
+    shortDesc: 'Precarious, leaning, and hard-to-reach trees — removed with rigging and climbing where machines can\'t go.',
+    icon: '🧗',
+    image: '/images/tree-removal.jpg',
+    longDesc:
+      'Some trees can\'t be dropped the easy way. They lean over a house, hang over power lines, sit behind a fence, or stand in a backyard no truck or lift can reach. Urban Loggers LLC specializes in exactly these jobs — climbing, sectional rigging, and controlled lowering so every piece comes down where we want it, not where gravity does.',
+    faqs: [
+      {
+        question: 'What makes a tree "precarious"?',
+        answer:
+          'A tree is precarious when it\'s leaning, split, partially uprooted, hung up in another tree, or heavy on one side over something valuable. These need a different plan than a standard removal — often climbing and rigging instead of felling.',
+      },
+      {
+        question: 'Can you remove a tree my backyard has no access to?',
+        answer:
+          'Usually, yes. When no lift or truck can reach the tree — a fenced yard, a narrow side gate, a steep slope — we climb it and take it down in sections, lowering each piece with ropes. Hand-carried and rigged removal costs more than open-access work, and we\'ll quote it clearly up front.',
+      },
+      {
+        question: 'Is it safe to remove a tree that\'s leaning toward my house?',
+        answer:
+          'It\'s safe when done correctly, which means a plan, not a guess. We assess the lean and any root or trunk damage, then rig the tree so sections are controlled the whole way down. Don\'t attempt a leaning tree yourself.',
+      },
+      {
+        question: 'What about trees near power lines?',
+        answer:
+          'Never touch a tree that is in contact with power lines. Call us and we coordinate with We Energies where lines are involved, and work around de-energized lines when cleared.',
+      },
+      {
+        question: 'Is a precarious tree an emergency?',
+        answer:
+          'If it has already fallen on or against a structure, or a limb is hanging, yes — see our emergency tree service page and call right away. If it\'s leaning and stable, we\'ll schedule a prompt assessment.',
+      },
+    ],
+  },
+  {
+    slug: 'hardwood-slabs',
+    name: 'Hardwood Slabs',
+    shortDesc: 'Locally sourced hardwood slabs and lumber for woodworkers — milled from Wisconsin trees, never imported.',
+    icon: '🪑',
+    image: '/images/milling.jpg',
+    longDesc:
+      'Urban Loggers LLC takes down hardwoods across Greater Milwaukee every week, and the best of them end up on our sawmill instead of in a chipper. That means locally sourced live-edge and flat-sawn slabs for woodworkers, furniture makers, and homeowners — with a known story for every board. If you\'re looking for a specific species or size, tell us and we\'ll keep an eye out on upcoming jobs.',
+    faqs: [
+      {
+        question: 'What hardwood species do you have?',
+        answer:
+          'Availability depends on the trees we take down, so it changes. Common Wisconsin hardwoods we come across include red and white oak, hard and soft maple, black walnut, cherry, ash, elm, and hickory. Tell us what you\'re after and we\'ll let you know what\'s in stock or coming.',
+      },
+      {
+        question: 'Are the slabs dry and ready to use?',
+        answer:
+          'Slabs come off the mill green and need to air dry roughly one year per inch of thickness, then be conditioned before use. Ask us about the current moisture content and drying stage of any slab so you know exactly what you\'re buying.',
+      },
+      {
+        question: 'Can I get a slab custom-cut to my thickness?',
+        answer:
+          'Often, yes — if the log is still available and uncut. Tell us the species, thickness, and approximate length you need and we\'ll see whether an upcoming log fits.',
+      },
+      {
+        question: 'Can I reserve a slab from a tree before it comes down?',
+        answer:
+          'Yes, and that\'s often the best route for a specific project. If you\'d like a slab from a particular tree, or from your own tree being removed, contact us before the removal so we can plan the cuts.',
+      },
+      {
+        question: 'Can I buy lumber from a tree removed on my own property?',
+        answer:
+          'Yes. Many customers have a tree milled from their own yard into a table, mantel, or shelves. See our log milling page for how that works.',
+      },
+    ],
+  },
 ]
 
 export function getServiceBySlug(slug: string): Service | undefined {
