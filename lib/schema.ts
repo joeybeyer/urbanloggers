@@ -63,20 +63,27 @@ export function localBusinessSchema(areaServed?: string, citySlug?: string, mapU
     areaServed: areaServed
       ? { '@type': 'City', name: areaServed }
       : { '@type': 'AdministrativeArea', name: 'Greater Milwaukee, WI' },
-    // NOTE: confirm Urban Loggers' real business hours — these are typical defaults. 24/7 emergency
-    // availability is conveyed in page copy, not as literal all-day schema hours (which read as fake).
+    // Open 24 hours — confirmed 2026-10-04 for ALL FOUR profiles, which is why this is one spec
+    // rather than per-profile. The Brookfield page and the site FAQ ("24/7") already said so.
+    //
+    // This replaces a guessed Mon-Fri 07:00-18:00 / Sat 08:00-16:00 block whose own comment
+    // admitted it was a placeholder. It contradicted the visible "Hours: Open 24 hours" on the
+    // profile pages, so every one of those pages was telling visitors and Google different things.
+    // 00:00-23:59 across all seven days is how schema.org expresses always-open.
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '07:00',
-        closes: '18:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: 'Saturday',
-        opens: '08:00',
-        closes: '16:00',
+        dayOfWeek: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        opens: '00:00',
+        closes: '23:59',
       },
     ],
     founder: {

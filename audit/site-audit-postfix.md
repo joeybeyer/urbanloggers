@@ -49,23 +49,23 @@ built pages: 30 · sitemap: 27 · money pages: 20 · redirect rules: 0 · locati
 - /insurance/ shows brookfield street outside its section
 
 ### O16 — H1 (and so the answer) within the first 13,000 chars of HTML
-- /brookfield/ H1 at char 16063
-- /cedarburg/ H1 at char 14206
+- /brookfield/ H1 at char 15989
+- /cedarburg/ H1 at char 14132
 - /emergency-tree-service/ H1 at char 13392
-- /greenfield/ H1 at char 14261
+- /greenfield/ H1 at char 14187
 - /log-milling/ H1 at char 13484
-- /menomonee-falls/ H1 at char 14212
-- /mequon/ H1 at char 14164
-- /milwaukee/ H1 at char 16746
-- /mount-pleasant/ H1 at char 14154
-- /new-berlin/ H1 at char 14157
-- /pewaukee/ H1 at char 14134
-- /port-washington/ H1 at char 14239
-- /racine/ H1 at char 14124
-- /south-milwaukee/ H1 at char 14223
+- /menomonee-falls/ H1 at char 14138
+- /mequon/ H1 at char 14090
+- /milwaukee/ H1 at char 16672
+- /mount-pleasant/ H1 at char 14080
+- /new-berlin/ H1 at char 14083
+- /pewaukee/ H1 at char 14060
+- /port-washington/ H1 at char 14165
+- /racine/ H1 at char 14050
+- /south-milwaukee/ H1 at char 14149
 - /stump-grinding/ H1 at char 13702
 - /tree-removal/ H1 at char 13966
 - /tree-trimming-pruning/ H1 at char 13881
-- /waukesha/ H1 at char 14252
-- /wauwatosa/ H1 at char 14243
-- /west-allis/ H1 at char 14334
+- /waukesha/ H1 at char 14178
+- /wauwatosa/ H1 at char 14169
+- /west-allis/ H1 at char 14260
